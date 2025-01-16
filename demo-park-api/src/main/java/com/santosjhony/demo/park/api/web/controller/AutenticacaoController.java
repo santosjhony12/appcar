@@ -1,9 +1,13 @@
 package com.santosjhony.demo.park.api.web.controller;
 
+import com.santosjhony.demo.park.api.entity.Usuario;
 import com.santosjhony.demo.park.api.jwt.JwtToken;
 import com.santosjhony.demo.park.api.jwt.JwtUserDetailsService;
+import com.santosjhony.demo.park.api.service.UsuarioService;
+import com.santosjhony.demo.park.api.web.dto.TokenUsuarioDto;
 import com.santosjhony.demo.park.api.web.dto.UsuarioLoginDto;
 import com.santosjhony.demo.park.api.web.dto.UsuarioResponseDto;
+import com.santosjhony.demo.park.api.web.dto.mapper.UsuarioMapper;
 import com.santosjhony.demo.park.api.web.exception.ErrorMessage;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -33,6 +37,7 @@ public class AutenticacaoController {
 
     private final JwtUserDetailsService detailsService;
     private final AuthenticationManager authenticationManager;
+    private final UsuarioService usuarioService;
 
     @Operation(
             summary = "Autenticar na API", description = "Recurso de autenticação na API",
@@ -55,8 +60,10 @@ public class AutenticacaoController {
             authenticationManager.authenticate(authenticationToken);
 
             JwtToken token = detailsService.getTokenAuthenticated(dto.getUsername());
+        
+            UsuarioResponseDto usuarioResponseDto = UsuarioMapper.toDto(usuarioService.buscarPorUsername(dto.getUsername()));
 
-            return ResponseEntity.ok(token);
+            return ResponseEntity.ok(new TokenUsuarioDto(token, usuarioResponseDto));
         } catch (AuthenticationException ex) {
             log.warn("Bad Credentials from username '{}'", dto.getUsername());
         }

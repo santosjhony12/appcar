@@ -11,6 +11,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -30,7 +31,14 @@ public class Usuario implements Serializable {
     @Enumerated(EnumType.STRING)
     @Column(name = "role", nullable = false, length = 25)
     private Role role = Role.ROLE_CLIENTE;
-
+    @Column(name = "primeiro_acesso", nullable = false)
+    private Boolean primeiroAcesso = true;
+    @Column(name = "nome", length = 100)
+    private String nome;
+    @Column(name = "cpf" ,unique = true, length = 11)
+    private String cpf;
+    @Column(name="data_nascimento", unique = false)
+    private LocalDate dataNascimento;
     @CreatedDate
     @Column(name = "data_criacao")
     private LocalDateTime dataCriacao;
@@ -44,9 +52,7 @@ public class Usuario implements Serializable {
     @Column(name = "modificado_por")
     private String modificadoPor;
 
-    public enum Role {
-        ROLE_ADMIN, ROLE_CLIENTE, ROLE_INVESTIDOR, ROLE_MOTORISTA
-    }
+    
 
     @Override
     public boolean equals(Object o) {

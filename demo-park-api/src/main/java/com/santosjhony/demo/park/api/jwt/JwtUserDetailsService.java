@@ -1,5 +1,6 @@
 package com.santosjhony.demo.park.api.jwt;
 
+import com.santosjhony.demo.park.api.entity.Role;
 import com.santosjhony.demo.park.api.entity.Usuario;
 import com.santosjhony.demo.park.api.service.UsuarioService;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +21,7 @@ public class JwtUserDetailsService implements UserDetailsService {
     }
 
     public JwtToken getTokenAuthenticated(String username) {
-        Usuario.Role role = usuarioService.buscarRolePorUsername(username);
+        Role role = usuarioService.buscarRolePorUsername(username);
         return JwtUtils.createToken(username, role.name().substring("ROLE_".length()));
     }
 }

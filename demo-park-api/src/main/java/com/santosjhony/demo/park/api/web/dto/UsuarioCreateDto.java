@@ -1,5 +1,7 @@
 package com.santosjhony.demo.park.api.web.dto;
 
+import com.santosjhony.demo.park.api.entity.Role;
+
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -18,4 +20,5 @@ public class UsuarioCreateDto {
     @NotBlank
     @Size(min = 6, max = 6)
     private String password;
+    private Role role;
 }

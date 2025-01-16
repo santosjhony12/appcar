@@ -3,6 +3,7 @@
       <label for="input" id="label">{{ label }}</label>
       <input 
         v-model="inputValue"
+        @input="$emit('update:modelValue', $event.target.value)"
         :type="type" 
         :placeholder="placeholder" 
         name="input" 
@@ -17,10 +18,11 @@
   <script lang="ts" setup>
 import { ref, watch } from 'vue';
 
-  defineProps<{
+  const props = defineProps<{
     label: string,
     placeholder: string,
-    type: string
+    type: string,
+    modelValue: string
   }>();
   
   const onFocus = (event: FocusEvent) => {
@@ -43,6 +45,10 @@ const inputValue = ref('');
 watch(inputValue, (newValue) => {
   emit('update:modelValue', newValue);  // Emitindo a mudança para o pai
 });
+watch(() => props.modelValue, (newValue) => {
+  inputValue.value = newValue; // Atualize inputValue quando o valor do pai mudar
+});
+
   </script>
   
   <style scoped>

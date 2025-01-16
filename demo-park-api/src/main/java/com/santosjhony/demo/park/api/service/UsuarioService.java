@@ -1,17 +1,23 @@
 package com.santosjhony.demo.park.api.service;
 
+import java.util.List;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
+
+import com.santosjhony.demo.park.api.entity.Role;
 import com.santosjhony.demo.park.api.entity.Usuario;
 import com.santosjhony.demo.park.api.exception.EntityNotFoundException;
 import com.santosjhony.demo.park.api.exception.PasswordInvalidException;
 import com.santosjhony.demo.park.api.exception.UsernameUniqueViolationException;
 import com.santosjhony.demo.park.api.repository.UsuarioRepository;
-import jakarta.transaction.TransactionScoped;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.transaction.annotation.Transactional;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
+import com.santosjhony.demo.park.api.web.dto.UsuarioUpdatePrimeiroAcesoDto;
 
-import java.util.List;
+import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Service
@@ -65,7 +71,23 @@ public class UsuarioService {
     }
 
     @Transactional(readOnly = true)
-    public Usuario.Role buscarRolePorUsername(String username) {
+    public Role buscarRolePorUsername(String username) {
         return usuarioRepository.findRoleByUsername(username);
+    }
+
+    @Transactional
+    public Usuario updateUsuarioPrimeiroAcesso(UsuarioUpdatePrimeiroAcesoDto dto){
+        try{
+            Usuario usuario = buscarPorId(dto.id());
+
+            usuario.setCpf(dto.cpf());
+            usuario.setNome(dto.nome());
+            usuario.setDataNascimento(dto.dataNascimento());
+            usuario.setPrimeiroAcesso(false);
+
+            return usuarioRepository.save(usuario);
+        }catch(Exception e){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Erro ao tentar atualizar usuário");
+        }
     }
 }
