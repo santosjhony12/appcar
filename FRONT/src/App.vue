@@ -6,7 +6,9 @@ import Nav from './components/Nav.vue';
 <template>
   <Nav />
 
-  <RouterView />
+  <div class="conteudo">
+    <RouterView />
+  </div>
 </template>
 
 <style>
@@ -20,4 +22,5 @@ import Nav from './components/Nav.vue';
   font-variation-settings:
     "wdth" 100;
 }
+
 </style>

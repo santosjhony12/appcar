@@ -40,7 +40,9 @@ public class SpringSecurityConfig {
                         .requestMatchers(HttpMethod.POST, "api/v1/usuarios").permitAll()
                         .requestMatchers(HttpMethod.POST, "api/v1/auth").permitAll()
                         .requestMatchers(DOCUMENTATION_OPENAPI).permitAll()
-                        .anyRequest().authenticated()
+                        .requestMatchers(HttpMethod.POST, "api/v1/cars/create").permitAll()
+                        .requestMatchers(HttpMethod.GET, "api/v1/cars/").permitAll()
+                        .anyRequest().permitAll()
                 ).sessionManagement(
                         session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 ).addFilterBefore(
