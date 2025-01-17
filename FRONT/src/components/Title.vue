@@ -15,7 +15,7 @@ defineProps<{
     font-size: 1.7em;
     color:#35424A;
     text-align: center;
-    margin: 1.5em 0;
+    margin: 3em 0 0 0 ;
     font-weight: 500;
 }
 

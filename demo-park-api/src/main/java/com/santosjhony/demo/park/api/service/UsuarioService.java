@@ -3,7 +3,6 @@ package com.santosjhony.demo.park.api.service;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,6 +14,7 @@ import com.santosjhony.demo.park.api.exception.EntityNotFoundException;
 import com.santosjhony.demo.park.api.exception.PasswordInvalidException;
 import com.santosjhony.demo.park.api.exception.UsernameUniqueViolationException;
 import com.santosjhony.demo.park.api.repository.UsuarioRepository;
+import com.santosjhony.demo.park.api.web.dto.UpdateRoleDto;
 import com.santosjhony.demo.park.api.web.dto.UsuarioUpdatePrimeiroAcesoDto;
 
 import lombok.RequiredArgsConstructor;
@@ -89,5 +89,17 @@ public class UsuarioService {
         }catch(Exception e){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Erro ao tentar atualizar usuário");
         }
+    }
+
+    @Transactional
+    public Usuario updateRole(UpdateRoleDto dto){
+        Usuario usuario = buscarPorId(dto.id());
+        
+        usuario.setRole(dto.role());
+        return usuarioRepository.save(usuario);
+    }
+    @Transactional
+    public void deleteUsuario(Long id){
+        usuarioRepository.deleteById(id);
     }
 }
