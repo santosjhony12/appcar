@@ -79,7 +79,7 @@ public class UsuarioService {
     public Usuario updateUsuarioPrimeiroAcesso(UsuarioUpdatePrimeiroAcesoDto dto){
         try{
             Usuario usuario = buscarPorId(dto.id());
-
+            System.out.println(dto.cpf());
             usuario.setCpf(dto.cpf());
             usuario.setNome(dto.nome());
             usuario.setDataNascimento(dto.dataNascimento());

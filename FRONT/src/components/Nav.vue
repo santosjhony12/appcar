@@ -11,8 +11,8 @@
         <h1 class="logo">AppCar</h1>
       </div>
       <div class="right-side">
-        <RouterLink class="login-button" to="/login">Fazer login</RouterLink>
-        <h2 class="button-cadastra">Cadastre-se</h2>
+        <RouterLink class="login-button" to="/login"  v-if="route.path !== '/login'" >Fazer login</RouterLink>
+        <h2 class="button-cadastra">Contate-nos</h2>
       </div>
     </div>
 
@@ -31,6 +31,7 @@
 </template>
 
 <script lang="ts" setup>
+import router from '@/router';
 import { ref, watch } from 'vue';
 import { RouterView, RouterLink, useRoute } from 'vue-router';
 

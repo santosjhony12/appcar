@@ -39,6 +39,8 @@ public class Usuario implements Serializable {
     private String cpf;
     @Column(name="data_nascimento", unique = false)
     private LocalDate dataNascimento;
+    @Column(name = "telefone")
+    private String telefone;
     @CreatedDate
     @Column(name = "data_criacao")
     private LocalDateTime dataCriacao;

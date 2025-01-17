@@ -49,7 +49,8 @@ interface User {
     nome: string | null,
     dataNascimento: string | null,
     primeiroAcesso: boolean | null,
-    role: string
+    role: string,
+    telefone: string
 }
 const usuario = ref<User>({
     id: null,
@@ -59,7 +60,8 @@ const usuario = ref<User>({
     nome: null,
     dataNascimento: null,
     primeiroAcesso: true,
-    role: ''
+    role: '',
+    telefone: ''
 });
 
 const isLoading = ref<boolean>(false);
@@ -117,7 +119,8 @@ const limparCampos = () => {
         nome: null,
         dataNascimento: null,
         primeiroAcesso: true,
-        role: ''
+        role: '',
+        telefone: ''
     }
 }
 const showAlertaFunction = (msg: string) => {

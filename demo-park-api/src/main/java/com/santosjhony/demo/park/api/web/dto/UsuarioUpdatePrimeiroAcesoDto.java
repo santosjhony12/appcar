@@ -20,6 +20,8 @@ public record UsuarioUpdatePrimeiroAcesoDto(
                 LocalDate dataNascimento, 
                 @NotBlank
                 @Size(min = 6, max = 20)
-                String newPassword) {
+                String password,
+                @NotBlank
+                String telefone) {
     
 }

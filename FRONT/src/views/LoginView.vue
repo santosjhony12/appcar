@@ -44,14 +44,19 @@
   import UsuarioService from '@/service/usuarios';
   import Alert from '@/components/Alert.vue';
   import router from '@/router';
-
+import { usuarioLogado } from '@/stores/usuario';
   const username = ref('');
   const password = ref('');
-  
+  const usuarioLog = usuarioLogado();
   const handleLogin = async () => {
     const response = await UsuarioService.autenticar({username: username.value, password: password.value});
     if(response == true){
-        router.push("/usuarios");
+
+      if(usuarioLog.usuario?.primeiroAcesso){
+        router.push("/primeiroAcesso");
+      }else{
+        router.push("/about");
+      }
     }else{
         showAlertaFunction(response);
     }

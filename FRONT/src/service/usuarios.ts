@@ -9,7 +9,8 @@ interface User {
     nome: string | null, 
     dataNascimento: string | null, 
     primeiroAcesso: boolean | null,
-    role: string
+    role: string,
+    telefone: string
 }
 const StoreToken = useAuthStore();
 const UsuarioStore = usuarioLogado();
@@ -80,6 +81,19 @@ class UsuarioService {
 
             if(response.status == 200){
                 return "Usuário deletado com sucesso.";
+            }else{
+                return "Houve algum problema. Contate o administrador.";
+            }
+        }catch(error: any){
+            return "Houve algum problema. Contate o administrador.";
+        }
+    }
+    async confirmarUsuario(user: User){
+        try{
+            const response = await axios.post(`http://localhost:8080/api/v1/usuarios/updatePrimeiroAcesso`, user);
+
+            if(response.status == 200){
+                return true;
             }else{
                 return "Houve algum problema. Contate o administrador.";
             }
