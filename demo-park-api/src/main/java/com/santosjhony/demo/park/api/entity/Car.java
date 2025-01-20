@@ -2,8 +2,12 @@ package com.santosjhony.demo.park.api.entity;
 
 import java.math.BigDecimal;
 
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -20,6 +24,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@EntityListeners(AuditingEntityListener.class)
 public class Car {  
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -38,4 +43,7 @@ public class Car {
     @Lob
     @Column(name = "imagem")
     private byte[] imagem;
+    @CreatedBy
+    @Column(name = "username")
+    private String username;
 }

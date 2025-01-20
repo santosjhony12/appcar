@@ -32,4 +32,8 @@ public class CarService {
     public List<Car> getAll(){
         return carRepository.findAll();
     }
+    @Transactional
+    public List<Car> getByUsername(String username){
+        return carRepository.findByUsername(username);
+    }
 }

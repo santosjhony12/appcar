@@ -14,7 +14,6 @@ defineProps<{
 </script>
 <style scoped>
  button.submit-button {
-   width: 100%;
    padding: 12px;
    background: #000000;
    color: white;
@@ -23,7 +22,7 @@ defineProps<{
    font-size: 1.1em;
    cursor: pointer;
    transition: background-color 0.3s ease;
-   margin-top: 20px;
+   margin: 0em 0 1em 0;
  }
  
  button.submit-button:hover {

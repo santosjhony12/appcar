@@ -19,7 +19,7 @@ export const usuarioLogado = defineStore('usuarioLogado', {
     usuario: JSON.parse(localStorage.getItem('usuario') || 'null') as User | null,
   }),
   actions: {
-    setUsuario(usuario: User) {
+    setUsuario(usuario: User | null) {
       this.usuario = usuario;
       // Armazena o objeto serializado como string no localStorage
       localStorage.setItem('usuario', JSON.stringify(usuario));

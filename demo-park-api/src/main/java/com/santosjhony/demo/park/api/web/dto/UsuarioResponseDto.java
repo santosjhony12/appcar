@@ -21,4 +21,5 @@ public class UsuarioResponseDto {
     private LocalDate dataNascimento;
     private String role;
     private Boolean primeiroAcesso;
+    private String telefone;
 }

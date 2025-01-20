@@ -2,6 +2,7 @@ package com.santosjhony.demo.park.api.web.controller;
 
 import java.util.List;
 
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -34,6 +35,11 @@ public class CarController {
     @GetMapping
     public ResponseEntity<List<Car>> getAll(){
         return ResponseEntity.ok(carService.getAll());
+    }
+
+    @GetMapping("/username")
+    public ResponseEntity<List<Car>> getByUsername(@Param(value = "username") String username){
+        return ResponseEntity.ok(carService.getByUsername(username));
     }
     
 }
