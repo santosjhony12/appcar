@@ -1,6 +1,5 @@
 package com.santosjhony.demo.park.api.web.controller;
 
-import com.santosjhony.demo.park.api.entity.Usuario;
 import com.santosjhony.demo.park.api.jwt.JwtToken;
 import com.santosjhony.demo.park.api.jwt.JwtUserDetailsService;
 import com.santosjhony.demo.park.api.service.UsuarioService;

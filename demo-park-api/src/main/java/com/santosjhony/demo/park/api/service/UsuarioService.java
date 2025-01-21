@@ -1,8 +1,11 @@
 package com.santosjhony.demo.park.api.service;
 
 import java.util.List;
+import java.util.Random;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,11 +28,19 @@ public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
     private final PasswordEncoder passwordEncoder;
+    private final JavaMailSender mailSender;
 
     @Transactional
     public Usuario salvar(Usuario usuario) {
         try {
-            usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
+            String code = generateConfirmationCode();
+            usuario.setPassword(passwordEncoder.encode(code));
+
+            SimpleMailMessage message = new SimpleMailMessage();
+            message.setTo(usuario.getUsername());
+            message.setSubject("Bem vindo a plataforma App Car!!");
+            message.setText("Entre com as seguintes informações para obter acesso a plataforma:\n\nE-mail: "+usuario.getUsername()+"\nSenha: "+code);
+            mailSender.send(message);
             return usuarioRepository.save(usuario);
         } catch (org.springframework.dao.DataIntegrityViolationException ex) {
             throw new UsernameUniqueViolationException(String.format("Username '%s' já cadastrado", usuario.getUsername()));
@@ -79,7 +90,6 @@ public class UsuarioService {
     public Usuario updateUsuarioPrimeiroAcesso(UsuarioUpdatePrimeiroAcesoDto dto){
         try{
             Usuario usuario = buscarPorId(dto.id());
-            System.out.println(dto.cpf());
             usuario.setCpf(dto.cpf());
             usuario.setNome(dto.nome());
             usuario.setDataNascimento(dto.dataNascimento());
@@ -101,5 +111,9 @@ public class UsuarioService {
     @Transactional
     public void deleteUsuario(Long id){
         usuarioRepository.deleteById(id);
+    }
+
+    private String generateConfirmationCode() {
+        return String.format("%06d", new Random().nextInt(1000000));
     }
 }

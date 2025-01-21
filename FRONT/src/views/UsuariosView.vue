@@ -7,10 +7,10 @@
 
 
         <div v-if="isVisibleFormsUser" class="forms-cadastrar-usuario">
+            <p class="form-description information-cadastro">Para o cadastro, preencha somente um endereço de e-mail válido e seu tipo de acesso, logo após, será enviado a senha para o e-mail inserido para o usuário obter acesso a plataforma.</p>
+
             <Input :label="'E-mail'" :placeholder="'Digite o e-mail do usuário'" :type="'email'"
                 v-model="usuario.username" />
-            <Input :label="'Senha provisória'" :placeholder="'Digite uma senha provisória de primeiro acesso'"
-                :type="'password'" v-model="usuario.password" />
             <InputSelect :label="'Tipo de Usuário'" :options="['INVESTIDOR', 'MOTORISTA', 'ADMINISTRADOR']"
                 v-model="usuario.role" :placeholder="'Selecione o tipo de usuário'" />
         </div>
@@ -156,7 +156,9 @@ onMounted(()=>{
     margin: 0 auto;
     padding: 20px;
 }
-
+.information-cadastro{
+    color: blue
+}
 .button {
     margin: 0 0 0 2em;
     padding: 12px;

@@ -22,7 +22,7 @@ defineProps<{
    font-size: 1.1em;
    cursor: pointer;
    transition: background-color 0.3s ease;
-   margin: 0em 0 1em 0;
+   margin-top: 20px;
  }
  
  button.submit-button:hover {
