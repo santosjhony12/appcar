@@ -1,5 +1,5 @@
 <template>
-<div class="carousel-container">
+<div class="carousel-container" v-if="carros.length != 0">
     <button class="nav prev" @click="prevSlide">‹</button>
     <div class="carousel">
       <div

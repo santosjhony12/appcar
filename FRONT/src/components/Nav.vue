@@ -9,9 +9,12 @@
         <RouterLink to="#services" >Meus dados</RouterLink>
         <RouterLink to="/meusVeiculos" v-if="usuarioLog.usuario?.role === 'INVESTIDOR'">Meus veículos</RouterLink>
         <RouterLink to="/usuarios" v-if="usuarioLog.usuario?.role === 'ADMIN'" >Meus usuários</RouterLink>
+        <RouterLink to="/solicitacoesVeiculos" v-if="usuarioLog.usuario?.role === 'ADMIN'">Solicitações de Veículos</RouterLink>
         <RouterLink to="#services" v-if="usuarioLog.usuario?.role !== 'ADMIN' && usuarioLog.usuario?.role != ''"  >Meus aluguéis</RouterLink>
         <RouterLink to="#services" v-if="usuarioLog.usuario?.role === 'MOTORISTA'" >Alugar carro</RouterLink>
         <RouterLink to="#services" v-if="usuarioLog.usuario?.role !== 'ADMIN' && (usuarioLog.usuario?.role != '' || usuarioLog.usuario != null) " >Treinamentos</RouterLink>
+        
+        
         <RouterLink @click="logout" to="">Sair</RouterLink>
       </div>
 

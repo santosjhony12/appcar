@@ -38,6 +38,7 @@
     box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.5);
     transition: opacity 1s ease-out; /* Transição suave para o desaparecimento */
     opacity: 1;
+    z-index: 1000;
   }
   
   .fading {

@@ -46,4 +46,13 @@ public class Car {
     @CreatedBy
     @Column(name = "username")
     private String username;
+    @Column(name="autorizado")
+    private Boolean autorizado = false;
+    @Column(name = "percentual_aluguel_investidor", precision = 10, scale = 2)
+    private BigDecimal percentualInvestidor;
+    @Column(name = "percentual_aluguel_motorista")
+    private BigDecimal percentualMotorista;
+    @Column(name = "percentual_aluguel_sistema")
+    private BigDecimal percentualSistema;
+
 }

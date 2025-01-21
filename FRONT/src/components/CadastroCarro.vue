@@ -1,9 +1,9 @@
 <template>
   <div class="containerCadastro" >
-    <div v-if="isVisibleForms">
-    
-    <p class="form-description">
-      Preencha as informações abaixo para adicionar um novo veículo ao sistema. Todos os campos são obrigatórios.
+    <div v-if="isVisibleForms" class="modal-overlay">
+    <div class="modal">
+      <p class="form-description information">
+      Preencha todas informações abaixo para solicitar o cadastro de um novo veículo ao sistema. Todos os campos são obrigatórios.
     </p>
 
     <form @submit.prevent="handleSubmit" class="car-form">
@@ -31,12 +31,15 @@
       <div class="form-group">
         <Button :is-loading="isLoading" :text="'Cadastrar'" />
       </div>
+      <Button @click="toogleAddUser" :text="'Cancelar'" :is-loading="false"/>
+
      
     </form>
+    </div>
+    
   </div>
     <div class="centralizar-button">
       <Button @click="toogleAddUser" :text="isVisibleForms ? 'Cancelar' : 'Adicionar Veículo'" :is-loading="false" class="button"/>
-
     </div>
 
     <Alert :message="msgAlert" v-if="showAlert" />
@@ -74,7 +77,7 @@ const isLoading = ref<boolean>(false);
 const msgAlert = ref<string>('');
 const showAlert = ref<boolean>(false);
 const isVisibleForms = ref<boolean>(false);
-  const toogleAddUser = () => {
+const toogleAddUser = () => {
     isVisibleForms.value = !isVisibleForms.value;
 }
  const handleSubmit = async () => {
@@ -129,11 +132,12 @@ const isVisibleForms = ref<boolean>(false);
    padding: 20px;
 
  }
+
  
  .form-description {
    text-align: center;
    font-size: 1em;
-   color: #666;
+   color: #000000;
    margin-bottom: 20px;
  }
  .button{
@@ -147,9 +151,9 @@ const isVisibleForms = ref<boolean>(false);
  }
  
  .car-form {
-   display: grid;
-   grid-template-columns: 1fr; /* Uma coluna por padrão */
-   gap: 15px; /* Espaçamento entre os campos */
+   display: flex;
+  flex-direction: column;
+  justify-content: center;
  }
  
  .form-group {
@@ -157,20 +161,104 @@ const isVisibleForms = ref<boolean>(false);
    flex-direction: column;
  }
  
- @media (min-width: 600px) {
-   .car-form {
-     grid-template-columns: repeat(2, 1fr); /* Duas colunas para telas maiores */
-   }
- }
- 
- @media (max-width: 600px) {
-   .containerCadastro {
-     padding: 15px;
-   }
- 
-   button.submit-button {
-     font-size: 1em;
-   }
- }
+
+
+ .modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+/* Modal */
+.modal {
+  background: white;
+  padding: 30px;
+  border-radius: 8px;
+  color: black;
+  width: 35vw;
+  max-width: 90%;
+  height: auto;
+  max-height: 80vh;
+  overflow-y: auto;
+  /* Habilita rolagem se o conteúdo for maior que o modal */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Botões dentro do modal */
+.modal button {
+  margin: 10px 10px;
+  padding: 10px 20px;
+  background-color: #000000;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1em;
+}
+
+.modal button:hover {
+  background-color: #323232;
+}
+
+/* Título do modal */
+.titulo-modal {
+  font-size: 1.2em;
+  font-weight: 500;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* Botões organizados em coluna */
+.buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+@media (max-width: 1000px) {
+  .modal {
+    width: 100%;
+    padding: 20px;
+  }
+
+  .titulo-modal {
+    font-size: 1em;
+  }
+
+  .buttons {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .tabela {
+    max-width: 900px;
+    overflow-x: auto;
+    padding: 0 10px
+  }
+}
+
+@media (max-width: 480px) {
+  .modal {
+    padding: 15px;
+    border-radius: 6px;
+  }
+
+  .modal button {
+    font-size: 0.9em;
+    padding: 8px 16px;
+  }
+
+  .titulo-modal {
+    font-size: 0.9em;
+  }
+}
+
  </style>
  

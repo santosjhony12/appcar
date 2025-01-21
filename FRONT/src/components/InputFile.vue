@@ -16,34 +16,34 @@
   <script lang="ts" setup>
   import { ref, watch } from 'vue';
   
-  // Definir o nome do arquivo e a referência para o arquivo selecionado
+  
   const fileName = ref<string | null>(null);
-  const inputValue = ref<string | null>(null);  // Valor será do tipo File ou null
+  const inputValue = ref<string | null>(null);  
   
   const emit = defineEmits<{
-    (event: 'update:modelValue', value: string | null): void; // Emitindo a mudança para o pai
+    (event: 'update:modelValue', value: string | null): void; 
   }>();
   
-  // Quando o arquivo mudar, atualizamos o nome do arquivo e emitimos o valor
+  
   const handleFileChange = (event: Event) => {
   const input = event.target as HTMLInputElement;
   if (input.files && input.files[0]) {
     const file = input.files[0];
     const reader = new FileReader();
 
-    // Quando o arquivo for lido, convertê-lo para Base64
+    
     reader.onload = () => {
       const base64String = reader.result as string;
       fileName.value = file.name;
-      inputValue.value = base64String;  // Armazenando a string Base64
-      emit('update:modelValue', base64String);  // Emitir para o componente pai
+      inputValue.value = base64String;  
+      emit('update:modelValue', base64String);  
     };
 
-    reader.readAsDataURL(file);  // Lê o arquivo como Base64
+    reader.readAsDataURL(file);  
   } else {
     fileName.value = null;
     inputValue.value = null;
-    emit('update:modelValue', null);  // Emitir null caso não haja arquivo
+    emit('update:modelValue', null);  
   }
 };
 
@@ -56,12 +56,13 @@
     align-items: flex-start;
     position: relative;
     margin-bottom: 1.5em;
+    margin-top: 1.2em
   }
   
   .custom-file-label {
     display: inline-block;
     padding: 10px 15px;
-    background-color: #000000;
+    background-color: black;
     color: white;
     border-radius: 5px;
     cursor: pointer;
@@ -80,7 +81,7 @@
   }
   
   #image-input {
-    display: none; /* Esconde o input real */
+    display: none;
   }
   </style>
   

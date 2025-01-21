@@ -2,6 +2,7 @@ package com.santosjhony.demo.park.api.web.controller;
 
 import java.util.List;
 
+import org.apache.catalina.connector.Response;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.santosjhony.demo.park.api.entity.Car;
 import com.santosjhony.demo.park.api.service.CarService;
 import com.santosjhony.demo.park.api.web.dto.CarCreateDto;
+import com.santosjhony.demo.park.api.web.dto.UpdateCarroTaxasEAutorizadoDto;
 
 import lombok.RequiredArgsConstructor;
 
@@ -40,6 +43,15 @@ public class CarController {
     @GetMapping("/username")
     public ResponseEntity<List<Car>> getByUsername(@Param(value = "username") String username){
         return ResponseEntity.ok(carService.getByUsername(username));
+    }
+    @PutMapping("/autorizar")
+    public ResponseEntity<Car> updateAutorizadoTaxas(@RequestBody UpdateCarroTaxasEAutorizadoDto dto){
+        return ResponseEntity.ok(carService.updateTaxasAutorizado(dto));
+    }
+
+    @GetMapping("/nao-autorizados")
+    public ResponseEntity<List<Car>> getCarrosParAutorizar(){
+        return ResponseEntity.ok(carService.getCarrosParaAutorizar());
     }
     
 }
