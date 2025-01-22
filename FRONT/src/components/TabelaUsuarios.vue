@@ -174,12 +174,13 @@ const showAlertaFunction = (msg: string) => {
 }
 
 .tabela-usuarios {
-    max-width: 900px;
+    min-width: 95vw;
     margin: 0 auto;
     padding: 20px;
     font-family: 'Arial', sans-serif;
     overflow-x: auto;
 }
+
 
 @media (max-width: 1000px) {
     .tabela-usuarios {
