@@ -73,6 +73,19 @@ class CarroService{
             return "Houve algum problema. Contate o administrador.";
         }
     }
+    async getAllVeiculos(){
+        try{
+            const response = await axios.get(`http://localhost:8080/api/v1/cars`);
+
+            if(response.status == 200){
+                return response.data;
+            }else{
+                return "Houve algum problema. Contate o administrador.";
+            }
+        }catch(error){
+            return "Houve algum problema. Contate o administrador.";
+        }
+    }
 
 
 }

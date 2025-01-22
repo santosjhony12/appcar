@@ -50,8 +50,12 @@ public class CarController {
     }
 
     @GetMapping("/nao-autorizados")
-    public ResponseEntity<List<Car>> getCarrosParAutorizar(){
+    public ResponseEntity<List<Car>> getCarrosParaAutorizar(){
         return ResponseEntity.ok(carService.getCarrosParaAutorizar());
+    }
+    @GetMapping("/veiculos-autorizados")
+    public ResponseEntity<List<Car>> getCarrosAutorizados(){
+        return ResponseEntity.ok(carService.getCarrosAutorizados());
     }
     
 }

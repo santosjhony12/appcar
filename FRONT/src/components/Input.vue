@@ -22,7 +22,7 @@ import { ref, watch } from 'vue';
     label: string,
     placeholder: string,
     type: string,
-    modelValue: string
+    modelValue: string | number
   }>();
   
   const onFocus = (event: FocusEvent) => {
@@ -39,7 +39,7 @@ import { ref, watch } from 'vue';
 }>();
 
 // Definindo o valor do input
-const inputValue = ref('');
+const inputValue = ref();
 
 // Quando o valor mudar, emitimos o novo valor
 watch(inputValue, (newValue) => {
@@ -48,6 +48,8 @@ watch(inputValue, (newValue) => {
 watch(() => props.modelValue, (newValue) => {
   inputValue.value = newValue; // Atualize inputValue quando o valor do pai mudar
 });
+
+
 
   </script>
   

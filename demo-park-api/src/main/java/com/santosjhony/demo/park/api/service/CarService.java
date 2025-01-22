@@ -58,4 +58,8 @@ public class CarService {
     public List<Car> getCarrosParaAutorizar(){
         return carRepository.findByAutorizado(false);
     }
+
+    public List<Car> getCarrosAutorizados() {
+        return carRepository.findByAutorizado(true);
+    }
 }

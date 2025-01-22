@@ -4,6 +4,42 @@
 
     <p class="form-description">Abaixo, visualize as solicitações de veículos cadastrados. Além disso, defina os
       percentuais de cada perfil.</p>
+
+      <div class="filters">
+    <label>
+      <input 
+        type="radio" 
+        name="statusFilter" 
+        value="all" 
+        v-model="selectedFilter" 
+        @change="filtrar"
+      />
+      Todos
+    </label>
+    <label>
+      <input 
+        type="radio" 
+        name="statusFilter" 
+        value="unauthorized" 
+        v-model="selectedFilter" 
+        @change="filtrar"
+
+      />
+      Não autorizados
+    </label>
+    <label>
+      <input 
+        type="radio" 
+        name="statusFilter" 
+        value="authorized" 
+        v-model="selectedFilter" 
+        @change="filtrar"
+
+      />
+      Autorizados
+    </label>
+  </div>
+
     <div class="tabela-div">
       <div class="tabela">
         <table>
@@ -17,7 +53,10 @@
               <th>Placa</th>
               <th>Valor</th>
               <th>Investidor</th>
-              <th>Autorizar</th>
+              <th>% Investidor</th>
+              <th>% Motorista</th>
+              <th>% Sistema</th>
+              <th>Ação</th>
             </tr>
           </thead>
           <tbody>
@@ -30,7 +69,14 @@
               <td>{{ carro.placa }}</td>
               <td>R$ {{ carro.valor }}</td>
               <td>{{ carro.username }}</td>
-              <td><button @click="showModalAutorizar(carro.id)">Autorizar</button></td>
+              <td>{{ carro.percentualInvestidor }}%</td>
+              <td>{{ carro.percentualMotorista }}%</td>
+              <td>{{ carro.percentualSistema }}%</td>
+              <td>
+                <button @click="showModalAutorizar(carro.id, carro.percentualInvestidor, carro.percentualMotorista, carro.percentualSistema)" v-if="carro.autorizado === true">Editar</button> 
+                <button @click="showModalAutorizar(carro.id, carro.percentualInvestidor, carro.percentualMotorista, carro.percentualSistema)" v-else>Autorizar</button>
+
+              </td>
             </tr>
           </tbody>
         </table>
@@ -47,7 +93,6 @@
 
       <InputSelect :label="'Autorizar'" :options="['SIM', 'NÃO']" :placeholder="'Selecione uma opção'"
         v-model="autorizado" />
-
       <Input :label="'Percentual Investidor'" :placeholder="'Insira o percentual destinado ao Investidor'"
         :type="'number'" v-model="autorizar.percentualInvestidor" />
       <Input :label="'Percentual Motorista'" :placeholder="'Insira o percentual destinado ao Motorista'"
@@ -82,11 +127,15 @@ interface Carro {
   valor: number,
   username: string,
   imagem: string,
-  autorizado: boolean
+  autorizado: boolean,
+  percentualMotorista: number, 
+  percentualSistema: number, 
+  percentualInvestidor: number
 }
+const selectedFilter = ref("all");
 const isLoading = ref<boolean>(false);
 const autorizado = ref<string>('');
-
+const carrosAuxiliar = ref<Carro[]>([]);
 const autorizar = {
   autorizado: false,
   percentualInvestidor: '',
@@ -94,24 +143,51 @@ const autorizar = {
   percentualSistema: '',
   id: 0
 }
+
+const filtrar = () => {
+  if (selectedFilter.value == 'all') {
+    carros.value = carrosAuxiliar.value;
+  } else if (selectedFilter.value == 'unauthorized') {
+    carros.value = carrosAuxiliar.value.filter(carro => {
+      return !carro.autorizado;
+    });
+  } else if (selectedFilter.value == 'authorized') {
+    carros.value = carrosAuxiliar.value.filter(carro => {
+      return carro.autorizado;
+    });
+  }
+};
+
 const carros = ref<Carro[]>([]);
-const getCarrosNaoAutorizados = async () => {
-  carros.value = await CarroService.getCarrosNaoAutorizados();
+const getAllVeiculos = async () => {
+  carros.value = await CarroService.getAllVeiculos();
+  carrosAuxiliar.value = carros.value;
+  selectedFilter.value = 'all';
+  filtrar();
 }
 const showModal = ref<boolean>(false);
 onMounted(() => {
-  getCarrosNaoAutorizados();
+  getAllVeiculos();
 })
 
-const showModalAutorizar = (id: number) => {
-  showModal.value = true;
+const showModalAutorizar = (id: number, percentualInvestidor : number, percentualMotorista : number , percentualSistema : number) => {
   autorizar.id = id;
+  autorizar.percentualInvestidor = String(percentualInvestidor);
+  autorizar.percentualMotorista = String(percentualMotorista);
+  autorizar.percentualSistema = String(percentualSistema);
+  showModal.value = true;
+  
 }
 const autorizarVeiculo = async () => {
   try {
-    if (autorizar.percentualInvestidor == ''
+    if (
+      
+      autorizar.percentualInvestidor == ''
       || autorizar.percentualMotorista == ''
-      || autorizar.percentualSistema == '') {
+      || autorizar.percentualSistema == '' ||
+      autorizar.percentualInvestidor == 'null'
+      || autorizar.percentualMotorista == 'null'
+      || autorizar.percentualSistema == 'null') {
       showAlertaFunction("Todas as informações são necessárias para prosseguir.")
     } else {
       isLoading.value = true;
@@ -120,7 +196,11 @@ const autorizarVeiculo = async () => {
       const response = await CarroService.autorizarVeiculo(autorizar);
       cancelarModal();
       showAlertaFunction(response);
-      getCarrosNaoAutorizados();
+      getAllVeiculos();
+      autorizar.autorizado = false;
+      autorizar.percentualInvestidor = '';
+      autorizar.percentualMotorista = '';
+      autorizar.percentualSistema = '';
 
     }
 
@@ -330,5 +410,26 @@ button {
 
 button:hover {
     background-color: #0056b3;
+}
+
+.filters {
+  display: flex;
+  gap: 1rem;
+  margin: 1rem 0;
+  justify-content: center;
+}
+
+.filters label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1rem;
+  cursor: pointer;
+  color: #333;
+}
+
+.filters input[type="radio"] {
+  accent-color: #007bff; /* Estiliza a cor do radio button */
+  cursor: pointer;
 }
 </style>
