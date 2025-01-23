@@ -28,12 +28,14 @@ const props = defineProps<{
       id: number,
       modelo: string,
       montadora: string, 
-      ano: string, 
+      ano: string | number, 
       cor: string,
       valor: number,
       imagem: string
   }[]
 }>();
+
+
 
 
 const currentIndex = ref(0);

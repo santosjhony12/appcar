@@ -60,6 +60,21 @@ class CarroService{
         }
     }
 
+    async getCarrosAutorizados(){
+        try{
+            const response = await axios.get(`http://localhost:8080/api/v1/cars/veiculos-autorizados`);
+
+            if(response.status == 200){
+                return response.data;
+            }else{
+                console.warn("Houve algum erro.");
+            }
+        }catch(error){
+            throw new Error;
+        }
+    }
+
+
     async autorizarVeiculo(autorizar: {id: number, percentualMotorista: string, percentualInvestidor: string, percentualSistema: string, autorizado: boolean}){
         try{
             const response = await axios.put(`http://localhost:8080/api/v1/cars/autorizar`, autorizar);

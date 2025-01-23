@@ -6,7 +6,7 @@ const route = useRoute();
 </script>
 
 <template>
-  <Nav class="nav"/>
+  <Nav class="nav" v-if="route.path != '/alugar'"/>
 
   <div class="conteudo">
     <RouterView />
@@ -15,10 +15,11 @@ const route = useRoute();
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Asap:ital,wght@0,100..900;1,100..900&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Asap:ital,wght@0,100..900;1,100..900&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
 *{
-  font-family: "Asap", serif;
-  font-optical-sizing: auto;
+  font-family: "DM Sans", serif;
+    font-optical-sizing: auto;
+    font-style: normal;
   font-weight: 300;
   font-style: normal;
   font-variation-settings:
