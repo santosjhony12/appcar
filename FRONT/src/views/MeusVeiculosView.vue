@@ -2,7 +2,7 @@
     <Title :text="'Meus veículos cadastrados'" />
     <p class="form-description">
       Confira os veículos cadastrados no sistema. Nesta seção, você pode verificar se um veículo foi aprovado ou se ainda está pendente.</p>
-    <CadastroCarro />
+    <CadastroCarro @fechar-modal="fecharModal"/>
 
     <div class="tabela-div">
       <div class="tabela">
@@ -45,6 +45,10 @@
   onMounted(()=>{
     getCarros();
   })
+
+  const fecharModal = () => {
+    getCarros();
+  }
 
   //data:image/png;base64,
   const carros = ref<{

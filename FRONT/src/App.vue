@@ -6,7 +6,7 @@ const route = useRoute();
 </script>
 
 <template>
-  <Nav class="nav" v-if="route.path != '/alugar'"/>
+  <Nav class="nav" v-if="route.path != '/alugar' && route.path != '/login' "/>
 
   <div class="conteudo">
     <RouterView />
@@ -25,9 +25,7 @@ const route = useRoute();
   font-variation-settings:
     "wdth" 100;
 }
-.nav{
-  margin: 0 0 1em 0;
-}
+
 
 
 </style>

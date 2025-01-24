@@ -1,32 +1,44 @@
 <template>
-  <div class="navbar">
-    <div class="nav-content">
-      <h1 class="logo">AppCar</h1>
+  <!-- <div class="navbar">
+    <div class="nav-content"> -->
+      <div class="navbar">
+                <div class="image">
+                    <img src="../assets/logo_app.png" alt="" class="logo">
+                </div>
+                <div class="options">
+                    <RouterLink class="links" to="/contato">Sobre nós</RouterLink>
+                    <RouterLink class="links" to="/contato" v-if="usuarioLog.usuario == null" >Contate-nos</RouterLink>
+                    <!-- <RouterLink to="#services" >Meus dados</RouterLink> -->
+                    <RouterLink class="links"  to="/meusVeiculos" v-if="usuarioLog.usuario.role === 'INVESTIDOR'">Meus veículos</RouterLink>
+                    <RouterLink class="links" to="/usuarios" v-if="usuarioLog.usuario.role === 'ADMIN'" >Meus usuários</RouterLink>
+                    <RouterLink class="links" to="/solicitacoesVeiculos" v-if="usuarioLog.usuario.role === 'ADMIN'">Solicitações de Veículos</RouterLink>
+                    <!-- <RouterLink to="#services" v-if="usuarioLog.usuario?.role !== 'ADMIN' && usuarioLog.usuario?.role != ''"  >Meus aluguéis</RouterLink> -->
+                    <RouterLink class="links" to="/alugar" v-if="usuarioLog.usuario.role === 'MOTORISTA'" >Alugar carro</RouterLink>
+                    <!-- <RouterLink to="#services" v-if="usuarioLog.usuario?.role !== 'ADMIN' && (usuarioLog.usuario?.role != '' || usuarioLog.usuario != null) " >Treinamentos</RouterLink> -->
+                    
+                    <RouterLink class="links login" to="/login" v-if="usuarioLog.usuario == null">Entrar</RouterLink>
+                    <RouterLink class="links login" to="/login" v-if="usuarioLog.usuario != null">Sair</RouterLink>
+
+
+                </div>
+            </div>
+      <!-- <h1 class="logo">AppCar</h1> -->
 
       <!-- Navbar com links visíveis no desktop -->
-      <div class="nav-links" v-if="!isMobile">
-        <RouterLink to="/about">Sobre nós</RouterLink>
-        <RouterLink to="#services" >Meus dados</RouterLink>
-        <RouterLink to="/meusVeiculos" v-if="usuarioLog.usuario?.role === 'INVESTIDOR'">Meus veículos</RouterLink>
-        <RouterLink to="/usuarios" v-if="usuarioLog.usuario?.role === 'ADMIN'" >Meus usuários</RouterLink>
-        <RouterLink to="/solicitacoesVeiculos" v-if="usuarioLog.usuario?.role === 'ADMIN'">Solicitações de Veículos</RouterLink>
-        <RouterLink to="#services" v-if="usuarioLog.usuario?.role !== 'ADMIN' && usuarioLog.usuario?.role != ''"  >Meus aluguéis</RouterLink>
-        <RouterLink to="#services" v-if="usuarioLog.usuario?.role === 'MOTORISTA'" >Alugar carro</RouterLink>
-        <RouterLink to="#services" v-if="usuarioLog.usuario?.role !== 'ADMIN' && (usuarioLog.usuario?.role != '' || usuarioLog.usuario != null) " >Treinamentos</RouterLink>
-        
+      <!-- <div class="nav-links" v-if="!isMobile">
+
         
         <RouterLink @click="logout" to="">Sair</RouterLink>
       </div>
 
-      <!-- Botão hamburguer no mobile -->
+        Botão hamburguer no mobile
       <button class="hamburger" @click="toggleDropdown" v-if="isMobile">
         <span></span>
         <span></span>
         <span></span>
-      </button>
-    </div>
+      </button> -->
+    <!-- </div>
 
-    <!-- Dropdown para mobile -->
     <div :class="['dropdown', { open: isDropdownOpen }]">
       <ul>
         <li>
@@ -38,7 +50,7 @@
         <li><a href="#services">Sair</a></li>
       </ul>
     </div>
-  </div>
+  </div> -->
 </template>
 
 
@@ -80,14 +92,87 @@ onMounted(() => {
 
 </script>
 <style scoped>
-/* Navbar */
+
+
 .navbar {
+    display: flex;
+    padding: 2em 4em;
+    justify-content: space-between;
+    background-image: url('../assets/fundo.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: rgba(0, 0, 0, 0.85); /* Fundo mais escuro */
+    background-blend-mode: darken;
+    height: 12vh
+}
+.login {
+    background: white;
+    color: #000 !important;
+    padding: 0.3em 2em;
+    border-radius: 1em;
+}
+.links {
+    text-decoration: none;
+    color: white;
+    cursor: pointer;
+    margin: 0 1em;
+    display: inline-block;
+    /* Garante que transform funcione corretamente */
+    text-decoration: none;
+    /* Remove o sublinhado, opcional */
+    font-size: 16px;
+    /* Tamanho inicial do texto */
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+.logo {
+    width: 8vw;
+    margin-top: -2.5em;
+}
+
+.links:hover {
+    color: yellow;
+    /* Muda a cor do link para amarelo ao passar o mouse */
+    transform: scale(1.2);
+    /* Aumenta o tamanho em 20% */
+}
+
+.login:hover {
+    color: black
+}
+@media (max-width: 1000px) {
+    .logo {
+        width: 20vw;
+        margin-top: -3.2em
+    }
+
+    .navbar {
+        padding: 2em 2em;
+    }
+
+    .links {
+        font-size: 14px
+    }
+
+}
+@media (max-width: 700px){
+    .logo{
+        margin-top: -1.8em
+    }
+    .links{
+        font-size: 11px;
+        margin: 0 0.3em!important;
+    }
+   
+}
+/* Navbar */
+/* .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
   background-color: black;
   color: white;
- /* position: fixed;*/
+
   width: 100%;
   z-index: 10;
   padding: 0.8em 1em;
@@ -105,7 +190,7 @@ onMounted(() => {
   font-size: 1.2rem;
 }
 
-/* Navbar links no desktop */
+
 .nav-links {
   display: flex;
   gap: 1.5em;
@@ -121,7 +206,6 @@ onMounted(() => {
   color: #b1b1b1;
 }
 
-/* Botão hamburguer */
 .hamburger {
   background: none;
   border: none;
@@ -140,8 +224,6 @@ onMounted(() => {
   border-radius: 3px;
   transition: 0.3s;
 }
-
-/* Dropdown */
 .dropdown {
   position: absolute;
   top: 100%;
@@ -183,7 +265,6 @@ onMounted(() => {
   color: black;
 }
 
-/* Animações adicionais para o hamburguer */
 .hamburger.open span:nth-child(1) {
   transform: rotate(45deg) translate(5px, 5px);
 }
@@ -196,7 +277,7 @@ onMounted(() => {
   transform: rotate(-45deg) translate(5px, -5px);
 }
 
-/* Para telas grandes (desktop) */
+
 @media (min-width: 768px) {
   .hamburger {
     display: none;
@@ -207,10 +288,10 @@ onMounted(() => {
   }
 }
 
-/* Para telas pequenas (mobile) */
+
 @media (max-width: 768px) {
   .nav-links {
     display: none;
   }
-}
+} */
 </style>

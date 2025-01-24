@@ -1,8 +1,8 @@
 <template>
     <div class="container-carro">
         <div class="imagem-carro">
-            <img src="https://www.localiza.com/brasil-site/geral/Frota/HAVA.png" alt="">
-
+            <img :src="props.imagem" alt="" class="imagem">
+            
             <h2 class="valor">R$ {{ valor }}</h2>
         </div>
 
@@ -25,13 +25,14 @@
                     <p>{{ cor }}</p>
                 </div>
 
-                <button>ALUGAR</button>
+                <button @click="alugar">ALUGAR</button>
             </div>
         </div>
     </div>
 </template>
 <script lang="ts" setup>
-
+import router from '@/router';
+import {usuarioLogado} from '@/stores/usuario';
 const props = defineProps<{
     id: number,
     modelo: string,
@@ -41,6 +42,17 @@ const props = defineProps<{
     valor: number,
     imagem: string
 }>();
+
+const UsuarioLog = usuarioLogado();
+const emit = defineEmits(['alugar']);
+const alugar = () => {
+    if(UsuarioLog.usuario == null || !UsuarioLog.usuario){
+        router.push('/login');
+    }else{
+        emit("alugar", props.id, props.imagem, props.valor);
+    }
+}
+
 
 </script>
 
@@ -57,9 +69,12 @@ const props = defineProps<{
         
     }
     .information{
-        height: 30vh !important;
         width: 80vw !important;
     }
+}
+.imagem{
+    max-width: 30vw;
+    max-height: 30vh;
 }
 .container-carro{
     display: flex;
@@ -89,6 +104,8 @@ span{
     display: flex;
     flex-direction: column;
     align-items: center;
+    height: 30vh;
+    width: 30vw;
 }
 button{
     border: none;

@@ -1,18 +1,20 @@
 <template>
     <div class="containerAlugar">
-
+        <Nav  />
         <div class="landing-page-main">
-            <div class="navbar">
+            <!-- <div class="navbar">
                 <div class="image">
                     <img src="../assets/logo_app.png" alt="" class="logo">
                 </div>
                 <div class="options">
                     <RouterLink class="links" to="/contato">Sobre nós</RouterLink>
                     <RouterLink class="links" to="/contato">Contate-nos</RouterLink>
-                    <RouterLink class="links login" to="/login">Entrar</RouterLink>
+                    <RouterLink class="links login" to="/login" v-if="usuarioLog.usuario == null">Entrar</RouterLink>
+                    <RouterLink class="links login" to="/login" v-if="usuarioLog.usuario != null">Sair</RouterLink>
+
 
                 </div>
-            </div>
+            </div> -->
 
             <div class="main">
                 <div class="frases">
@@ -54,10 +56,18 @@
         <div class="landing-page-second">
             <h1 class="carros-disponiveis">NOSSOS CARROS DISPONÍVEIS</h1>
             <div class="aluguel-carro">
-               <Swipper :carros="veiculos"/>
-
+               <Swipper :carros="veiculos" @alugar="alugar"/>
             </div>
         </div>
+
+        <ModalAluguel 
+            v-if="showModal" 
+            :id="valoresAluguel.id" 
+            :imagem="valoresAluguel.imagem" 
+            :valor="valoresAluguel.valor"
+            @close="closeModal"/>
+        
+
     </div>
 </template>
 
@@ -65,7 +75,14 @@
 import { onMounted, ref } from 'vue';
 import CarroService from '@/service/carro';
 import { RouterLink } from 'vue-router';
-import Swipper from '../components/Swipper.vue'
+import Swipper from '../components/Swipper.vue';
+import ModalAluguel from '@/components/ModalAluguel.vue';
+import { usuarioLogado } from '@/stores/usuario';
+import Nav from '@/components/Nav.vue';
+const usuarioLog = usuarioLogado();
+const closeModal = () =>{
+    showModal.value = false;
+}
 interface Carro {
     id: number,
     modelo: string,
@@ -85,7 +102,25 @@ const veiculos = ref<Carro[]>([]);
 const getAllVeiculos = async () => {
     veiculos.value = await CarroService.getCarrosAutorizados();
 }
+const valoresAluguel = ref<{
+    id: number, 
+    imagem: string, 
+    valor: number
+}>({
+    id: 0, 
+    imagem: '',
+    valor: 0
+})
+const showModal = ref<boolean>(false);
+const alugar = (id : number, imagem: string, valor: number) => {
+    if(id != null){
+        showModal.value = true;
+        valoresAluguel.value.id = id;
+        valoresAluguel.value.imagem = imagem;
+        valoresAluguel.value.valor = valor;
 
+    }
+}
 onMounted(() => {
     getAllVeiculos();
 })
@@ -168,7 +203,7 @@ onMounted(() => {
 
 .logo {
     width: 8vw;
-    margin-top: -2em;
+    margin-top: -2.5em;
 }
 
 .links:hover {
@@ -206,6 +241,12 @@ onMounted(() => {
     }
     .motoristas{
         margin: 2em;
+    }
+    .landing-page-second{
+        margin: 0 !important;
+    }
+    .tabela-informacoes {
+        margin: 0 1em !important;
     }
 }
 @media (max-width: 700px){
@@ -285,10 +326,10 @@ ul{
     padding: 0
 }
 .landing-page-second{
-    height: 80vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
+    margin: 3em 0;
 
 }
 .carros-disponiveis{

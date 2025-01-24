@@ -80,6 +80,7 @@ const isVisibleForms = ref<boolean>(false);
 const toogleAddUser = () => {
     isVisibleForms.value = !isVisibleForms.value;
 }
+const emit = defineEmits(['fecharModal']);
  const handleSubmit = async () => {
       if(car.value.montadora.trim() == '' || 
          car.value.modelo.trim() == '' || 
@@ -96,6 +97,8 @@ const toogleAddUser = () => {
       try{
          await CarroService.cadastrarCarro(car.value);
          showAlertaFunction('Veículo registrado com sucesso.');
+         isVisibleForms.value = false;
+         emit('fecharModal');
 
       }catch{
          showAlertaFunction('Não foi possível cadastrar o veículo.');

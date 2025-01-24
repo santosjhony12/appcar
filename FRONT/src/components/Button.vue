@@ -15,7 +15,7 @@ defineProps<{
 <style scoped>
  button.submit-button {
    padding: 12px;
-   background: #000000;
+   background: black;
    color: white;
    border: none;
    border-radius: 5px;
@@ -23,14 +23,15 @@ defineProps<{
    cursor: pointer;
    transition: background-color 0.3s ease;
    margin-top: 20px;
+   transition: background-color 0.3s, transform 0.3s; /* Suaviza as transições */
  }
  
  button.submit-button:hover {
-   background-color: #0056b3;
+  transform: scale(1.1); /* Aumenta ligeiramente o botão */
  }
  
  button.submit-button:active {
-   background-color: #004080;
+  transform: scale(0.95); /* Reduz ligeiramente ao clicar */
  }
  #loading-img{
     width: 3%

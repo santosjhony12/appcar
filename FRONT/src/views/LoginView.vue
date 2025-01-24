@@ -1,7 +1,9 @@
 <template>
   <div class="login-container">
     <div class="login-form">
-      <h2 class="login-title">Login</h2>
+      <div class="imagem">
+        <img src="../assets/logo_app.png" alt="">
+      </div>
 
       <form @submit.prevent="handleLogin">
         <div class="input-group">
@@ -55,7 +57,11 @@ const handleLogin = async () => {
     if(usuarioLog.usuario?.primeiroAcesso){
       router.push("/primeiroAcesso");
     }else{
-      router.push("/about");
+      if(usuarioLog.usuario?.role == 'ADMIN'){
+        router.push("/usuarios");
+      }else{
+        router.push('/alugar');
+      }
     }
   }else{
       showAlertaFunction(response);
@@ -75,31 +81,38 @@ const showAlertaFunction = (msg: string) =>{
 
 <style scoped>
 /* Contêiner geral */
+/* Contêiner geral */
+/* Contêiner geral */
 .login-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 90vh;
-  background-color: #fff;
+  height: 100vh;
+  background-image: url('../assets/carro-landing-page.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-color: rgba(0, 0, 0, 0.85); /* Fundo mais escuro */
+  background-blend-mode: darken;
   font-family: 'Arial', sans-serif;
 }
 
 /* Formulário de login */
 .login-form {
-  background-color: #f9f9f9;
+  background-color: #1a1a1aac; /* Fundo escuro para o formulário */
   padding: 40px;
   border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); /* Sombra mais suave */
   width: 100%;
   max-width: 400px;
   text-align: center;
-  color: #000;
+  color: #fff; /* Texto claro */
 }
 
 /* Título do formulário */
 .login-title {
   font-size: 28px;
-  color: #111;
+  color: #fff; /* Texto claro */
   margin-bottom: 24px;
   font-weight: bold;
 }
@@ -112,7 +125,7 @@ const showAlertaFunction = (msg: string) =>{
 
 .input-group label {
   font-size: 14px;
-  color: #555;
+  color: white; /* Laranja para o texto dos labels */
   margin-bottom: 8px;
   display: block;
 }
@@ -122,14 +135,14 @@ const showAlertaFunction = (msg: string) =>{
   padding: 14px;
   font-size: 16px;
   border-radius: 8px;
-  border: 1px solid #ccc;
-  background-color: #fff;
-  color: #000;
+  border: 1px solid #444; /* Bordas escuras */
+  background-color: #333; /* Fundo escuro para os inputs */
+  color: #fff; /* Texto claro nos inputs */
 }
 
 .input-group input:focus {
-  outline: 2px solid #000000;
-  background-color: #f1f1f1;
+  outline: 2px solid #ff9800; /* Laranja para o foco */
+  background-color: #444; /* Escurece ao focar */
 }
 
 /* Botão de login */
@@ -137,7 +150,7 @@ const showAlertaFunction = (msg: string) =>{
   width: 100%;
   padding: 14px;
   font-size: 18px;
-  background-color: #000;
+  background-color: orange; /* Laranja escuro para o botão */
   color: #fff;
   border: none;
   border-radius: 8px;
@@ -146,7 +159,7 @@ const showAlertaFunction = (msg: string) =>{
 }
 
 .login-button:hover {
-  background-color: #0056b3;
+  background-color: #e64a19; /* Laranja mais escuro ao passar o mouse */
 }
 
 /* Links do rodapé */
@@ -156,16 +169,35 @@ const showAlertaFunction = (msg: string) =>{
 }
 
 .footer-links a {
-  color: #007bff;
+  color: #ff9800; /* Laranja para os links */
   text-decoration: none;
   transition: color 0.3s ease;
 }
 
 .footer-links a:hover {
-  color: #0056b3;
+  color: #ff5722; /* Laranja escuro ao passar o mouse */
 }
 
 .footer-links p {
-  color: #555;
+  color: #bbb; /* Cor do texto do rodapé */
 }
+.imagem{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin: -2em 0 -1em 0;
+  padding: 0
+}
+.imagem > img{
+  width: 10vw;
+ 
+}
+
+@media (max-width: 1000px){
+  .imagem > img{
+    width: 20vw;
+  }
+}
+
 </style>
