@@ -9,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.santosjhony.demo.park.api.entity.Aluguel;
+import com.santosjhony.demo.park.api.entity.Usuario;
 
 
 @Repository
@@ -19,6 +20,9 @@ public interface AluguelRepository extends JpaRepository<Aluguel, Long> {
         @Param("dataInicio") LocalDate dataInicio,
         @Param("dataFim") LocalDate dataFim
     );
+    List<Aluguel> findByAprovadoOrderByDataInicio(Boolean aprovado);
+    List<Aluguel> findByUsuarioOrderByDataInicio(Usuario usuario);
+
     
 
 }

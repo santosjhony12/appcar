@@ -50,7 +50,7 @@ public class CarService {
 
         carroEncontrado.setAutorizado(carro.autorizado());
         carroEncontrado.setPercentualInvestidor(carro.percentualInvestidor());
-        carroEncontrado.setPercentualMotorista(carro.percentualMotorista());
+        carroEncontrado.setValorAluguel(carro.valorAluguel());
         carroEncontrado.setPercentualSistema(carro.percentualSistema());
         return carRepository.save(carroEncontrado);
     }

@@ -18,6 +18,7 @@
     "@splidejs/vue-splide": "^0.6.12",
     "axios": "^1.7.7",
     "pinia": "^2.0.32",
+    "scrollreveal": "^4.0.9",
     "swiper": "^11.2.1",
     "vue": "^3.2.47",
     "vue-carousel-3d": "^1.0.1",

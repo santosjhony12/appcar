@@ -11,7 +11,7 @@
           }"
         >
           <div class="carrossel-slide" v-for="(carro, index) in carros" :key="index">
-            <CarroInformation :ano="carro.ano" :cor="carro.ano" :id="carro.id" :imagem="'data:image/png;base64,'+carro.imagem" :modelo="carro.modelo" :montadora="carro.modelo" :valor="carro.valor" 
+            <CarroInformation :ano="carro.ano" :cor="carro.cor" :id="carro.id" :imagem="'data:image/png;base64,'+carro.imagem" :modelo="carro.modelo" :montadora="carro.modelo" :valorAluguel="carro.valorAluguel" 
             @alugar="alugar"/>
           </div>
         </div>
@@ -23,19 +23,19 @@
   </template>
   
   <script lang="ts" setup>
-interface Carrro {
+interface Carro {
     id: number,
     modelo: string,
     montadora: string, 
     ano: number, 
     cor: string,
-    valor: number,
+    valorAluguel: number,
     imagem: string
 }
 const emit = defineEmits(['alugar']);
 
-const alugar = (id : number, imagem: string, valor: number) => {
-  emit('alugar', id, imagem, valor);
+const alugar = (id : number, imagem: string, valorAluguel: number) => {
+  emit('alugar', id, imagem, valorAluguel);
 }
 const props = defineProps<{
     carros: Carro[]

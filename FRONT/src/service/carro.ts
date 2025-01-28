@@ -75,7 +75,7 @@ class CarroService{
     }
 
 
-    async autorizarVeiculo(autorizar: {id: number, percentualMotorista: string, percentualInvestidor: string, percentualSistema: string, autorizado: boolean}){
+    async autorizarVeiculo(autorizar: {id: number, valorAluguel: string, percentualInvestidor: string, percentualSistema: string, autorizado: boolean}){
         try{
             const response = await axios.put(`http://localhost:8080/api/v1/cars/autorizar`, autorizar);
 

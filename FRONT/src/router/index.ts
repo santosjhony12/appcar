@@ -41,6 +41,21 @@ const router = createRouter({
       path: "/alugar",
       name: "alugar",
       component: () => import("@/views/AlugarVeiculoView.vue")
+    },
+    {
+      path: "/aprovarAluguel",
+      name: "aprovarAluguel",
+      component: () => import("@/views/AprovarAluguel.vue")
+    },
+    {
+      path: "/alugueisAprovados",
+      name: "alugueisAprovados",
+      component: () => import("@/views/AlugueisAprovados.vue")
+    },
+    {
+      path: "/meusAlugueis",
+      name: "meusAlugueis",
+      component: () => import("@/views/AlugueisMotorista.vue")
     }
   ]
 })

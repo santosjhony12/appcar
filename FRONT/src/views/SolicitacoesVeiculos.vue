@@ -70,11 +70,11 @@
               <td>R$ {{ carro.valor }}</td>
               <td>{{ carro.username }}</td>
               <td>{{ carro.percentualInvestidor }}%</td>
-              <td>{{ carro.percentualMotorista }}%</td>
+              <td>R$ {{ carro.valorAluguel }}</td>
               <td>{{ carro.percentualSistema }}%</td>
               <td>
-                <button @click="showModalAutorizar(carro.id, carro.percentualInvestidor, carro.percentualMotorista, carro.percentualSistema)" v-if="carro.autorizado === true">Editar</button> 
-                <button @click="showModalAutorizar(carro.id, carro.percentualInvestidor, carro.percentualMotorista, carro.percentualSistema)" v-else>Autorizar</button>
+                <button @click="showModalAutorizar(carro.id, carro.percentualInvestidor, carro.valorAluguel, carro.percentualSistema)" v-if="carro.autorizado === true">Editar</button> 
+                <button @click="showModalAutorizar(carro.id, carro.percentualInvestidor, carro.valorAluguel, carro.percentualSistema)" v-else>Autorizar</button>
 
               </td>
             </tr>
@@ -95,8 +95,8 @@
         v-model="autorizado" />
       <Input :label="'Percentual Investidor'" :placeholder="'Insira o percentual destinado ao Investidor'"
         :type="'number'" v-model="autorizar.percentualInvestidor" />
-      <Input :label="'Percentual Motorista'" :placeholder="'Insira o percentual destinado ao Motorista'"
-        :type="'number'" v-model="autorizar.percentualMotorista" />
+      <Input :label="'Valor aluguel'" :placeholder="'Insira o valor do aluguel do veículo por dia'"
+        :type="'number'" v-model="autorizar.valorAluguel" />
       <Input :label="'Percentual Sistema'" :placeholder="'Insira o percentual destinado ao Sistema'" :type="'number'"
         v-model="autorizar.percentualSistema" />
       <div class="buttons">
@@ -128,7 +128,7 @@ interface Carro {
   username: string,
   imagem: string,
   autorizado: boolean,
-  percentualMotorista: number, 
+  valorAluguel: number, 
   percentualSistema: number, 
   percentualInvestidor: number
 }
@@ -139,7 +139,7 @@ const carrosAuxiliar = ref<Carro[]>([]);
 const autorizar = {
   autorizado: false,
   percentualInvestidor: '',
-  percentualMotorista: '',
+  valorAluguel: '',
   percentualSistema: '',
   id: 0
 }
@@ -173,7 +173,7 @@ onMounted(() => {
 const showModalAutorizar = (id: number, percentualInvestidor : number, percentualMotorista : number , percentualSistema : number) => {
   autorizar.id = id;
   autorizar.percentualInvestidor = String(percentualInvestidor);
-  autorizar.percentualMotorista = String(percentualMotorista);
+  autorizar.valorAluguel = String(percentualMotorista);
   autorizar.percentualSistema = String(percentualSistema);
   showModal.value = true;
   
@@ -183,10 +183,10 @@ const autorizarVeiculo = async () => {
     if (
       
       autorizar.percentualInvestidor == ''
-      || autorizar.percentualMotorista == ''
+      || autorizar.valorAluguel == ''
       || autorizar.percentualSistema == '' ||
       autorizar.percentualInvestidor == 'null'
-      || autorizar.percentualMotorista == 'null'
+      || autorizar.valorAluguel == 'null'
       || autorizar.percentualSistema == 'null') {
       showAlertaFunction("Todas as informações são necessárias para prosseguir.")
     } else {
@@ -199,7 +199,7 @@ const autorizarVeiculo = async () => {
       getAllVeiculos();
       autorizar.autorizado = false;
       autorizar.percentualInvestidor = '';
-      autorizar.percentualMotorista = '';
+      autorizar.valorAluguel = '';
       autorizar.percentualSistema = '';
 
     }

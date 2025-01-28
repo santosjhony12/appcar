@@ -50,8 +50,8 @@ public class Car {
     private Boolean autorizado = false;
     @Column(name = "percentual_aluguel_investidor", precision = 10, scale = 2)
     private BigDecimal percentualInvestidor;
-    @Column(name = "percentual_aluguel_motorista")
-    private BigDecimal percentualMotorista;
+    @Column(name = "valor_aluguel_por_dia")
+    private BigDecimal valorAluguel;
     @Column(name = "percentual_aluguel_sistema")
     private BigDecimal percentualSistema;
 

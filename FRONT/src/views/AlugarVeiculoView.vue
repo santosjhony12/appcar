@@ -25,7 +25,7 @@
             </div>
         </div>
 
-        <div class="landing-page-first">
+        <div class="landing-page-first" >
             <h1 class="title-beneficios">Benefícios</h1>
 
             <div class="divisao-usuarios">
@@ -94,7 +94,7 @@ interface Carro {
     username: string,
     imagem: string,
     autorizado: boolean,
-    percentualMotorista: number,
+    valorAluguel: number,
     percentualSistema: number,
     percentualInvestidor: number
 }

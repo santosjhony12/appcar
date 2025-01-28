@@ -2,8 +2,10 @@ interface AluguelCadastro{
     dataInicio: string, 
     dataFim: string,
     idCarro: number, 
-    idUsuario: number
+    idUsuario: number,
+    valor: number
 }
+import { useAuthStore } from '@/stores/token';
 import axios from 'axios';
 
 class AluguelService {
@@ -35,6 +37,81 @@ class AluguelService {
             if(error.status == 404){
                 return "Veículo disponível na data selecionada.";
             }
+            return "Alguma coisa não ocorreu bem. Entre em contato com o administrador.";
+        }
+    }
+
+    async getAlugueisNaoAprovados(){
+        try{
+            const response = await axios.get('http://localhost:8080/api/v1/alugueis/aprovar?autorizado=false');
+
+            if(response.status == 200){
+                return response.data
+            }else{
+                return "Alguma coisa não ocorreu bem. Entre em contato com o administrador.";
+            }
+        }catch(error : any){
+            return "Alguma coisa não ocorreu bem. Entre em contato com o administrador.";
+        }
+    }
+
+    async getAlugueisAprovados(){
+        try{
+            const response = await axios.get('http://localhost:8080/api/v1/alugueis/aprovar?autorizado=true');
+
+            if(response.status == 200){
+                return response.data
+            }else{
+                return "Alguma coisa não ocorreu bem. Entre em contato com o administrador.";
+            }
+        }catch(error : any){
+            return "Alguma coisa não ocorreu bem. Entre em contato com o administrador.";
+        }
+    }
+
+    async autorizarAluguel(id: number){
+        try{
+            const response = await axios.patch(`http://localhost:8080/api/v1/alugueis/aprovar?id=${id}`);
+            console.log(response.status)
+            if(response.status == 200){
+                return "Autorizado com sucesso!";
+            }else{
+                return "Alguma coisa não ocorreu bem. Entre em contato com o administrador.";
+            }
+        }catch(error : any){
+            return "Alguma coisa não ocorreu bem. Entre em contato com o administrador.";
+        }
+    }
+
+    async getAlugueisPorUsuarioLogado(){
+        try{
+            const token = useAuthStore();
+            const response = await axios.get(`http://localhost:8080/api/v1/alugueis/aprovacao`,{
+                headers: {
+                  Authorization: `Bearer ${token.token}` 
+                }
+              });
+        
+            if(response.status == 200){
+                return response.data;
+            }else{
+                return "Alguma coisa não ocorreu bem. Entre em contato com o administrador.";
+            }
+        }catch(error : any){
+            return "Alguma coisa não ocorreu bem. Entre em contato com o administrador.";
+        }
+    }
+
+    async deleteAluguel(id: number){
+        try{
+            const response = await axios.delete(`http://localhost:8080/api/v1/alugueis/${id}`);
+        
+            if(response.status == 200){
+                return "Aluguel cancelado com sucesso!";
+            }else{
+                return "Alguma coisa não ocorreu bem. Entre em contato com o administrador.";
+            }
+        }catch(error : any){
             return "Alguma coisa não ocorreu bem. Entre em contato com o administrador.";
         }
     }

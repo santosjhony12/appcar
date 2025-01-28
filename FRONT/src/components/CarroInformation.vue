@@ -1,9 +1,9 @@
 <template>
-    <div class="container-carro">
+    <div class="container-carro" >
         <div class="imagem-carro">
             <img :src="props.imagem" alt="" class="imagem">
             
-            <h2 class="valor">R$ {{ valor }}</h2>
+            <h2 class="valor">R$ {{ valorAluguel }}</h2>
         </div>
 
         <div class="tabela-informacoes">
@@ -39,7 +39,7 @@ const props = defineProps<{
     montadora: string, 
     ano: number, 
     cor: string,
-    valor: number,
+    valorAluguel: number,
     imagem: string
 }>();
 
@@ -49,7 +49,7 @@ const alugar = () => {
     if(UsuarioLog.usuario == null || !UsuarioLog.usuario){
         router.push('/login');
     }else{
-        emit("alugar", props.id, props.imagem, props.valor);
+        emit("alugar", props.id, props.imagem, props.valorAluguel);
     }
 }
 

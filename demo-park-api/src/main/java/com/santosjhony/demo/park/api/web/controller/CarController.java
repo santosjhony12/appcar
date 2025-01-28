@@ -2,7 +2,6 @@ package com.santosjhony.demo.park.api.web.controller;
 
 import java.util.List;
 
-import org.apache.catalina.connector.Response;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

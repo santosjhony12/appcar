@@ -80,15 +80,12 @@ const toogleAddUser = () => {
 
 const cadastrarUsuario = async () => {
     console.log(usuario.value)
-    if (usuario.value.username.trim() == "" ||
-        usuario.value.password.trim() == ""
+    if (usuario.value.username.trim() == ""
         || usuario.value.role == "") {
         showAlertaFunction("Todos os campos precisam ser preenchidos.");
     } else if (!isValidEmail(usuario.value.username)) {
         showAlertaFunction("O e-mail informado não é válido.");
 
-    } else if (usuario.value.password.length < 6) {
-        showAlertaFunction("A senha não pode ter menos de 6 digitos.")
     } else {
         isLoading.value = true;
         try {
