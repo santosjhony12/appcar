@@ -22,7 +22,11 @@
               <td>{{ treinamento.titulo }}</td>
               <td><a :href="treinamento.link">{{ treinamento.link }}</a></td>
               <td>{{ treinamento.role }}</td>
-              <td><button @click="abrirModalDelete(treinamento.id)">Excluir</button></td>
+              <td>
+                <button @click="promptEditar(treinamento.id, treinamento.titulo, treinamento.link, treinamento.role)">Editar</button>
+                <button @click="abrirModalDelete(treinamento.id)">Excluir</button>
+                
+              </td>
             </tr>
           </tbody>
         </table>
@@ -39,6 +43,29 @@
            
         </div>
     </div>
+
+
+    <div v-if="showModalEditar" class="modal-overlay">
+        <div class="modal">
+            <p>Edite as informações necessárias</p>
+
+            <div class="forms">
+              <label for="" id="label" >Titulo</label>
+            <input type="text" name="" id="input" v-model="editTreinamento.titulo">
+
+            <label for="" id="label" >Link</label>
+            <input type="text" name="" id="input" v-model="editTreinamento.link">
+
+            <InputSelect :label="'Acesso'" :options="['ROLE_MOTORISTA', 'ROLE_INVESTIDOR', 'ROLE_AMBOS']" :placeholder="'Selecione o tipo de acesso'" v-model="editTreinamento.role" />
+            
+            </div>
+           <div class="buttons">
+              <Button :text="'Salvar'" @click="editarTreinamento" :is-loading="isLoading" />
+              <Button @click="closeModal" :text="'Cancelar'" :is-loading="isLoading"/>
+            </div>
+           
+        </div>
+    </div>
     <Alert :message="msgAlert" v-if="showAlert" />
 
   </template>
@@ -49,6 +76,8 @@
   import TreinamentoService from '@/service/treinamento';
   import Title from "@/components/Title.vue";
   import Alert from "@/components/Alert.vue";
+  import InputSelect from "@/components/InputSelect.vue";
+  import Button from "@/components/Button.vue";
 
   onMounted(()=>{
     getTreinamentos();
@@ -62,12 +91,19 @@
     role: string
   }
   const treinamentos = ref<Treinamento[]>([]);
-
+  const editTreinamento = ref<Treinamento>({
+    id: 0,
+    titulo: '',
+    link: '',
+    role: ''
+  });
   const fecharModal = () => {
     getTreinamentos();
   }
-  const showModal = ref<boolean>(false);
 
+  const isLoading = ref<boolean>(false);
+  const showModal = ref<boolean>(false);
+  const showModalEditar = ref<boolean>(false);
   const getTreinamentos = async () =>{
     try{
         const response = await TreinamentoService.getAll();
@@ -78,11 +114,40 @@
   }
   const closeModal = () => {
     showModal.value = false;
+    showModalEditar.value = false;
   }
   const idDelete = ref<number>(0);
   const abrirModalDelete = (id: number) => {
     idDelete.value = id;
     showModal.value = true;
+  }
+  const promptEditar = (id: number, titulo: string, link: string, role: string) => {
+    editTreinamento.value.id = id;
+    editTreinamento.value.titulo = titulo;
+    editTreinamento.value.link = link;
+    editTreinamento.value.role = role;
+    showModalEditar.value = true;
+  }
+  const editarTreinamento = async () => {
+    if(editTreinamento.value.link.trim() === '' 
+    || editTreinamento.value.role == '' 
+    || editTreinamento.value.titulo.trim() == ''){
+      showAlertaFunction("Todos os campos são obrigatórios.");
+    }else{
+      try{
+        isLoading.value = true;
+        const response = await TreinamentoService.editar(editTreinamento.value);
+
+        showAlertaFunction(response);
+        closeModal();
+        getTreinamentos();
+      }catch(error : any){
+        showAlertaFunction(error);
+      }
+      isLoading.value = false;
+    }
+
+    
   }
   const deleteTreinamento = async () => {
     try{
@@ -264,6 +329,38 @@ td::after {
     font-size: 0.9em;
   }
 }
+#label {
+  color: #555;
+  font-size: 1.1em;
+  margin-bottom: 5px;
+  transition: color 0.3s ease;
+}
 
+#input {
+  font-size: 1em;
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  /* Borda padrão */
+  border-radius: 5px;
+  /* Cantos arredondados */
+  outline: none;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+#input:focus {
+  border-color: #007bff;
+  /* Cor de destaque */
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+  /* Efeito de foco */
+}
+
+#input::placeholder {
+  color: #aaa;
+  font-style: italic;
+}
+.forms{
+  display: flex;
+  flex-direction: column;
+}
   </style>
   
