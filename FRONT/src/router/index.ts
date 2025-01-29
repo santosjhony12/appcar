@@ -56,6 +56,16 @@ const router = createRouter({
       path: "/meusAlugueis",
       name: "meusAlugueis",
       component: () => import("@/views/AlugueisMotorista.vue")
+    },
+    {
+      path: "/projecaoAlugueis",
+      name: "projecaoAlugueis",
+      component: () => import("@/views/VeiculosAlugadosInvestidorView.vue")
+    },
+    {
+      path: "/treinamentosAdmin",
+      name: "treinamentosAdmin",
+      component: () => import("@/views/TreinamentosAdminView.vue")
     }
   ]
 })

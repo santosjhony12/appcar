@@ -115,6 +115,44 @@ class AluguelService {
             return "Alguma coisa não ocorreu bem. Entre em contato com o administrador.";
         }
     }
+
+    async getAlugueisPorLocador(){
+        try{
+            const token = useAuthStore();
+            const response = await axios.get(`http://localhost:8080/api/v1/alugueis/veiculos-alugados/locador`,{
+                headers: {
+                  Authorization: `Bearer ${token.token}` 
+                }
+              });
+        
+            if(response.status == 200){
+                return response.data;
+            }else{
+                return "Alguma coisa não ocorreu bem. Entre em contato com o administrador.";
+            }
+        }catch(error : any){
+            return "Alguma coisa não ocorreu bem. Entre em contato com o administrador.";
+        }
+    }
+
+    async getDadosParaDash(){
+        try{
+            const token = useAuthStore();
+            const response = await axios.get(`http://localhost:8080/api/v1/alugueis/dados-dash-investidor`,{
+                headers: {
+                  Authorization: `Bearer ${token.token}` 
+                }
+              });
+        
+            if(response.status == 200){
+                return response.data;
+            }else{
+                return "Alguma coisa não ocorreu bem. Entre em contato com o administrador.";
+            }
+        }catch(error : any){
+            return "Alguma coisa não ocorreu bem. Entre em contato com o administrador.";
+        }
+    }
 }
 
 export default new AluguelService;

@@ -1,6 +1,10 @@
 package com.santosjhony.demo.park.api.service;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import org.springframework.security.core.Authentication;
@@ -16,6 +20,7 @@ import com.santosjhony.demo.park.api.repository.AluguelRepository;
 import com.santosjhony.demo.park.api.web.dto.AluguelCreateDto;
 import com.santosjhony.demo.park.api.web.dto.AluguelResponseDto;
 import com.santosjhony.demo.park.api.web.dto.AluguelResponseUsuarioDto;
+import com.santosjhony.demo.park.api.web.dto.DadosParaDashDto;
 import com.santosjhony.demo.park.api.web.dto.VerificarDispAluguel;
 
 import lombok.RequiredArgsConstructor;
@@ -117,4 +122,70 @@ public class AluguelService {
         aluguelRepository.findById(id);
         aluguelRepository.deleteById(id);
     }
+
+    @Transactional
+    public List<AluguelResponseUsuarioDto> getAlugueisByLocador(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+
+        List<Aluguel> alugueis = aluguelRepository.findByLocatario(username);
+
+        List<AluguelResponseUsuarioDto> aluguelResponseUsuarioDtos = alugueis.stream()
+        .map(aluguel -> {
+
+            long diferencaDias = ChronoUnit.DAYS.between(aluguel.getDataInicio(), aluguel.getDataFim());
+            BigDecimal percentualInvestidor = aluguel.getCarro().getPercentualInvestidor();
+            BigDecimal percentualDecimal = percentualInvestidor.divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP);
+
+            System.out.println(diferencaDias);
+            AluguelResponseUsuarioDto aluguelResponse = new AluguelResponseUsuarioDto(
+            aluguel.getId(),
+             aluguel.getUsuario().getUsername(), 
+             aluguel.getUsuario().getNome(), 
+            aluguel.getCarro().getModelo(), 
+            aluguel.getCarro().getPlaca(), 
+            aluguel.getAprovado(), 
+            aluguel.getDataInicio(), 
+            aluguel.getDataFim(), 
+            aluguel.getValor().multiply(BigDecimal.valueOf(diferencaDias)).multiply(percentualDecimal), 
+            aluguel.getCarro().getImagem()
+            );
+            
+            return aluguelResponse;
+        }).collect(Collectors.toList());
+
+        return aluguelResponseUsuarioDtos;
+    }
+
+    @Transactional
+    public DadosParaDashDto getDadosParaDash(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+
+        List<Aluguel> alugueis = aluguelRepository.findByLocatario(username);
+
+        BigDecimal somaValores = alugueis.stream()
+        .map(aluguel -> {
+            long diferencaDias = ChronoUnit.DAYS.between(aluguel.getDataInicio(), aluguel.getDataFim());
+            BigDecimal percentualInvestidor = aluguel.getCarro().getPercentualInvestidor();
+            BigDecimal percentualDecimal = percentualInvestidor.divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP);
+
+            return aluguel.getValor()
+                .multiply(BigDecimal.valueOf(diferencaDias))
+                .multiply(percentualDecimal);
+        })
+        .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+
+        List<Car> carros = carService.getByUsername(username);
+        BigDecimal valorInvestido = carros.stream()
+        .map(carro -> carro.getValor())
+        .filter(Objects::nonNull)
+        .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        DadosParaDashDto dados = new DadosParaDashDto(alugueis.size(), somaValores, valorInvestido);
+
+        return dados;
+    }
+    
 }

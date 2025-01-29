@@ -22,6 +22,8 @@ public interface AluguelRepository extends JpaRepository<Aluguel, Long> {
     );
     List<Aluguel> findByAprovadoOrderByDataInicio(Boolean aprovado);
     List<Aluguel> findByUsuarioOrderByDataInicio(Usuario usuario);
+    @Query("SELECT a FROM Aluguel a WHERE a.carro.username = ?1 AND a.aprovado = true")
+    List<Aluguel> findByLocatario(String username);
 
     
 

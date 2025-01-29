@@ -21,6 +21,7 @@ import com.santosjhony.demo.park.api.service.AluguelService;
 import com.santosjhony.demo.park.api.web.dto.AluguelCreateDto;
 import com.santosjhony.demo.park.api.web.dto.AluguelResponseDto;
 import com.santosjhony.demo.park.api.web.dto.AluguelResponseUsuarioDto;
+import com.santosjhony.demo.park.api.web.dto.DadosParaDashDto;
 import com.santosjhony.demo.park.api.web.dto.VerificarDispAluguel;
 
 import lombok.RequiredArgsConstructor;
@@ -62,5 +63,14 @@ public class AluguelController {
         aluguelService.delete(id);
 
         return ResponseEntity.ok().build();
+    }
+    @GetMapping("/veiculos-alugados/locador")
+    public ResponseEntity<List<AluguelResponseUsuarioDto>> getByLocador(){
+        return ResponseEntity.ok(aluguelService.getAlugueisByLocador());
+    }
+
+    @GetMapping("/dados-dash-investidor")
+    public ResponseEntity<DadosParaDashDto> getDadosParaDash(){
+        return ResponseEntity.ok(aluguelService.getDadosParaDash());
     }
 }
