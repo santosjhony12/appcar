@@ -1,6 +1,9 @@
 package com.santosjhony.demo.park.api.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.santosjhony.demo.park.api.entity.Comentario;
 import com.santosjhony.demo.park.api.entity.Treinamento;
@@ -22,5 +25,11 @@ public class ComentarioService {
         comentario.setTreinamento(treinamento);
 
         return comentarioRepository.save(comentario);
+    }
+
+    @Transactional
+    public List<Comentario> getByTreinamento(Long id){
+        Treinamento treinamento = treinamentoService.findById(id);
+        return comentarioRepository.findByTreinamento(treinamento);
     }
 }   

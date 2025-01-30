@@ -31,7 +31,6 @@ public class Treinamento {
     private String link;
     @Column(name = "acesso")
     private Role role;    
-
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "treinamento_id")
     private List<Comentario> comentarios;

@@ -33,8 +33,9 @@
 
         </div>
         <div class="centralizar-button">
-      <Button @click="toogleAddUser" :text="isVisibleForms ? 'Cancelar' : 'Adicionar Treinamento'" :is-loading="false" class="button"/>
-    </div>
+            <Button @click="toogleAddUser" :text="isVisibleForms ? 'Cancelar' : 'Adicionar Treinamento'"
+                :is-loading="false" class="button" />
+        </div>
         <Alert :message="msgAlert" v-if="showAlert" />
     </div>
 </template>
@@ -78,12 +79,12 @@ const cadastrarTreinamento = async () => {
     } else {
         isLoading.value = true;
         try {
-            treinamento.value.role = "ROLE_"+treinamento.value.role;
-            
+            treinamento.value.role = "ROLE_" + treinamento.value.role;
+
             const response = await TreinamentoService.cadastrar(treinamento.value);
             closeModal();
             showAlertaFunction(response)
-            
+
         } catch (error: any) {
             showAlertaFunction(error);
         }

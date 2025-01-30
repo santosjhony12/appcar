@@ -1,5 +1,8 @@
 package com.santosjhony.demo.park.api.entity;
 
+import java.time.LocalDateTime;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
@@ -35,4 +38,7 @@ public class Comentario {
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     private Treinamento treinamento;
+    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
+    @Column(name = "dia_comentado")
+    private LocalDateTime dayDateTime = LocalDateTime.now();
 }
