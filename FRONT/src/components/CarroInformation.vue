@@ -3,7 +3,7 @@
         <div class="imagem-carro">
             <img :src="props.imagem" alt="" class="imagem">
             
-            <h2 class="valor">R$ {{ valorAluguel }}</h2>
+            <h2 class="valor"> {{ formatarParaReal(valorAluguel) }}</h2>
         </div>
 
         <div class="tabela-informacoes">
@@ -25,7 +25,8 @@
                     <p>{{ cor }}</p>
                 </div>
 
-                <button @click="alugar">ALUGAR</button>
+                <Button @click="alugar" :text="'Alugar'" :is-loading="false" />
+
             </div>
         </div>
     </div>
@@ -33,6 +34,8 @@
 <script lang="ts" setup>
 import router from '@/router';
 import {usuarioLogado} from '@/stores/usuario';
+import Button
+ from './Button.vue';
 const props = defineProps<{
     id: number,
     modelo: string,
@@ -42,7 +45,12 @@ const props = defineProps<{
     valorAluguel: number,
     imagem: string
 }>();
-
+function formatarParaReal(valor: number): string {
+    return new Intl.NumberFormat('pt-BR', {
+        style: 'currency',
+        currency: 'BRL',
+    }).format(valor);
+}
 const UsuarioLog = usuarioLogado();
 const emit = defineEmits(['alugar']);
 const alugar = () => {
@@ -107,15 +115,7 @@ span{
     height: 30vh;
     width: 30vw;
 }
-button{
-    border: none;
-    background-color: orange;
-    padding: 0.8em 2em;
-    border-radius: 2em;
-    margin-top: 3em;
-    cursor: pointer;
-    transition: background-color 0.3s, transform 0.3s; 
-}
+
 button:hover{
     transform: scale(1.1);
 }

@@ -96,7 +96,7 @@ const props = defineProps<{
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    color: orange;
+    color: #007bff;
     border: none;
     padding: 10px;
     cursor: pointer;

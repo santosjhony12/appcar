@@ -23,8 +23,8 @@
               <td><a :href="treinamento.link">{{ treinamento.link }}</a></td>
               <td>{{ treinamento.role }}</td>
               <td>
-                <button @click="promptEditar(treinamento.id, treinamento.titulo, treinamento.link, treinamento.role)">Editar</button>
-                <button @click="abrirModalDelete(treinamento.id)">Excluir</button>
+                <button @click="promptEditar(treinamento.id, treinamento.titulo, treinamento.link, treinamento.role)" class="button-editar">Editar</button>
+                <button @click="abrirModalDelete(treinamento.id)" class="button-excluir" >Excluir</button>
                 
               </td>
             </tr>
@@ -182,7 +182,8 @@
 }
 
 .tabela {
-  min-width: 95vw;
+  min-width: 80vw;
+  margin: 0 2vw;
   overflow-x: auto;
 }
 
@@ -362,5 +363,29 @@ td::after {
   display: flex;
   flex-direction: column;
 }
+
+
+button {
+    padding: 6px 12px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+button:hover {
+    background-color: gray;
+}
+
+button:disabled {
+    background-color: #ccc;
+}
+.button-excluir{
+  background-color: red;
+  margin-left: 1vw;
+}
+
   </style>
   

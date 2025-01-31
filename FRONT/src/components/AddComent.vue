@@ -12,7 +12,9 @@
           ></textarea>
         </div>
         <div class="button">
-            <Button :text="'Adicionar Comentário'" :is-loading="false"/>
+          <Button :text="'Cancelar'" :is-loading="false" @click="cancelarComentario"/>
+
+            <Button :text="'Adicionar Comentário'" :is-loading="false" id="button-add"/>
 
         </div>
       </form>
@@ -36,7 +38,7 @@ import { usuarioLogado } from '@/stores/usuario';
   const msgAlert = ref<string>('');
   const showAlert = ref<boolean>(false);
   const usuario = usuarioLogado();
-  const emit = defineEmits(['fecharComentario']);
+  const emit = defineEmits(['fecharComentario', 'cancelar']);
   // Função para enviar o comentário
   const handleSubmit = async () => {
     if(comentario.value.trim() === ''){
@@ -55,6 +57,9 @@ import { usuarioLogado } from '@/stores/usuario';
         }
     }
   };
+  const cancelarComentario = () => {
+    emit('cancelar')
+  }
   const showAlertaFunction = (msg: string) => {
   msgAlert.value = msg;
   showAlert.value = true;
@@ -91,6 +96,9 @@ import { usuarioLogado } from '@/stores/usuario';
 .button{
     display: flex;
     justify-content: end;
+}
+#button-add{
+  margin-left:2vw
 }
   </style>
   

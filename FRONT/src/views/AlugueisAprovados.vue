@@ -138,7 +138,8 @@ watch([filtroNome, filtroPlaca], () => {
   }
   
   .tabela {
-    min-width: 95vw;
+    min-width: 80vw;
+    margin: 0 2vw;
     overflow-x: auto;
   }
   

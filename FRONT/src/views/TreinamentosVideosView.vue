@@ -1,6 +1,8 @@
 <template>
   <div class="video-container">
     <div class="video-player">
+      <Title :text="'Treinamento: '+tituloVideo" />
+
       <iframe
         :src="videoSrc"
         frameborder="0"
@@ -11,13 +13,14 @@
     <div class="comments-videos">
       <div  class="comments-section">
         <h3>Comentários</h3>
-        <AddComent v-if="isVisibleAddComent" @fechar-comentario="fecharAddCommentCarregarComentarios" :id-treinamento="idTreinamentoVisualizado"/>
+        <AddComent v-if="isVisibleAddComent" @fechar-comentario="fecharAddCommentCarregarComentarios" @cancelar="cancelar" :id-treinamento="idTreinamentoVisualizado"/>
         <Button :text="'Adicionar comentário'" :is-loading="false" @click="showAddComment" v-else />
-      <div class="comments-grid" v-if="treinamentos.length > 0">
-        <div v-for="comentario in selecionadoComentarios" :key="comentario.id" class="comment-item">
-          <p><strong>Usuário: {{ comentario.username }}</strong></p>
-          <p>{{ comentario.comentario }}</p>
-          <p>{{ comentario.dayDateTime }}</p>
+      <div class="comments-grid" >
+        <h4  v-if="treinamentos.length == 0" >Sem comentários</h4>
+        <div v-for="comentario in selecionadoComentarios" :key="comentario.id" class="comment-item" v-if="treinamentos.length > 0">
+          <p><strong><font-awesome-icon :icon="['fas', 'user']" class="icon username" /> {{ comentario.username }}</strong></p>
+          <p><font-awesome-icon :icon="['fas', 'comment']" class="icon" /> {{ comentario.comentario }}</p>
+          <p><font-awesome-icon :icon="['fas', 'calendar-days']" class="icon" />{{ comentario.dayDateTime }}</p>
 
         </div>
       </div>
@@ -26,7 +29,7 @@
     <div class="video-list">
       <h3>Treinamentos disponíveis para você</h3>
       <div v-for="(treinamento, index) in treinamentos" :key="index" class="video-item">
-        <img :src="getThumbnail(treinamento.link)" alt="Thumbnail" @click="playVideo(treinamento.link, treinamento.comentarios, treinamento.id)" />
+        <img :src="getThumbnail(treinamento.link)" alt="Thumbnail" @click="playVideo(treinamento.link, treinamento.comentarios, treinamento.id, treinamento.titulo)" />
         <div class="video-info">
           <h4>{{ treinamento.titulo }}</h4>
           <p>{{ treinamento.comentarios.length }} comentários</p>
@@ -44,6 +47,7 @@
 
 
 <script setup lang="ts">
+import Title from '@/components/Title.vue';
 import { onMounted, ref, watch } from 'vue';
 import Alert from '@/components/Alert.vue';
 import TreinamentosService from '@/service/treinamento'
@@ -55,14 +59,20 @@ const videoSrc = ref(''); // Inicializando como uma string vazia
 const treinamentos = ref<Treinamento[]>([]);
 const selecionadoComentarios = ref<Comentario[]>([]); // Para armazenar os comentários do vídeo selecionado
 const isVisibleAddComent = ref<boolean>(false);
-const playVideo = (videoLink: string, comentarios: Comentario[], id: number) => {
+const tituloVideo = ref<string>("");
+const playVideo = (videoLink: string, comentarios: Comentario[], id: number, titulo: string) => {
   idTreinamentoVisualizado.value = id;
   const videoId = getVideoIdFromUrl(videoLink);
   videoSrc.value = `https://www.youtube.com/embed/${videoId}`;
   selecionadoComentarios.value = comentarios; // Atualiza os comentários ao selecionar o vídeo
+  tituloVideo.value = titulo;
 };
 const showAddComment = () => {
   isVisibleAddComent.value = !isVisibleAddComent.value;
+}
+
+const cancelar = () => {
+  showAddComment();
 }
 
 const fecharAddCommentCarregarComentarios = async () => {
@@ -116,7 +126,7 @@ const getTreinamentos = async () => {
     
     if (treinamentos.value.length > 0) {
       // Inicializar com o primeiro vídeo da lista
-      playVideo(treinamentos.value[0].link, treinamentos.value[0].comentarios, treinamentos.value[0].id);
+      playVideo(treinamentos.value[0].link, treinamentos.value[0].comentarios, treinamentos.value[0].id, treinamentos.value[0].titulo);
     }
   } catch (error: any) {
     showAlertaFunction(error);
@@ -140,8 +150,8 @@ const showAlertaFunction = (msg: string) => {
   display: flex;
   gap: 20px;
   flex-direction: column;
-  width: 100%;
   color: black !important;
+  overflow-x: hidden;
 }
 
 .video-player {
@@ -164,17 +174,25 @@ const showAlertaFunction = (msg: string) => {
   align-items: center;
   cursor: pointer;
   margin-bottom: 10px;
+  
 }
 
 .video-item img {
-  width: 100px;
-  height: 56px;
+  width: 150px;
+  height: 90px;
   margin-right: 10px;
+  border-radius: 3px;
+}
+.video-info > h4{
+  font-weight: bold;
+}
+.video-item:hover{
+  background-color: rgb(206, 206, 206);
 }
 
 .comments-section {
-  margin: 5vh 5vh;
-  color: black
+  color: black;
+
 }
 
 .comments-grid {
@@ -195,10 +213,51 @@ const showAlertaFunction = (msg: string) => {
 
 .comment-item strong {
   font-size: 1.1em;
+  font-weight: bold;
 }
 .comments-videos{
   display: grid;
   grid-template-columns: 5fr 3fr; /* Ajuste a proporção conforme necessário */
   gap: 20px;
+  padding: 2em;
+  
+  
+}
+.comments-section{
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+padding: 20px;
+border-radius: 1em;
+max-height: 60vh;
+overflow-y: auto;
+
+}
+.video-list{
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+padding: 20px;
+border-radius: 1em;
+max-height: 60vh;
+overflow-y: auto;
+}
+.icon {
+  margin-right: 5px;
+  color: gray
+}
+.username{
+  color: black
+}
+
+.comment-item{
+  border: 1px solid rgba(203, 203, 203, 0.786)
+}
+
+@media (max-width:1000px ){
+  .video-player iframe{
+    width: 100%;
+    height: 100%;
+  }
+  .comments-videos{
+    display: flex;
+    flex-direction: column;
+  }
 }
 </style>

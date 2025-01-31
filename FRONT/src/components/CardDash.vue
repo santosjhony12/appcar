@@ -27,12 +27,12 @@
     align-items: center;
     justify-content: center;
     padding: 1rem;
-    background-color: #f9f9f9;
-    border: 1px solid #e0e0e0;
+    background-color: white;
     border-radius: 12px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
     width: 250px;
     text-align: center;
+    margin: 2vh 0;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
   }
   

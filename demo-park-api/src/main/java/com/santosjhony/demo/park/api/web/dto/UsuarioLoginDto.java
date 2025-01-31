@@ -19,7 +19,6 @@ public class UsuarioLoginDto {
     @Email(message = "Formato do e-mail inválido.")
     private String username;
     @NotBlank
-    @Size(min = 6, max = 6)
     private String password;
    
 }

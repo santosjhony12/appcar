@@ -1,7 +1,6 @@
 <template>
     <div class="containerAlugar">
-        <Nav  />
-        <div class="landing-page-main">
+        <!-- <div class="landing-page-main"> -->
             <!-- <div class="navbar">
                 <div class="image">
                     <img src="../assets/logo_app.png" alt="" class="logo">
@@ -16,7 +15,7 @@
                 </div>
             </div> -->
 
-            <div class="main">
+            <!-- <div class="main">
                 <div class="frases">
                     <h2 class="title-main">Seu Parceiro Completo Para o Sucesso no Volante</h2>
                     <h3 class="subtitle-main">Carro, suporte e treinamento para você dirigir e lucrar mais.</h3>
@@ -51,7 +50,7 @@
                     </ul>
                 </div>
             </div>
-        </div>
+        </div> -->
 
         <div class="landing-page-second">
             <h1 class="carros-disponiveis">NOSSOS CARROS DISPONÍVEIS</h1>
@@ -223,10 +222,6 @@ onMounted(() => {
         margin-top: -3.2em
     }
 
-    .navbar {
-        padding: 2em 2em;
-    }
-
     .links {
         font-size: 14px
     }
@@ -260,10 +255,6 @@ onMounted(() => {
     }
     .carros-disponiveis{
         margin-top: 6em
-    }
-    .links{
-        font-size: 11px;
-        margin: 0 0.3em!important;
     }
     .main{
         padding: 10vh 2vw !important;

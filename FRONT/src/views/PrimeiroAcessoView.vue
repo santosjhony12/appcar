@@ -80,7 +80,6 @@ const passwordValidations = ref({
     specialChar: false,
 });
 
-// Validações de senha
 const validatePassword = () => {
     const value = password.value;
     passwordValidations.value.minLength = value.length >= 6;
@@ -89,7 +88,6 @@ const validatePassword = () => {
     passwordValidations.value.specialChar = /[!@#$%^&*(),.?":{}|<>]/.test(value);
 };
 
-// Verifica se todos os campos obrigatórios estão preenchidos
 const areAllFieldsFilled = computed(() => {
     return (
         usuario.value.nome.trim() !== '' &&
@@ -101,15 +99,14 @@ const areAllFieldsFilled = computed(() => {
     );
 });
 
-// Verifica se o formulário é válido
 const isFormValid = computed(() => {
     const allPasswordValid = Object.values(passwordValidations.value).every((valid: any) => valid);
     return areAllFieldsFilled.value && allPasswordValid && password.value === confirmPassword.value;
 });
 const removeMask = (value: string) => {
-    return value.replace(/[^\d]/g, ''); // Remove qualquer caractere não numérico
+    return value.replace(/[^\d]/g, '');
 };
-// Função para salvar informações
+
 const salvarInformacoes = async () => {
     if (isFormValid.value) {
         if (usuarioLog.usuario) {
@@ -122,7 +119,7 @@ const salvarInformacoes = async () => {
             if (response == true) {
                 showAlertaFunction("Informações salvas com sucesso.");
                 router.push("/usuarios");
-               
+
             } else {
                 showAlertaFunction(response);
             }

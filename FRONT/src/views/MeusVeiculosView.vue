@@ -81,12 +81,13 @@
 }
 
 .tabela-div {
+  margin: 0 2vw;
   display: flex;
   justify-content: center;
 }
 
 .tabela {
-  min-width: 95vw;
+  min-width: 80vw;
   overflow-x: auto;
 }
 

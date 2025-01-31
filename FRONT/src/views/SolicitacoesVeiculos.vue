@@ -67,10 +67,10 @@
               <td>{{ carro.ano }}</td>
               <td>{{ carro.cor }}</td>
               <td>{{ carro.placa }}</td>
-              <td>R$ {{ carro.valor }}</td>
+              <td>{{formatarParaReal(carro.valor) }}</td>
               <td>{{ carro.username }}</td>
               <td>{{ carro.percentualInvestidor }}%</td>
-              <td>R$ {{ carro.valorAluguel }}</td>
+              <td>{{formatarParaReal(carro.valorAluguel) }}</td>
               <td>{{ carro.percentualSistema }}%</td>
               <td>
                 <button @click="showModalAutorizar(carro.id, carro.percentualInvestidor, carro.valorAluguel, carro.percentualSistema)" v-if="carro.autorizado === true">Editar</button> 
@@ -131,6 +131,12 @@ interface Carro {
   valorAluguel: number, 
   percentualSistema: number, 
   percentualInvestidor: number
+}
+function formatarParaReal(valor: number): string {
+    return new Intl.NumberFormat('pt-BR', {
+        style: 'currency',
+        currency: 'BRL',
+    }).format(valor);
 }
 const selectedFilter = ref("all");
 const isLoading = ref<boolean>(false);
@@ -238,8 +244,9 @@ const cancelarModal = () => {
 }
 
 .tabela {
-  min-width: 95vw;
+  min-width: 80vw;
   overflow-x: auto;
+  margin: 0 2vw; 
 }
 
 .form-description {

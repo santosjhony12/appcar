@@ -1,16 +1,5 @@
 <template>
-
-    <div class="container-usuarios ">
-        
-        <Title :text="'Meus Usuários'" />
-        <p class="form-description">Veja todos os usuários registrados, edite suas informações ou exclua usuários quando necessário.</p>
-        <div class="div-button">
-            <button class="button" @click="toogleAddUser">{{ isVisibleFormsUser ? 'Cancelar' : 'Adicionar Usuário'
-                }}</button>
-        </div>
-        
-
-        <div v-if="isVisibleFormsUser" class="forms-cadastrar-usuario modal-overlay">
+    <div class="forms-cadastrar-usuario modal-overlay">
             <div class="modal">
             <p class="form-description information-cadastro">Para o cadastro, preencha somente um endereço de e-mail válido e seu tipo de acesso, logo após, será enviado a senha para o e-mail inserido para o usuário obter acesso a plataforma.</p>
 
@@ -21,32 +10,22 @@
         
 
         <div class="div-button">
-            <Button :text="'Salvar'" :is-loading="isLoading" v-if="isVisibleFormsUser" @click="cadastrarUsuario" />
-
-            <button class="button" @click="toogleAddUser">{{ isVisibleFormsUser ? 'Cancelar' : 'Adicionar Usuário'
-                }}</button>
-
-            </div>
+            <Button :text="'Salvar'" :is-loading="isLoading" @click="cadastrarUsuario" />
         </div>
         
         </div>
-    </div>
-    <TabelaUsuarios :usuarios="usuariosLista" @delete="getAll"/>
-    <Alert :message="msgAlert" v-if="showAlert" />
+
+        </div>
 
 </template>
 
 <script lang="ts" setup>
-import Title from '@/components/Title.vue';
-import Input from '@/components/Input.vue';
-import InputSelect from '@/components/InputSelect.vue';
-import Button from '@/components/Button.vue';
-import { onMounted, ref } from 'vue';
-import Alert from '@/components/Alert.vue';
+import Input from './Input.vue';
+import InputSelect from './InputSelect.vue';
+import Button from './Button.vue';
+import { ref } from 'vue';
 import UsuarioService from '@/service/usuarios';
-import TabelaUsuarios from '@/components/TabelaUsuarios.vue';
 
-const isVisibleFormsUser = ref<boolean>(false);
 interface User {
     id: number | null,
     username: string,
@@ -73,10 +52,7 @@ const usuario = ref<User>({
 const isLoading = ref<boolean>(false);
 const msgAlert = ref<string>('');
 const showAlert = ref<boolean>(false);
-const usuariosLista = ref<User []>([]);
-const toogleAddUser = () => {
-    isVisibleFormsUser.value = !isVisibleFormsUser.value;
-}
+
 
 const cadastrarUsuario = async () => {
     console.log(usuario.value)
@@ -102,29 +78,18 @@ const cadastrarUsuario = async () => {
             }
             const response = await UsuarioService.cadastrarUsuario(usuario.value);
             showAlertaFunction(response);
-            limparCampos();
+            
         } catch (error: any) {
             showAlertaFunction(error);
         }
-
         isLoading.value = false;
-        getAll()
     }
 
 }
 
-const limparCampos = () => {
-    usuario.value = {
-        id: null,
-        username: '',
-        password: '',
-        cpf: null,
-        nome: null,
-        dataNascimento: null,
-        primeiroAcesso: true,
-        role: '',
-        telefone: ''
-    }
+const isValidEmail = (email: string) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
 }
 const showAlertaFunction = (msg: string) => {
     msgAlert.value = msg;
@@ -135,54 +100,10 @@ const showAlertaFunction = (msg: string) => {
     }, 3000);
 }
 
-const getAll = async () =>{
-    usuariosLista.value = await UsuarioService.getAll();
-}
-const isValidEmail = (email: string) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-}
-onMounted(()=>{
-    getAll();
-})
+
 </script>
 
 <style scoped>
-.form-description {
-   text-align: center;
-   font-size: 1em;
-   color: #666;
-   margin-bottom: 20px;
- }
-
-.information-cadastro{
-    color: black
-}
-.button {
- 
-    padding: 12px;
-    background: black;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    font-size: 1.1em;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    margin-top: 20px;
-    width: 30%;
-
-}
-
-@media (max-width: 1000px) {
-    .button {
-        width: 40vw;
-    }
-}
-
-.div-button {
-    display: flex;
-    justify-content: center;
-}
 
 /* Fundo do modal */
 .modal-overlay {
@@ -195,7 +116,7 @@ onMounted(()=>{
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1200;
+  z-index: 999;
 }
 
 /* Modal */
@@ -211,6 +132,7 @@ onMounted(()=>{
   overflow-y: auto;
   /* Habilita rolagem se o conteúdo for maior que o modal */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 1002;
 }
 
 /* Botões dentro do modal */
@@ -282,6 +204,7 @@ onMounted(()=>{
     font-size: 0.9em;
   }
 }
+
 </style>
 
 <style>

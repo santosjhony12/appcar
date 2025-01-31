@@ -151,7 +151,7 @@ watch([filtroPlaca], () => {
 }
 
 .tabela {
-    min-width: 95vw;
+    min-width: 80vw;
     overflow-x: auto;
 }
 
@@ -274,6 +274,12 @@ td::after {
 
 /* Ajustes para telas menores */
 @media (max-width: 1000px) {
+    .cards-dash{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
     .modal {
         width: 90%;
         padding: 20px;

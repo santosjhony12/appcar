@@ -163,7 +163,7 @@ watch([filtroPlaca], () => {
   }
   
   .tabela {
-    min-width: 95vw;
+    margin: 10px;
     overflow-x: auto;
   }
   
@@ -385,4 +385,4 @@ watch([filtroPlaca], () => {
 .imagem-veiculo{
   width: 5vw
 }
-  </style>
+</style>

@@ -44,12 +44,12 @@
                         <span v-else>{{ usuario.role ?? 'Não informado' }}</span>
                     </td>
                     <td>
-                        <button @click="toggleEdit(index, usuario.id, usuario.role)">
+                        <button @click="toggleEdit(index, usuario.id, usuario.role)" class="button-editar">
                             {{ isEditing[index] ? 'Salvar' : 'Editar' }}
                         </button>
                     </td>
                     <td>
-                        <button @click="confirmDelete(index, usuario.id)">Excluir</button>
+                        <button @click="confirmDelete(index, usuario.id)" class="button-excluir">Excluir</button>
                     </td>
                 </tr>
             </tbody>
@@ -174,7 +174,6 @@ const showAlertaFunction = (msg: string) => {
 }
 
 .tabela-usuarios {
-    min-width: 95vw;
     margin: 0 auto;
     padding: 20px;
     font-family: 'Arial', sans-serif;
@@ -239,7 +238,12 @@ const showAlertaFunction = (msg: string) => {
 }
 
 
-
+.button-editar{
+    background-color: #007bff;
+}
+.button-excluir{
+    background-color: red;
+}
 h2 {
     text-align: center;
     margin-bottom: 20px;
@@ -331,7 +335,7 @@ span {
 
 button {
     padding: 6px 12px;
-    background-color: #000000;
+    background-color: #007bff;
     color: white;
     border: none;
     border-radius: 4px;

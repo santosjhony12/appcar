@@ -1,56 +1,90 @@
 <template>
-  <!-- <div class="navbar">
-    <div class="nav-content"> -->
+  <div class="container-nav">
+   
       <div class="navbar">
-                <div class="image">
-                    <img src="../assets/logo_app.png" alt="" class="logo">
-                </div>
-                <div class="options">
-                    <RouterLink class="links" to="/contato">Sobre nós</RouterLink>
-                    <RouterLink class="links" to="/contato" v-if="usuarioLog.usuario == null" >Contate-nos</RouterLink>
-                    <!-- <RouterLink to="#services" >Meus dados</RouterLink> -->
-                    <RouterLink class="links"  to="/meusVeiculos" v-if="usuarioLog.usuario.role === 'INVESTIDOR'">Meus veículos</RouterLink>
-                    <RouterLink class="links" to="/usuarios" v-if="usuarioLog.usuario.role === 'ADMIN'" >Meus usuários</RouterLink>
-                    <RouterLink class="links" to="/solicitacoesVeiculos" v-if="usuarioLog.usuario.role === 'ADMIN'">Solicitações de Veículos</RouterLink>
-                    <!-- <RouterLink to="#services" v-if="usuarioLog.usuario?.role !== 'ADMIN' && usuarioLog.usuario?.role != ''"  >Meus aluguéis</RouterLink> -->
-                    <RouterLink class="links" to="/alugar" v-if="usuarioLog.usuario.role === 'MOTORISTA'" >Alugar carro</RouterLink>
-                    <!-- <RouterLink to="#services" v-if="usuarioLog.usuario?.role !== 'ADMIN' && (usuarioLog.usuario?.role != '' || usuarioLog.usuario != null) " >Treinamentos</RouterLink> -->
-                    
-                    <RouterLink class="links login" to="/login" v-if="usuarioLog.usuario == null">Entrar</RouterLink>
-                    <RouterLink class="links login" to="/login" v-if="usuarioLog.usuario != null">Sair</RouterLink>
-
-
-                </div>
-            </div>
-      <!-- <h1 class="logo">AppCar</h1> -->
-
-      <!-- Navbar com links visíveis no desktop -->
-      <!-- <div class="nav-links" v-if="!isMobile">
-
-        
-        <RouterLink @click="logout" to="">Sair</RouterLink>
+        <font-awesome-icon :icon="['fas', 'user']" class="icon" />
+        <h3>{{ usuarioLog.usuario?.nome }}</h3>
+      </div>
+            <div class="nav-lateral">
+      <div class="item-nav">
+        <RouterLink class="links" to="/contato" active-class="active-link">
+        <font-awesome-icon :icon="['fas', 'users']" />
+        <h5>Sobre</h5></RouterLink>
+      </div>
+      <div class="item-nav"  v-if="usuarioLog.usuario?.role === 'ADMIN'">
+        <RouterLink class="links" to="/usuarios" active-class="active-link">
+          <font-awesome-icon :icon="['fas', 'users']" />
+        <h5>Meus usuários</h5></RouterLink>
+      </div>
+      <div class="item-nav"  v-if="usuarioLog.usuario?.role !== 'ADMIN'"  >
+        <RouterLink class="links" to="/videos-treinamentos" active-class="active-link">
+          <font-awesome-icon :icon="['fas', 'book']" />
+        <h5>Estudos</h5></RouterLink>
       </div>
 
-        Botão hamburguer no mobile
-      <button class="hamburger" @click="toggleDropdown" v-if="isMobile">
-        <span></span>
-        <span></span>
-        <span></span>
-      </button> -->
-    <!-- </div>
+      
+      <div class="item-nav"  v-if="usuarioLog.usuario?.role === 'MOTORISTA'">
+        <RouterLink class="links" to="/alugar" active-class="active-link">
+        <font-awesome-icon :icon="['fas', 'car']" />
+        <h5>Alugar</h5></RouterLink>
+      </div>
 
-    <div :class="['dropdown', { open: isDropdownOpen }]">
-      <ul>
-        <li>
-          <RouterLink to="/about">Sobre nós</RouterLink>
-        </li>
-        <li><a href="#services">Meus dados</a></li>
-        <li><a href="#services">Meus veículos</a></li>
-        <li><a href="#services">Meus aluguéis</a></li>
-        <li><a href="#services">Sair</a></li>
-      </ul>
-    </div>
-  </div> -->
+      <div class="item-nav"  v-if="usuarioLog.usuario?.role === 'MOTORISTA'">
+        <RouterLink class="links" to="/meusAlugueis" active-class="active-link">
+          <font-awesome-icon :icon="['fas', 'money-bill']" />
+        <h5>Meus Aluguéis</h5></RouterLink>
+      </div>
+
+      
+
+      <div class="item-nav" v-if="usuarioLog.usuario?.role === 'INVESTIDOR'">
+        <RouterLink class="links" to="/meusVeiculos" active-class="active-link">
+        <font-awesome-icon :icon="['fas', 'car']" />
+        <h5>Meus Veículos</h5></RouterLink>
+      </div>
+
+      <div class="item-nav" v-if="usuarioLog.usuario?.role === 'INVESTIDOR'">
+        <RouterLink class="links" to="/projecaoAlugueis" active-class="active-link" >
+          <font-awesome-icon :icon="['fas', 'money-bill']" />
+        <h5>Alugados</h5></RouterLink>
+      </div>
+
+      <div class="item-nav" v-if="usuarioLog.usuario?.role === 'ADMIN'">
+        <RouterLink class="links" to="/solicitacoesVeiculos" active-class="active-link">
+        <font-awesome-icon :icon="['fas', 'car']" />
+        <h5>Solicitações Veículos</h5></RouterLink>
+      </div>
+
+      <div class="item-nav" v-if="usuarioLog.usuario?.role === 'ADMIN'">
+        <RouterLink class="links" to="/aprovarAluguel" active-class="active-link">
+        <font-awesome-icon :icon="['fas', 'money-bill']" />
+        <h5>Aprovar Aluguéis</h5></RouterLink>
+      </div>
+
+      <div class="item-nav" v-if="usuarioLog.usuario?.role === 'ADMIN'">
+        <RouterLink class="links" to="/alugueisAprovados" active-class="active-link">
+        <font-awesome-icon :icon="['fas', 'money-bill']" />
+        <h5>Aluguéis Aprovados</h5></RouterLink>
+      </div>
+
+      <div class="item-nav" v-if="usuarioLog.usuario?.role === 'ADMIN'">
+        <RouterLink class="links" to="/treinamentosAdmin" active-class="active-link">
+        <font-awesome-icon :icon="['fas', 'book']" />
+        <h5>Treinamentos</h5></RouterLink>
+      </div>
+      
+
+      
+      <div class="item-nav">
+        <RouterLink class="links" to="/login" active-class="active-link" >
+          <font-awesome-icon :icon="['fas', 'right-from-bracket']" />
+        <h5>Sair</h5></RouterLink>
+      </div>
+</div>
+  </div>
+
+          
+       
 </template>
 
 
@@ -75,36 +109,55 @@ const toggleDropdown = () => {
   isDropdownOpen.value = !isDropdownOpen.value;
 };
 
-// Fecha o dropdown ao mudar de rota
 watch(() => route.fullPath, () => {
   isDropdownOpen.value = false;
 });
 
-// Detecta se a tela é mobile
 const checkMobile = () => {
   isMobile.value = window.innerWidth <= 768;
 };
 
 onMounted(() => {
   checkMobile();
-  window.addEventListener('resize', checkMobile); // Atualiza ao redimensionar
+  window.addEventListener('resize', checkMobile);
 });
 
 </script>
 <style scoped>
 
-
 .navbar {
     display: flex;
-    padding: 2em 4em;
-    justify-content: space-between;
-    background-image: url('../assets/fundo.jpg');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-color: rgba(0, 0, 0, 0.85); /* Fundo mais escuro */
-    background-blend-mode: darken;
-    height: 12vh
+    position: fixed;
+    width: 100vw;
+    align-items: center;
+    justify-content: end;
+    height: 7vh;
+    padding: 0 3vw;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    background-color: white;
+    color: #007bff
+}
+.icon{
+  font-size: 20px;
+  margin-right: 1vw;
+}
+h5{
+  text-align: center;
+  font-size: 12px;
+}
+.nav-lateral{
+  border-right: 1px solid #e9e9e9;
+  height: 100vh;
+  width: 5vw;
+  position: fixed;
+  z-index: 101;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  padding: 40px 0 0 0;
 }
 .login {
     background: white;
@@ -114,184 +167,46 @@ onMounted(() => {
 }
 .links {
     text-decoration: none;
-    color: white;
+    color: gray;
     cursor: pointer;
-    margin: 0 1em;
     display: inline-block;
-    /* Garante que transform funcione corretamente */
     text-decoration: none;
-    /* Remove o sublinhado, opcional */
-    font-size: 16px;
-    /* Tamanho inicial do texto */
+    font-size: 20px;
     transition: transform 0.3s ease, color 0.3s ease;
+    display: flex;
+    flex-direction: column;
+
 }
 .logo {
     width: 8vw;
     margin-top: -2.5em;
 }
 
-.links:hover {
-    color: yellow;
-    /* Muda a cor do link para amarelo ao passar o mouse */
+.item-nav:hover {
     transform: scale(1.2);
-    /* Aumenta o tamanho em 20% */
 }
 
 .login:hover {
     color: black
 }
+.item-nav{
+  margin: 0 0 5vh 0 ;
+  cursor: pointer
+}
+.active-link{
+  color: #007bff
+}
 @media (max-width: 1000px) {
-    .logo {
-        width: 20vw;
-        margin-top: -3.2em
-    }
-
-    .navbar {
-        padding: 2em 2em;
-    }
-
-    .links {
-        font-size: 14px
-    }
+  .nav-lateral{
+    width: 17vw;
+  }
+  .navbar{
+    padding: 0 10vw;
+  }
 
 }
 @media (max-width: 700px){
-    .logo{
-        margin-top: -1.8em
-    }
-    .links{
-        font-size: 11px;
-        margin: 0 0.3em!important;
-    }
+
    
 }
-/* Navbar */
-/* .navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: black;
-  color: white;
-
-  width: 100%;
-  z-index: 10;
-  padding: 0.8em 1em;
-}
-
-.nav-content {
-  display: flex;
-  align-items: center;
-  width: 100%;
-  justify-content: space-between;
-}
-
-.logo {
-  font-weight: 100;
-  font-size: 1.2rem;
-}
-
-
-.nav-links {
-  display: flex;
-  gap: 1.5em;
-}
-
-.nav-links a {
-  text-decoration: none;
-  color: white;
-  font-size: 1em;
-}
-
-.nav-links a:hover {
-  color: #b1b1b1;
-}
-
-.hamburger {
-  background: none;
-  border: none;
-  cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  margin-left: auto;
-}
-
-.hamburger span {
-  display: block;
-  width: 25px;
-  height: 3px;
-  background-color: white;
-  border-radius: 3px;
-  transition: 0.3s;
-}
-.dropdown {
-  position: absolute;
-  top: 100%;
-  right: 1em;
-  background-color: rgb(255, 255, 255);
-  color: black !important;
-  border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-  display: none;
-  flex-direction: column;
-  width: 200px;
-  padding: 1em 0;
-}
-
-.dropdown.open {
-  display: flex;
-}
-
-.dropdown ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.dropdown li {
-  text-align: center;
-  padding: 10px 0;
-}
-
-.dropdown a {
-  text-decoration: none;
-  color: black;
-  font-size: 1em;
-  transition: color 0.3s;
-}
-
-.dropdown li:hover {
-  background-color: #b1b1b1;
-  color: black;
-}
-
-.hamburger.open span:nth-child(1) {
-  transform: rotate(45deg) translate(5px, 5px);
-}
-
-.hamburger.open span:nth-child(2) {
-  opacity: 0;
-}
-
-.hamburger.open span:nth-child(3) {
-  transform: rotate(-45deg) translate(5px, -5px);
-}
-
-
-@media (min-width: 768px) {
-  .hamburger {
-    display: none;
-  }
-
-  .dropdown {
-    display: none;
-  }
-}
-
-
-@media (max-width: 768px) {
-  .nav-links {
-    display: none;
-  }
-} */
 </style>

@@ -6,11 +6,11 @@
         <Title :text="'Informe as datas de aluguel'" />
       </div>
 
-      <div class="conteudo">
+      <div class="conteudo-carro">
         <div class="informacoes-carro">
           <img :src="props.imagem" alt="" class="imagem">
 
-          <h3 class="valor-aluguel">R$ {{ valorCalculado }}</h3>
+          <h3 class="valor-aluguel">{{ formatarParaReal(valorCalculado) }}</h3>
         </div>
 
         <div class="input-data-inicio">
@@ -58,7 +58,12 @@ interface AluguelCadastro {
   idUsuario: number,
   valor: number
 }
-
+function formatarParaReal(valor: number): string {
+    return new Intl.NumberFormat('pt-BR', {
+        style: 'currency',
+        currency: 'BRL',
+    }).format(valor);
+}
 
 import Alert from './Alert.vue';
 const dataInicioAluguel = ref<string>("");

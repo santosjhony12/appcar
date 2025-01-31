@@ -28,6 +28,7 @@ defineProps<{
  
  button.submit-button:hover {
   transform: scale(1.1); /* Aumenta ligeiramente o botão */
+  background-color: gray;
  }
  
  button.submit-button:active {
