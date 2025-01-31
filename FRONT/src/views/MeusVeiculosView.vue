@@ -1,14 +1,18 @@
 <template>
-    <Title :text="'Meus veículos cadastrados'" />
+
+    <div class="container-meus-veiculos">
+      <Title :text="'Meus veículos cadastrados'" />
     <p class="form-description">
       Confira os veículos cadastrados no sistema. Nesta seção, você pode verificar se um veículo foi aprovado ou se ainda está pendente.</p>
     <CadastroCarro @fechar-modal="fecharModal"/>
+    </div>
+    
 
     <div class="tabela-div">
       <div class="tabela">
         <table>
           <thead>
-            <tr>
+            <tr class="cabecalho">
               <th>Imagem</th>
               <th>Modelo</th>
               <th>Montadora</th>
@@ -76,6 +80,15 @@
   </script>
   
   <style scoped>
+
+  .container-meus-veiculos{
+
+    padding: 20px;
+    border: 1px solid #e4e4e4;
+    border-radius: 24px;
+    margin: 0 1em 0 1em;
+    box-shadow: -1px 2px 8px 3px #e4e4e4;
+  }
   .img-carro {
   width: 5vw;
 }
@@ -87,18 +100,18 @@
 }
 
 .tabela {
-  min-width: 80vw;
+  min-width: 93vw;
   overflow-x: auto;
 }
 
 .form-description {
-  text-align: center;
-  font-size: 1em;
-  color: #666;
-  margin-bottom: 20px;
+  font-size: 17px;
+   color: #1a2f4d;
+   margin-bottom: 20px;
 }
 
 table {
+  margin: 2vh 0;
   width: 100%;
   border-collapse: collapse;
   border-radius: 8px;
@@ -110,26 +123,26 @@ table {
 th,
 td {
   padding: 12px;
-  text-align: left;
+  text-align: center;
   font-size: 14px;
 }
-
+.cabecalho{
+    background-color: #f5f5f5;
+    border: 1px solid #e4e4e4;
+}
 th {
-  background-color: black;
-  color: white;
+
+  color: black;
   font-weight: 600;
 }
 
 
 td {
-  background-color: #f9f9f9;
+  background-color: #fff;
   color: #333;
   border-bottom: 1px solid #ddd;
 }
 
-tr:nth-child(even) td {
-  background-color: #f1f1f1;
-}
 
 tr:hover td {
   background-color: #e0f7fa;

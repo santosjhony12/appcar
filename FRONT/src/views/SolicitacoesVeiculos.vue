@@ -1,11 +1,11 @@
 <template>
   <div class="solicitacoes" id="solicitacoes">
-    <Title :text="'Solicitações de aprovação de veículos'" />
+    <div class="container-solicitacoes-veiculos">
+      <Title :text="'Solicitações de aprovação de veículos'" />
 
-    <p class="form-description">Abaixo, visualize as solicitações de veículos cadastrados. Além disso, defina os
-      percentuais de cada perfil.</p>
-
-      <div class="filters">
+<p class="form-description">Abaixo, visualize as solicitações de veículos cadastrados. Além disso, defina os
+  percentuais de cada perfil.</p>
+  <div class="filters">
     <label>
       <input 
         type="radio" 
@@ -39,12 +39,16 @@
       Autorizados
     </label>
   </div>
+    </div>
+    
+
+   
 
     <div class="tabela-div">
       <div class="tabela">
         <table>
           <thead>
-            <tr>
+            <tr class="cabecalho">
               <th>Imagem</th>
               <th>Modelo</th>
               <th>Montadora</th>
@@ -234,6 +238,13 @@ const cancelarModal = () => {
 </script>
 
 <style scoped>
+.container-solicitacoes-veiculos{
+  padding: 20px;
+    border: 1px solid #e4e4e4;
+    border-radius: 24px;
+    margin: 0 1em 0 1em;
+    box-shadow: -1px 2px 8px 3px #e4e4e4;
+}
 .img-carro {
   width: 5vw;
 }
@@ -244,25 +255,30 @@ const cancelarModal = () => {
 }
 
 .tabela {
-  min-width: 80vw;
+  min-width: 93vw;
   overflow-x: auto;
   margin: 0 2vw; 
 }
 
 .form-description {
-  text-align: center;
-  font-size: 1em;
-  color: #666;
-  margin-bottom: 20px;
+  font-size: 17px;
+   color: #1a2f4d;
+   margin-bottom: 20px;
 }
 
 table {
+  margin: 2vh 0;
   width: 100%;
   border-collapse: collapse;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   background-color: #fff;
+}
+
+.cabecalho{
+    background-color: #f5f5f5;
+    border: 1px solid #e4e4e4;
 }
 
 th,
@@ -273,8 +289,7 @@ td {
 }
 
 th {
-  background-color: black;
-  color: white;
+  color: black;
   font-weight: 600;
 }
 
@@ -423,7 +438,6 @@ button:hover {
   display: flex;
   gap: 1rem;
   margin: 1rem 0;
-  justify-content: center;
 }
 
 .filters label {

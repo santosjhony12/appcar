@@ -12,10 +12,9 @@ defineProps<{
 <style scoped>
 
 #title{
-    font-size: 1.7em;
-    color:#35424A;
-    text-align: center;
-    font-weight: 500;
+    font-size: 1.9em;
+    color:#1a2f4d;
+    font-weight: bold;
 }
 @media (max-width: 1000px){
     #title{

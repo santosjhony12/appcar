@@ -131,7 +131,6 @@ const emit = defineEmits(['fecharModal']);
  <style scoped>
  .containerCadastro {
    max-width: 600px;
-   margin: 0 auto;
    padding: 20px;
 
  }
@@ -144,15 +143,9 @@ const emit = defineEmits(['fecharModal']);
    margin-bottom: 20px;
  }
  .button{
-  width: 80%;
+  width: 40%;
  }
- .centralizar-button{
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
- }
- 
+
  .car-form {
    display: flex;
   flex-direction: column;
@@ -246,7 +239,9 @@ const emit = defineEmits(['fecharModal']);
     padding: 0 10px
   }
 }
-
+.button > button {
+  background-color: #297fe0;
+}
 @media (max-width: 480px) {
   .modal {
     padding: 15px;

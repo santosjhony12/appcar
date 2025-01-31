@@ -224,7 +224,8 @@ const showAlertaFunction = (msg: string) => {
   
 }
 .comments-section{
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  background-color: #f5f5f5;
+ border: 1px solid #e4e4e4;
 padding: 20px;
 border-radius: 1em;
 max-height: 60vh;
@@ -232,7 +233,8 @@ overflow-y: auto;
 
 }
 .video-list{
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  background-color: #f5f5f5;
+ border: 1px solid #e4e4e4;
 padding: 20px;
 border-radius: 1em;
 max-height: 60vh;

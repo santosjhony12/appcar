@@ -2,7 +2,7 @@
     <div class="tabela-usuarios">
         <table>
             <thead>
-                <tr>
+                <tr class="cabecalho">
                     <th>ID</th>
                     <th>Username</th>
                     <th>Nome</th>
@@ -45,11 +45,14 @@
                     </td>
                     <td>
                         <button @click="toggleEdit(index, usuario.id, usuario.role)" class="button-editar">
-                            {{ isEditing[index] ? 'Salvar' : 'Editar' }}
+                            <h5 v-if="isEditing[index]">Salvar</h5>
+                            <font-awesome-icon :icon="['fas', 'pen-to-square']" v-else />
                         </button>
                     </td>
                     <td>
-                        <button @click="confirmDelete(index, usuario.id)" class="button-excluir">Excluir</button>
+                        <button @click="confirmDelete(index, usuario.id)" class="button-excluir">
+                            <font-awesome-icon :icon="['fas', 'trash']" />
+                        </button>
                     </td>
                 </tr>
             </tbody>
@@ -179,7 +182,10 @@ const showAlertaFunction = (msg: string) => {
     font-family: 'Arial', sans-serif;
     overflow-x: auto;
 }
-
+.button-editar, .button-excluir{
+    background-color: white;
+    color: #1a2f4d
+}
 
 @media (max-width: 1000px) {
     .tabela-usuarios {
@@ -236,13 +242,12 @@ const showAlertaFunction = (msg: string) => {
 .modal button:hover {
     background-color: #323232;
 }
-
-
-.button-editar{
-    background-color: #007bff;
+.cabecalho{
+    background-color: #f5f5f5;
+    border: 1px solid #e4e4e4;
 }
 .button-excluir{
-    background-color: red;
+    
 }
 h2 {
     text-align: center;
@@ -263,25 +268,23 @@ table {
 th,
 td {
     padding: 12px;
-    text-align: left;
+    text-align: center;
     font-size: 14px;
 }
 
 th {
-    background-color: black;
-    color: white;
+    
+    color: black;
     font-weight: 600;
 }
 
 td {
-    background-color: #f9f9f9;
+    background-color: #fff;
     color: #333;
     border-bottom: 1px solid #ddd;
 }
 
-tr:nth-child(even) td {
-    background-color: #f1f1f1;
-}
+
 
 tr:hover td {
     background-color: #e0f7fa;
@@ -341,10 +344,6 @@ button {
     border-radius: 4px;
     cursor: pointer;
     font-size: 14px;
-}
-
-button:hover {
-    background-color: #0056b3;
 }
 
 button:disabled {

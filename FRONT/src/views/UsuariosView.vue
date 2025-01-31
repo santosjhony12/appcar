@@ -148,10 +148,16 @@ onMounted(()=>{
 </script>
 
 <style scoped>
+.container-usuarios{
+    padding: 20px;
+    border: 1px solid #e4e4e4;
+    border-radius: 24px;
+    margin: 0 1em 0 1em;
+    box-shadow: -1px 2px 8px 3px #e4e4e4;
+}
 .form-description {
-   text-align: center;
-   font-size: 1em;
-   color: #666;
+   font-size: 17px;
+   color: #1a2f4d;
    margin-bottom: 20px;
  }
 
@@ -161,15 +167,15 @@ onMounted(()=>{
 .button {
  
     padding: 12px;
-    background: black;
+    background: #297fe0;
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 2em;
     font-size: 1.1em;
     cursor: pointer;
     transition: background-color 0.3s ease;
     margin-top: 20px;
-    width: 30%;
+    width: 20%;
 
 }
 
@@ -179,10 +185,6 @@ onMounted(()=>{
     }
 }
 
-.div-button {
-    display: flex;
-    justify-content: center;
-}
 
 /* Fundo do modal */
 .modal-overlay {
