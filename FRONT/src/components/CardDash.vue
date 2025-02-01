@@ -51,7 +51,7 @@
   .value {
     font-size: 2rem;
     font-weight: 700;
-    color: #4CAF50;
+    color: #1a2f4d;
   }
   </style>
   

@@ -5,13 +5,13 @@ interface AluguelCadastro{
     idUsuario: number,
     valor: number
 }
+import api from './api';
 import { useAuthStore } from '@/stores/token';
-import axios from 'axios';
 
 class AluguelService {
     async createAluguel (aluguel : AluguelCadastro){
         try{
-            const response = await axios.post('http://localhost:8080/api/v1/alugueis', aluguel);
+            const response = await api.post('/alugueis', aluguel);
 
             if(response.status == 201){
                 return "Solicitação de aluguel enviada com sucesso. Aguarde a aprovação no máximo de 1 dia."
@@ -25,7 +25,7 @@ class AluguelService {
 
     async verificarDisponibilidade (aluguel : AluguelCadastro){
         try{
-            const response = await axios.post('http://localhost:8080/api/v1/alugueis/disponibilidade', aluguel);
+            const response = await api.post('/alugueis/disponibilidade', aluguel);
 
             if(response.status == 200){
                 return "Veículo indisponível na data selecionada."
@@ -43,7 +43,7 @@ class AluguelService {
 
     async getAlugueisNaoAprovados(){
         try{
-            const response = await axios.get('http://localhost:8080/api/v1/alugueis/aprovar?autorizado=false');
+            const response = await api.get('/alugueis/aprovar?autorizado=false');
 
             if(response.status == 200){
                 return response.data
@@ -57,7 +57,7 @@ class AluguelService {
 
     async getAlugueisAprovados(){
         try{
-            const response = await axios.get('http://localhost:8080/api/v1/alugueis/aprovar?autorizado=true');
+            const response = await api.get('/alugueis/aprovar?autorizado=true');
 
             if(response.status == 200){
                 return response.data
@@ -71,7 +71,7 @@ class AluguelService {
 
     async autorizarAluguel(id: number){
         try{
-            const response = await axios.patch(`http://localhost:8080/api/v1/alugueis/aprovar?id=${id}`);
+            const response = await api.patch(`/alugueis/aprovar?id=${id}`);
             console.log(response.status)
             if(response.status == 200){
                 return "Autorizado com sucesso!";
@@ -86,11 +86,7 @@ class AluguelService {
     async getAlugueisPorUsuarioLogado(){
         try{
             const token = useAuthStore();
-            const response = await axios.get(`http://localhost:8080/api/v1/alugueis/aprovacao`,{
-                headers: {
-                  Authorization: `Bearer ${token.token}` 
-                }
-              });
+            const response = await api.get(`/alugueis/aprovacao`);
         
             if(response.status == 200){
                 return response.data;
@@ -104,7 +100,7 @@ class AluguelService {
 
     async deleteAluguel(id: number){
         try{
-            const response = await axios.delete(`http://localhost:8080/api/v1/alugueis/${id}`);
+            const response = await api.delete(`/alugueis/${id}`);
         
             if(response.status == 200){
                 return "Aluguel cancelado com sucesso!";
@@ -119,11 +115,7 @@ class AluguelService {
     async getAlugueisPorLocador(){
         try{
             const token = useAuthStore();
-            const response = await axios.get(`http://localhost:8080/api/v1/alugueis/veiculos-alugados/locador`,{
-                headers: {
-                  Authorization: `Bearer ${token.token}` 
-                }
-              });
+            const response = await api.get(`/alugueis/veiculos-alugados/locador`);
         
             if(response.status == 200){
                 return response.data;
@@ -138,11 +130,7 @@ class AluguelService {
     async getDadosParaDash(){
         try{
             const token = useAuthStore();
-            const response = await axios.get(`http://localhost:8080/api/v1/alugueis/dados-dash-investidor`,{
-                headers: {
-                  Authorization: `Bearer ${token.token}` 
-                }
-              });
+            const response = await api.get(`/alugueis/dados-dash-investidor`);
         
             if(response.status == 200){
                 return response.data;

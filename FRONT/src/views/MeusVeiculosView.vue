@@ -31,7 +31,7 @@
               <td>{{ carro.ano }}</td>
               <td>{{ carro.cor }}</td>
               <td>{{ carro.placa }}</td>
-              <td>R$ {{ carro.valor }}</td>
+              <td>{{ formatarParaReal(carro.valor)}}</td>
               <td :style="{ color: carro.autorizado === false ? 'red' : 'green' }">{{ carro.autorizado == false ?  "Pendente"   : "Aprovado" }}</td>
             </tr>
           </tbody>
@@ -77,6 +77,14 @@
 
     }
   }
+
+
+  function formatarParaReal(valor: number): string {
+  return new Intl.NumberFormat('pt-BR', {
+    style: 'currency',
+    currency: 'BRL',
+  }).format(valor);
+}
   </script>
   
   <style scoped>
@@ -100,8 +108,7 @@
 }
 
 .tabela {
-  min-width: 93vw;
-  overflow-x: auto;
+  min-width: 92vw;
 }
 
 .form-description {

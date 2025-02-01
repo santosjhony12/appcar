@@ -1,22 +1,5 @@
 package com.santosjhony.demo.park.api.web.controller;
 
-import com.santosjhony.demo.park.api.jwt.JwtToken;
-import com.santosjhony.demo.park.api.jwt.JwtUserDetailsService;
-import com.santosjhony.demo.park.api.service.UsuarioService;
-import com.santosjhony.demo.park.api.web.dto.TokenUsuarioDto;
-import com.santosjhony.demo.park.api.web.dto.UsuarioLoginDto;
-import com.santosjhony.demo.park.api.web.dto.UsuarioResponseDto;
-import com.santosjhony.demo.park.api.web.dto.mapper.UsuarioMapper;
-import com.santosjhony.demo.park.api.web.exception.ErrorMessage;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -27,6 +10,24 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.santosjhony.demo.park.api.jwt.JwtToken;
+import com.santosjhony.demo.park.api.jwt.JwtUserDetailsService;
+import com.santosjhony.demo.park.api.service.UsuarioService;
+import com.santosjhony.demo.park.api.web.dto.TokenUsuarioDto;
+import com.santosjhony.demo.park.api.web.dto.UsuarioLoginDto;
+import com.santosjhony.demo.park.api.web.dto.UsuarioResponseDto;
+import com.santosjhony.demo.park.api.web.exception.ErrorMessage;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -53,20 +54,20 @@ public class AutenticacaoController {
     )
     @PostMapping("/auth")
     public ResponseEntity<?> autenticar(@RequestBody @Valid UsuarioLoginDto dto, HttpServletRequest request) {
-        log.info("Processo de autenticação pelo login {}", dto.getUsername());
+        log.info("Processo de autenticação pelo login {}", dto.username());
         try {
             UsernamePasswordAuthenticationToken authenticationToken =
-                    new UsernamePasswordAuthenticationToken(dto.getUsername(), dto.getPassword());
+                    new UsernamePasswordAuthenticationToken(dto.username(), dto.password());
 
             authenticationManager.authenticate(authenticationToken);
 
-            JwtToken token = detailsService.getTokenAuthenticated(dto.getUsername());
+            JwtToken token = detailsService.getTokenAuthenticated(dto.username());
         
-            UsuarioResponseDto usuarioResponseDto = UsuarioMapper.toDto(usuarioService.buscarPorUsername(dto.getUsername()));
+            UsuarioResponseDto usuarioResponseDto = UsuarioResponseDto.toDto(usuarioService.buscarPorUsername(dto.username()));
 
             return ResponseEntity.ok(new TokenUsuarioDto(token, usuarioResponseDto));
         } catch (AuthenticationException ex) {
-            log.warn("Bad Credentials from username '{}'", dto.getUsername());
+            log.warn("Bad Credentials from username '{}'", dto.username());
         }
         return ResponseEntity
                 .badRequest()

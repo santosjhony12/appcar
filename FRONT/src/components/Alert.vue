@@ -29,8 +29,8 @@
   .alert {
     position: fixed;
     bottom: 20px;
-    left: 20px;
-    background-color: #000;
+    left: 60px;
+    background-color: #297fe0;
     color: white;
     padding: 10px 20px;
     border-radius: 5px;

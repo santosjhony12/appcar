@@ -14,15 +14,15 @@ defineProps<{
 </script>
 <style scoped>
  button.submit-button {
-   padding: 12px;
-   background: black;
-   color: white;
-   border: none;
-   border-radius: 5px;
-   font-size: 1.1em;
-   cursor: pointer;
-   transition: background-color 0.3s ease;
-   margin-top: 20px;
+    padding: 12px;
+    background: #297fe0;
+    color: white;
+    border: none;
+    border-radius: 2em;
+    font-size: 1.1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+   
    transition: background-color 0.3s, transform 0.3s; /* Suaviza as transições */
  }
  

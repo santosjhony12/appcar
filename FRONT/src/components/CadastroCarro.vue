@@ -87,9 +87,7 @@ const emit = defineEmits(['fecharModal']);
          car.value.cor.trim() == '' || 
          car.value.ano == '' || 
          car.value.placa.trim() == '' || 
-         car.value.valor == '' || 
-         car.value.imagemBase64 == null || 
-         car.value.imagemBase64.trim() == ''
+         car.value.valor == ''
    ){
       showAlertaFunction('Todos os campos são obrigatórios.');
    }else{

@@ -18,7 +18,7 @@
       </div>
   
       <!-- Botões de navegação -->
-      <button @click="nextSlide" class="nav-button next"><font-awesome-icon :icon="['fas', 'arrow-right']" /></button>
+      <button @click="nextSlide" class="nav-button next">Próximo</button>
     </div>
   </template>
   
@@ -74,7 +74,7 @@ const props = defineProps<{
     max-width: 90vw;
     height: auto;
     overflow: hidden;
-    min-height: 55vh;
+    min-height: 100vh;
     border-radius: 8px;
   }
   
@@ -96,12 +96,13 @@ const props = defineProps<{
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    color: #007bff;
+    background-color: #007bff;
     border: none;
-    padding: 10px;
+    padding: 5px;
     cursor: pointer;
-    background-color: white;
-    font-size: 20px;
+    font-size: 15px;
+    border-radius: 30px;
+    width: 10%;
   }
   
   .prev {
@@ -109,7 +110,17 @@ const props = defineProps<{
   }
   
   .next {
-    right: 10px;
+    top: 55vh;
+    color: white
+  }
+  @media (max-width: 1000px){
+    .next{
+      top: 90vh;
+      width: 20%;
+    }
+  }
+  .next:hover{
+    background-color: gray;
   }
   </style>
   

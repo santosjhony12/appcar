@@ -1,7 +1,12 @@
 <template>
   <div class="video-container">
     <div class="video-player">
-      <Title :text="'Treinamento: '+tituloVideo" />
+      <div class="container-titulo-principal">
+        <Title :text="'Treinamento: '+tituloVideo" />
+        <p class="form-description">
+          Assista os treinamentos disponíveis para turbinar sua carreira.
+        </p>
+      </div>
 
       <iframe
         :src="videoSrc"
@@ -11,7 +16,7 @@
     </div>
 
     <div class="comments-videos">
-      <div  class="comments-section">
+      <div  class="comments-section container-titulo-principal">
         <h3>Comentários</h3>
         <AddComent v-if="isVisibleAddComent" @fechar-comentario="fecharAddCommentCarregarComentarios" @cancelar="cancelar" :id-treinamento="idTreinamentoVisualizado"/>
         <Button :text="'Adicionar comentário'" :is-loading="false" @click="showAddComment" v-else />
@@ -26,7 +31,7 @@
       </div>
     </div>
 
-    <div class="video-list">
+    <div class="video-list container-titulo-principal">
       <h3>Treinamentos disponíveis para você</h3>
       <div v-for="(treinamento, index) in treinamentos" :key="index" class="video-item">
         <img :src="getThumbnail(treinamento.link)" alt="Thumbnail" @click="playVideo(treinamento.link, treinamento.comentarios, treinamento.id, treinamento.titulo)" />
@@ -224,19 +229,13 @@ const showAlertaFunction = (msg: string) => {
   
 }
 .comments-section{
-  background-color: #f5f5f5;
- border: 1px solid #e4e4e4;
-padding: 20px;
-border-radius: 1em;
+
 max-height: 60vh;
 overflow-y: auto;
 
 }
 .video-list{
-  background-color: #f5f5f5;
- border: 1px solid #e4e4e4;
-padding: 20px;
-border-radius: 1em;
+
 max-height: 60vh;
 overflow-y: auto;
 }
@@ -255,11 +254,12 @@ overflow-y: auto;
 @media (max-width:1000px ){
   .video-player iframe{
     width: 100%;
-    height: 100%;
+    height: 40vh;
   }
   .comments-videos{
     display: flex;
     flex-direction: column;
+    padding: 0;
   }
 }
 </style>

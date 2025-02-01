@@ -1,6 +1,6 @@
 import { useAuthStore } from "@/stores/token";
 import { usuarioLogado } from "@/stores/usuario";
-import axios from "axios";
+import api from "./api";
 interface Carro{
     montadora: string;
     modelo: string;
@@ -15,12 +15,7 @@ const userLogado = usuarioLogado()
 class CarroService{
     async cadastrarCarro(carro: Carro){
         try{
-            const response = await axios.post("http://localhost:8080/api/v1/cars/create", carro,
-                {
-                    headers: {
-                      Authorization: `Bearer ${token.token}` 
-                    }
-                  }
+            const response = await api.post("/cars/create", carro
             );
 
             if(response.status == 201){
@@ -35,7 +30,7 @@ class CarroService{
 
     async getCarrosByUsername(){
         try{
-            const response = await axios.get(`http://localhost:8080/api/v1/cars/username?username=${userLogado.usuario?.username}`);
+            const response = await api.get(`/cars/username?username=${userLogado.usuario?.username}`);
 
             if(response.status == 200){
                 return response.data;
@@ -48,7 +43,7 @@ class CarroService{
     }
     async getCarrosNaoAutorizados(){
         try{
-            const response = await axios.get(`http://localhost:8080/api/v1/cars/nao-autorizados`);
+            const response = await api.get(`/cars/nao-autorizados`);
 
             if(response.status == 200){
                 return response.data;
@@ -62,7 +57,7 @@ class CarroService{
 
     async getCarrosAutorizados(){
         try{
-            const response = await axios.get(`http://localhost:8080/api/v1/cars/veiculos-autorizados`);
+            const response = await api.get(`/cars/veiculos-autorizados`);
 
             if(response.status == 200){
                 return response.data;
@@ -77,7 +72,7 @@ class CarroService{
 
     async autorizarVeiculo(autorizar: {id: number, valorAluguel: string, percentualInvestidor: string, percentualSistema: string, autorizado: boolean}){
         try{
-            const response = await axios.put(`http://localhost:8080/api/v1/cars/autorizar`, autorizar);
+            const response = await api.put(`/cars/autorizar`, autorizar);
 
             if(response.status == 200){
                 return "Dados gravados com sucesso!";
@@ -90,7 +85,7 @@ class CarroService{
     }
     async getAllVeiculos(){
         try{
-            const response = await axios.get(`http://localhost:8080/api/v1/cars`);
+            const response = await api.get(`/cars`);
 
             if(response.status == 200){
                 return response.data;

@@ -1,14 +1,18 @@
 <template>
-    <Title :text="'Treinamentos'" />
-    <p class="form-description">
-      Confira os os treinamentos cadastrados no sistema.</p>
-    <CadastroTreinamento @fechar-modal="fecharModal"/>
+
+    <div class="container-titulo-principal">
+      <Title :text="'Treinamentos'" />
+      <p class="form-description">
+        Nesta aba, você pode cadastrar, visualizar e editar seus treinamentos que gostaria que seus alunos/usuários assistam.</p>
+      <CadastroTreinamento @fechar-modal="fecharModal"/>
+    </div>
+   
 
     <div class="tabela-div">
       <div class="tabela">
         <table>
           <thead>
-            <tr>
+            <tr class="cabecalho">
               <th>ID</th>
               <th>Titulo</th>
               <th>Link</th>
@@ -23,8 +27,14 @@
               <td><a :href="treinamento.link">{{ treinamento.link }}</a></td>
               <td>{{ treinamento.role }}</td>
               <td>
-                <button @click="promptEditar(treinamento.id, treinamento.titulo, treinamento.link, treinamento.role)" class="button-editar">Editar</button>
-                <button @click="abrirModalDelete(treinamento.id)" class="button-excluir" >Excluir</button>
+                <button @click="promptEditar(treinamento.id, treinamento.titulo, treinamento.link, treinamento.role)" class="button-editar">
+                  <font-awesome-icon :icon="['fas', 'pen-to-square']"/>
+
+                </button>
+                <button @click="abrirModalDelete(treinamento.id)" class="button-excluir" >
+
+                  <font-awesome-icon :icon="['fas', 'trash']" />
+                </button>
                 
               </td>
             </tr>
@@ -178,20 +188,13 @@
 
 .tabela-div {
   display: flex;
+  padding: 20px 0;
   justify-content: center;
 }
 
 .tabela {
-  min-width: 80vw;
+  min-width: 92vw;
   margin: 0 2vw;
-  overflow-x: auto;
-}
-
-.form-description {
-  text-align: center;
-  font-size: 1em;
-  color: #666;
-  margin-bottom: 20px;
 }
 
 table {
@@ -206,26 +209,23 @@ table {
 th,
 td {
   padding: 12px;
-  text-align: left;
+  text-align: center;
   font-size: 14px;
 }
 
 th {
-  background-color: black;
-  color: white;
+  color: black;
   font-weight: 600;
 }
 
 
 td {
-  background-color: #f9f9f9;
+  background-color: white;
   color: #333;
   border-bottom: 1px solid #ddd;
 }
 
-tr:nth-child(even) td {
-  background-color: #f1f1f1;
-}
+
 
 tr:hover td {
   background-color: #e0f7fa;
@@ -367,8 +367,7 @@ td::after {
 
 button {
     padding: 6px 12px;
-    background-color: #007bff;
-    color: white;
+    color: #1a2f4d;
     border: none;
     border-radius: 4px;
     cursor: pointer;
@@ -383,7 +382,6 @@ button:disabled {
     background-color: #ccc;
 }
 .button-excluir{
-  background-color: red;
   margin-left: 1vw;
 }
 

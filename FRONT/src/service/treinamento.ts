@@ -1,11 +1,11 @@
 import { useAuthStore } from "@/stores/token";
 import { usuarioLogado } from "@/stores/usuario";
-import axios from "axios";
+import api from "./api";
 
 class Treinamento {
     async cadastrar(treinamento: {titulo: string, link: string, role: string}){
         try{
-            const response = await axios.post("http://localhost:8080/api/v1/treinamentos", treinamento);
+            const response = await api.post("/treinamentos", treinamento);
 
             if(response.status === 201){
                 return "Treinamento registrado com sucesso!";
@@ -19,7 +19,7 @@ class Treinamento {
 
     async getAll(){
         try{
-            const response = await axios.get("http://localhost:8080/api/v1/treinamentos");
+            const response = await api.get("/treinamentos");
 
             if(response.status === 200){
                 return response.data;
@@ -33,7 +33,7 @@ class Treinamento {
 
     async deleteById(id: number){
         try{
-            const response = await axios.delete(`http://localhost:8080/api/v1/treinamentos/${id}`);
+            const response = await api.delete(`/treinamentos/${id}`);
 
             if(response.status === 204){
                 return "Treinamento excluído com sucesso!";
@@ -47,7 +47,7 @@ class Treinamento {
 
     async editar(treinamento: {id: number, titulo: string, link: string, role: string}){
         try{
-            const response = await axios.put("http://localhost:8080/api/v1/treinamentos", treinamento);
+            const response = await api.put("/treinamentos", treinamento);
 
             if(response.status === 200){
                 return "Informações do treinamento atualizado com sucesso!";
@@ -62,7 +62,7 @@ class Treinamento {
     async getTreinamentosByRoleLogado(){
         try{
             const usuario = usuarioLogado()
-            const response = await axios.get(`http://localhost:8080/api/v1/treinamentos/role?role=ROLE_${usuario.usuario?.role}`);
+            const response = await api.get(`/treinamentos/role?role=${usuario.usuario?.role}`);
 
             if(response.status === 200){
                 return response.data;
@@ -77,7 +77,7 @@ class Treinamento {
     async getComentariosByTreinamento(id: number){
         try{
             
-            const response = await axios.get(`http://localhost:8080/api/v1/comentarios/treinamento?id=${id}`);
+            const response = await api.get(`/comentarios/treinamento?id=${id}`);
 
             if(response.status === 200){
                 return response.data;
@@ -92,7 +92,7 @@ class Treinamento {
     async createComment(comentario : {username: string, idTreinamento: number, comentario: string}){
         try{
             
-            const response = await axios.post(`http://localhost:8080/api/v1/comentarios`, comentario);
+            const response = await api.post(`/comentarios`, comentario);
 
             if(response.status === 201){
                 return "Comentário adicionado!";

@@ -14,10 +14,10 @@ import org.springframework.web.server.ResponseStatusException;
 import com.santosjhony.demo.park.api.entity.Role;
 import com.santosjhony.demo.park.api.entity.Usuario;
 import com.santosjhony.demo.park.api.exception.EntityNotFoundException;
-import com.santosjhony.demo.park.api.exception.PasswordInvalidException;
 import com.santosjhony.demo.park.api.exception.UsernameUniqueViolationException;
 import com.santosjhony.demo.park.api.repository.UsuarioRepository;
 import com.santosjhony.demo.park.api.web.dto.UpdateRoleDto;
+import com.santosjhony.demo.park.api.web.dto.UsuarioCreateDto;
 import com.santosjhony.demo.park.api.web.dto.UsuarioUpdatePrimeiroAcesoDto;
 
 import lombok.RequiredArgsConstructor;
@@ -31,19 +31,22 @@ public class UsuarioService {
     private final JavaMailSender mailSender;
 
     @Transactional
-    public Usuario salvar(Usuario usuario) {
+    public Usuario salvar(UsuarioCreateDto usuario) {
         try {
             String code = generateConfirmationCode();
-            usuario.setPassword(passwordEncoder.encode(code));
+            Usuario novoUsuario = new Usuario();
+            novoUsuario.setUsername(usuario.username());
+            novoUsuario.setRole(usuario.role());
+            novoUsuario.setPassword(passwordEncoder.encode(code));
 
             SimpleMailMessage message = new SimpleMailMessage();
-            message.setTo(usuario.getUsername());
-            message.setSubject("Bem vindo a plataforma App Car!!");
-            message.setText("Entre com as seguintes informações para obter acesso a plataforma:\n\nE-mail: "+usuario.getUsername()+"\nSenha: "+code);
+            message.setTo(usuario.username());
+            message.setSubject("Bem vindo a plataforma App LINK!!");
+            message.setText("Entre com as seguintes informações para obter acesso a plataforma:\n\nE-mail: "+usuario.username()+"\nSenha: "+code);
             mailSender.send(message);
-            return usuarioRepository.save(usuario);
+            return usuarioRepository.save(novoUsuario);
         } catch (org.springframework.dao.DataIntegrityViolationException ex) {
-            throw new UsernameUniqueViolationException(String.format("Username '%s' já cadastrado", usuario.getUsername()));
+            throw new UsernameUniqueViolationException(String.format("Username '%s' já cadastrado", usuario.username()));
         }
     }
 
@@ -55,16 +58,9 @@ public class UsuarioService {
     }
 
     @Transactional
-    public Usuario editarSenha(Long id, String senhaAtual, String novaSenha, String confirmaSenha) {
-        if (!novaSenha.equals(confirmaSenha)) {
-            throw new PasswordInvalidException("Nova senha não confere com confirmação de senha.");
-        }
-
+    public Usuario editarSenha(Long id, String novaSenha) {
         Usuario user = buscarPorId(id);
-        if (!passwordEncoder.matches(senhaAtual, user.getPassword())) {
-            throw new PasswordInvalidException("Sua senha não confere.");
-        }
-
+        user.setResetSenha(false);
         user.setPassword(passwordEncoder.encode(novaSenha));
         return user;
     }
@@ -94,7 +90,7 @@ public class UsuarioService {
             usuario.setNome(dto.nome());
             usuario.setDataNascimento(dto.dataNascimento());
             usuario.setPrimeiroAcesso(false);
-
+            usuario.setPassword(passwordEncoder.encode(dto.password()));
             return usuarioRepository.save(usuario);
         }catch(Exception e){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Erro ao tentar atualizar usuário");
@@ -115,5 +111,21 @@ public class UsuarioService {
 
     private String generateConfirmationCode() {
         return String.format("%06d", new Random().nextInt(1000000));
+    }
+
+    @Transactional
+    public void recurarSenha(String email) {
+        String code = generateConfirmationCode();
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(email);
+        message.setSubject("Recuperação de senha!! APP LINK");
+        message.setText("\n\nSua nova senha é " + code);
+        mailSender.send(message);
+
+        Usuario usuario = buscarPorUsername(email);
+        usuario.setPassword(passwordEncoder.encode(code));
+        usuario.setResetSenha(true);
+
+        usuarioRepository.save(usuario);
     }
 }

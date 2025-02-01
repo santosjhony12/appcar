@@ -11,6 +11,7 @@ interface User {
   dataNascimento: string | null;
   primeiroAcesso: boolean | null;
   role: string;
+  resetSenha: boolean | null;
 }
 
 // Definição do store usando Pinia

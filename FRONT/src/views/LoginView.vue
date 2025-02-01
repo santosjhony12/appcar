@@ -24,8 +24,8 @@
       </form>
 
       <div class="footer-links">
-        <a href="#">Esqueceu sua senha?</a>
-        <p>Quer se juntar a nós? <a href="#">Nos contate</a></p>
+        <RouterLink to="/redefinir-senha">Esqueceu sua senha?</RouterLink>
+
       </div>
     </div>
     <Alert :message="msgAlert" v-if="showAlert" />
@@ -42,19 +42,22 @@ import { usuarioLogado } from '@/stores/usuario';
 import Input from '@/components/Input.vue';
 import Button from '@/components/Button.vue';
 import Title from '@/components/Title.vue';
+import { RouterLink } from 'vue-router';
 const username = ref('');
 const password = ref('');
 const usuarioLog = usuarioLogado();
 const isLoading = ref<boolean>(false);
 const handleLogin = async () => {
   isLoading.value = true;
-  const response = await UsuarioService.autenticar({ username: username.value, password: password.value });
+  const response = await UsuarioService.autenticar({ username: username.value, password: password.value.trim() });
   if (response == true) {
 
     if (usuarioLog.usuario?.primeiroAcesso) {
       router.push("/primeiroAcesso");
+    } else if(usuarioLog.usuario?.resetSenha == true){
+      router.push('/definir-nova-senha');
     } else {
-      if (usuarioLog.usuario?.role == 'ADMIN') {
+      if (usuarioLog.usuario?.role == 'ROLE_ADMIN') {
         router.push("/usuarios");
       } else {
         router.push('/videos-treinamentos');

@@ -54,6 +54,8 @@ public class Usuario implements Serializable {
     @Column(name = "modificado_por")
     private String modificadoPor;
 
+    @Column(name = "reset_senha")
+    private Boolean resetSenha = false;
     
 
     @Override

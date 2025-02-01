@@ -1,10 +1,10 @@
 <template>
     <div class="solicitacoes" id="solicitacoes">
-      <Title :text="'Solicitações de aprovação de aluguéis'" />
+      <div class="container-aprovar-veiculos-titulo">
+        <Title :text="'Solicitações de aprovação de aluguéis'" />
   
-      <p class="form-description">Abaixo, visualize as solicitações de alugueis para aprovar.</p>
- 
-      <div class="filters">
+  <p class="form-description">Abaixo, visualize as solicitações de alugueis para aprovar.</p>
+  <div class="filters">
         <div class="filtro-div">
             <label for="">Busque pelo e-mail do locatário</label>
             <input v-model="filtroNome" placeholder="Digite o nome do locatário" type="string" class="input" >
@@ -15,12 +15,15 @@
         </div>
      
     </div>
+      </div>
+      
+
 
       <div class="tabela-div">
         <div class="tabela">
           <table>
             <thead>
-              <tr>
+              <tr class="cabecalho">
                 <th>E-mail do Locatário</th>
                 <th>Nome do Locatário</th>
                 <th>Modelo Carro</th>
@@ -101,6 +104,7 @@ const filtroPlaca = ref<string>('');
   const getAlugueisNaoAutorizados = async () =>{
     try{
         alugueisNaoAprovados.value = await AluguelService.getAlugueisNaoAprovados();
+        alugueisFiltrados.value = alugueisNaoAprovados.value
     }catch(error : any){
         showAlertaFunction("Alguma coisa não saiu bem! Entre em contato com o administrador.")
     }
@@ -160,36 +164,48 @@ watch([filtroNome, filtroPlaca], () => {
   </script>
   
   <style scoped>
+
+  .container-aprovar-veiculos-titulo
+{
+
+  padding: 20px;
+  border: 1px solid #e4e4e4;
+  border-radius: 24px;
+  margin: 0 1em 0 1em;
+  box-shadow: -1px 2px 8px 3px #e4e4e4;
+
+}  
   .img-carro {
     width: 5vw;
   }
   
   .tabela-div {
+    padding: 20px 0;
     display: flex;
     justify-content: center;
   }
   
   .tabela {
-    min-width: 80vw;
+    min-width: 92vw;
     margin: 0 2vw;
-    overflow-x: auto;
+  
   }
   
   .form-description {
-    text-align: center;
-    font-size: 1em;
-    color: #666;
-    margin-bottom: 20px;
-  }
+   font-size: 17px;
+   color: #1a2f4d;
+   margin-bottom: 20px;
+ }
   
-  table {
+ table {
     width: 100%;
     border-collapse: collapse;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     overflow: hidden;
     background-color: #fff;
-  }
+}
+
   
   th,
   td {
@@ -199,21 +215,18 @@ watch([filtroNome, filtroPlaca], () => {
   }
   
   th {
-    background-color: black;
-    color: white;
+    color: black;
     font-weight: 600;
   }
   
   
   td {
-    background-color: #f9f9f9;
+    background-color: #fff;
     color: #333;
     border-bottom: 1px solid #ddd;
   }
   
-  tr:nth-child(even) td {
-    background-color: #f1f1f1;
-  }
+
   
   tr:hover td {
     background-color: #e0f7fa;
@@ -313,6 +326,13 @@ watch([filtroNome, filtroPlaca], () => {
       overflow-x: auto;
       padding: 0 10px
     }
+    .filters{
+      flex-direction: column;
+    }
+    .input{
+      width: 70vw;
+    }
+
   }
   
   @media (max-width: 480px) {
@@ -349,8 +369,8 @@ watch([filtroNome, filtroPlaca], () => {
     display: flex;
     gap: 1rem;
     margin: 1rem 0;
-    justify-content: center;
   }
+
   
   .filters label {
     display: flex;
@@ -366,7 +386,7 @@ watch([filtroNome, filtroPlaca], () => {
     cursor: pointer;
   }
   .input {
-    width: 20vw;
+  
   font-size: 1em;
   padding: 10px 12px;
   border: 1px solid #ccc; /* Borda padrão */
@@ -388,6 +408,10 @@ watch([filtroNome, filtroPlaca], () => {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
+ 
+}
+.cabecalho{
+    background-color: #f5f5f5;
+    border: 1px solid #e4e4e4;
 }
   </style>

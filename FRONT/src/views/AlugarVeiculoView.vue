@@ -1,59 +1,13 @@
 <template>
     <div class="containerAlugar">
-        <!-- <div class="landing-page-main"> -->
-            <!-- <div class="navbar">
-                <div class="image">
-                    <img src="../assets/logo_app.png" alt="" class="logo">
-                </div>
-                <div class="options">
-                    <RouterLink class="links" to="/contato">Sobre nós</RouterLink>
-                    <RouterLink class="links" to="/contato">Contate-nos</RouterLink>
-                    <RouterLink class="links login" to="/login" v-if="usuarioLog.usuario == null">Entrar</RouterLink>
-                    <RouterLink class="links login" to="/login" v-if="usuarioLog.usuario != null">Sair</RouterLink>
-
-
-                </div>
-            </div> -->
-
-            <!-- <div class="main">
-                <div class="frases">
-                    <h2 class="title-main">Seu Parceiro Completo Para o Sucesso no Volante</h2>
-                    <h3 class="subtitle-main">Carro, suporte e treinamento para você dirigir e lucrar mais.</h3>
-                    <button class="button-contato">Entrar em contato</button>
-                </div>
-            </div>
-        </div>
-
-        <div class="landing-page-first" >
-            <h1 class="title-beneficios">Benefícios</h1>
-
-            <div class="divisao-usuarios">
-                <div class="motoristas">
-                    <h2>Motoristas</h2>
-                    <ul>
-                        <li>Carros prontos para você dirigir e lucrar! Sem burocracia, só acelerar!</li>
-                        <li>Ganhe mais com um carro que trabalha tão duro quanto você!</li>
-                        <li>Precisa de um carro confiável? Nós cuidamos disso por você.</li>
-                        <li>Alugue com quem entende de motoristas: suporte, flexibilidade e confiança.</li>
-                        <li>Dirija com conforto e tranquilidade. O resto, nós resolvemos!</li>
-                    </ul>
-                </div>
-
-                <div class="investidores">
-                    <h2>Investidores</h2>
-                    <ul>
-                        <li>Investimento inteligente: seu carro rende mais aqui!</li>
-                        <li>Maximize seus ganhos com nosso modelo de negócios lucrativo e seguro!</li>
-                        <li>Seu investimento, nossa gestão: mais ganhos, menos preocupações.</li>
-                        <li>Ganhe mais com quem entende do mercado: rentabilidade garantida!</li>
-                        <li>Transforme seu carro em renda passiva mensal!</li>
-                    </ul>
-                </div>
-            </div>
-        </div> -->
-
         <div class="landing-page-second">
-            <h1 class="carros-disponiveis">NOSSOS CARROS DISPONÍVEIS</h1>
+            <div class="container-titulo-principal">
+                <Title :text="'Nossos carros disponíveis'" />
+                <p class="form-description">Nessa aba, é possível observar e verificar a disponibilidade dos aluguéis dos carros.</p>
+            </div>
+
+
+
             <div class="aluguel-carro">
                <Swipper :carros="veiculos" @alugar="alugar"/>
             </div>
@@ -73,10 +27,10 @@
 <script lang="ts" setup>
 import { onMounted, ref } from 'vue';
 import CarroService from '@/service/carro';
-import { RouterLink } from 'vue-router';
 import Swipper from '../components/Swipper.vue';
 import ModalAluguel from '@/components/ModalAluguel.vue';
 import { usuarioLogado } from '@/stores/usuario';
+import Title from '@/components/Title.vue';
 import Nav from '@/components/Nav.vue';
 const usuarioLog = usuarioLogado();
 const closeModal = () =>{
@@ -320,7 +274,6 @@ ul{
     display: flex;
     flex-direction: column;
     justify-content: center;
-    margin: 3em 0;
 
 }
 .carros-disponiveis{
@@ -331,6 +284,6 @@ ul{
 .aluguel-carro{
     display: flex;
     justify-content: center;
-
+    margin-top: 5vh;
 }
 </style>

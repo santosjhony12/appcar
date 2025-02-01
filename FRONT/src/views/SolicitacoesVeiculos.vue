@@ -3,46 +3,26 @@
     <div class="container-solicitacoes-veiculos">
       <Title :text="'Solicitações de aprovação de veículos'" />
 
-<p class="form-description">Abaixo, visualize as solicitações de veículos cadastrados. Além disso, defina os
-  percentuais de cada perfil.</p>
-  <div class="filters">
-    <label>
-      <input 
-        type="radio" 
-        name="statusFilter" 
-        value="all" 
-        v-model="selectedFilter" 
-        @change="filtrar"
-      />
-      Todos
-    </label>
-    <label>
-      <input 
-        type="radio" 
-        name="statusFilter" 
-        value="unauthorized" 
-        v-model="selectedFilter" 
-        @change="filtrar"
-
-      />
-      Não autorizados
-    </label>
-    <label>
-      <input 
-        type="radio" 
-        name="statusFilter" 
-        value="authorized" 
-        v-model="selectedFilter" 
-        @change="filtrar"
-
-      />
-      Autorizados
-    </label>
-  </div>
+      <p class="form-description">Abaixo, visualize as solicitações de veículos cadastrados. Além disso, defina os
+        percentuais de cada perfil.</p>
+      <div class="filters">
+        <label>
+          <input type="radio" name="statusFilter" value="all" v-model="selectedFilter" @change="filtrar" />
+          Todos
+        </label>
+        <label>
+          <input type="radio" name="statusFilter" value="unauthorized" v-model="selectedFilter" @change="filtrar" />
+          Não autorizados
+        </label>
+        <label>
+          <input type="radio" name="statusFilter" value="authorized" v-model="selectedFilter" @change="filtrar" />
+          Autorizados
+        </label>
+      </div>
     </div>
-    
 
-   
+
+
 
     <div class="tabela-div">
       <div class="tabela">
@@ -64,30 +44,43 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(carro) in carros">
+            <tr v-for="(carro) in paginatedCarros" :key="carro.id">
               <td><img :src="'data:image/png;base64,' + carro.imagem" alt="" class="img-carro"></td>
               <td>{{ carro.modelo }}</td>
               <td>{{ carro.montadora }}</td>
               <td>{{ carro.ano }}</td>
               <td>{{ carro.cor }}</td>
               <td>{{ carro.placa }}</td>
-              <td>{{formatarParaReal(carro.valor) }}</td>
+              <td>{{ formatarParaReal(carro.valor) }}</td>
               <td>{{ carro.username }}</td>
               <td>{{ carro.percentualInvestidor }}%</td>
-              <td>{{formatarParaReal(carro.valorAluguel) }}</td>
+              <td>{{ formatarParaReal(carro.valorAluguel) }}</td>
               <td>{{ carro.percentualSistema }}%</td>
               <td>
-                <button @click="showModalAutorizar(carro.id, carro.percentualInvestidor, carro.valorAluguel, carro.percentualSistema)" v-if="carro.autorizado === true">Editar</button> 
-                <button @click="showModalAutorizar(carro.id, carro.percentualInvestidor, carro.valorAluguel, carro.percentualSistema)" v-else>Autorizar</button>
-
+                <button class="icones"
+                  @click="showModalAutorizar(carro.id, carro.percentualInvestidor, carro.valorAluguel, carro.percentualSistema)"
+                  v-if="carro.autorizado"> <font-awesome-icon :icon="['fas', 'pen-to-square']"/></button>
+                <button
+                  @click="showModalAutorizar(carro.id, carro.percentualInvestidor, carro.valorAluguel, carro.percentualSistema)"
+                  v-else>Autorizar</button>
               </td>
             </tr>
           </tbody>
+
         </table>
       </div>
+
+    
     </div>
 
+    
+
     <h3 class="form-description" v-if="carros.length == 0">Sem solicitações no momento.</h3>
+    <div class="pagination">
+  <button @click="prevPage" :disabled="currentPage === 1">Anterior</button>
+  <span>Página {{ currentPage }} de {{ totalPages }}</span>
+  <button @click="nextPage" :disabled="currentPage === totalPages">Próxima</button>
+</div>
 
   </div>
 
@@ -99,8 +92,8 @@
         v-model="autorizado" />
       <Input :label="'Percentual Investidor'" :placeholder="'Insira o percentual destinado ao Investidor'"
         :type="'number'" v-model="autorizar.percentualInvestidor" />
-      <Input :label="'Valor aluguel'" :placeholder="'Insira o valor do aluguel do veículo por dia'"
-        :type="'number'" v-model="autorizar.valorAluguel" />
+      <Input :label="'Valor aluguel'" :placeholder="'Insira o valor do aluguel do veículo por dia'" :type="'number'"
+        v-model="autorizar.valorAluguel" />
       <Input :label="'Percentual Sistema'" :placeholder="'Insira o percentual destinado ao Sistema'" :type="'number'"
         v-model="autorizar.percentualSistema" />
       <div class="buttons">
@@ -115,7 +108,7 @@
 
 <script lang="ts" setup>
 import Title from '@/components/Title.vue';
-import { onMounted, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import CarroService from '@/service/carro';
 import Input from '@/components/Input.vue';
 import InputSelect from '@/components/InputSelect.vue';
@@ -132,15 +125,15 @@ interface Carro {
   username: string,
   imagem: string,
   autorizado: boolean,
-  valorAluguel: number, 
-  percentualSistema: number, 
+  valorAluguel: number,
+  percentualSistema: number,
   percentualInvestidor: number
 }
 function formatarParaReal(valor: number): string {
-    return new Intl.NumberFormat('pt-BR', {
-        style: 'currency',
-        currency: 'BRL',
-    }).format(valor);
+  return new Intl.NumberFormat('pt-BR', {
+    style: 'currency',
+    currency: 'BRL',
+  }).format(valor);
 }
 const selectedFilter = ref("all");
 const isLoading = ref<boolean>(false);
@@ -180,18 +173,19 @@ onMounted(() => {
   getAllVeiculos();
 })
 
-const showModalAutorizar = (id: number, percentualInvestidor : number, percentualMotorista : number , percentualSistema : number) => {
+const showModalAutorizar = (id: number, percentualInvestidor: number, percentualMotorista: number, percentualSistema: number) => {
   autorizar.id = id;
   autorizar.percentualInvestidor = String(percentualInvestidor);
   autorizar.valorAluguel = String(percentualMotorista);
   autorizar.percentualSistema = String(percentualSistema);
+  autorizar.autorizado = true;
   showModal.value = true;
-  
+
 }
 const autorizarVeiculo = async () => {
   try {
     if (
-      
+
       autorizar.percentualInvestidor == ''
       || autorizar.valorAluguel == ''
       || autorizar.percentualSistema == '' ||
@@ -235,56 +229,84 @@ const showAlertaFunction = (msg: string) => {
 const cancelarModal = () => {
   showModal.value = false;
 }
+const currentPage = ref(1);
+const itemsPerPage = ref(5);
+
+const paginatedCarros = computed(() => {
+  const start = (currentPage.value - 1) * itemsPerPage.value;
+  const end = start + itemsPerPage.value;
+  return carros.value.slice(start, end);
+});
+
+const totalPages = computed(() => Math.ceil(carros.value.length / itemsPerPage.value));
+
+const nextPage = () => {
+  if (currentPage.value < totalPages.value) currentPage.value++;
+};
+
+const prevPage = () => {
+  if (currentPage.value > 1) currentPage.value--;
+};
+
+
 </script>
 
 <style scoped>
-.container-solicitacoes-veiculos{
-  padding: 20px;
-    border: 1px solid #e4e4e4;
-    border-radius: 24px;
-    margin: 0 1em 0 1em;
-    box-shadow: -1px 2px 8px 3px #e4e4e4;
+.icones{
+  color: #1a2f4d;
+  background-color: white;
 }
+.container-solicitacoes-veiculos {
+  padding: 20px;
+  border: 1px solid #e4e4e4;
+  border-radius: 24px;
+  margin: 0 1em 0 1em;
+  box-shadow: -1px 2px 8px 3px #e4e4e4;
+}
+
 .img-carro {
   width: 5vw;
 }
 
 .tabela-div {
+  margin: 0 auto;
+  padding: 20px 0;
   display: flex;
   justify-content: center;
 }
 
 .tabela {
-  min-width: 93vw;
-  overflow-x: auto;
-  margin: 0 2vw; 
+ 
+  min-width: 91vw;
+
+  margin: 0 2vw;
 }
 
 .form-description {
   font-size: 17px;
-   color: #1a2f4d;
-   margin-bottom: 20px;
+  color: #1a2f4d;
+  margin-bottom: 20px;
 }
 
 table {
-  margin: 2vh 0;
+  
   width: 100%;
-  border-collapse: collapse;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-  background-color: #fff;
+    border-collapse: collapse;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    background-color: #fff;
 }
 
-.cabecalho{
-    background-color: #f5f5f5;
-    border: 1px solid #e4e4e4;
+.cabecalho {
+  background-color: #f5f5f5;
+  border: 1px solid #e4e4e4;
 }
 
 th,
 td {
   padding: 12px;
-  text-align: left;
+  text-align: center;
   font-size: 14px;
 }
 
@@ -295,13 +317,9 @@ th {
 
 
 td {
-  background-color: #f9f9f9;
+  background-color: white;
   color: #333;
   border-bottom: 1px solid #ddd;
-}
-
-tr:nth-child(even) td {
-  background-color: #f1f1f1;
 }
 
 tr:hover td {
@@ -421,17 +439,17 @@ td::after {
 }
 
 button {
-    padding: 6px 12px;
-    background-color: #000000;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 14px;
+  padding: 6px 12px;
+  background-color: #000000;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
 }
 
 button:hover {
-    background-color: #0056b3;
+  background-color: #0056b3;
 }
 
 .filters {
@@ -450,7 +468,31 @@ button:hover {
 }
 
 .filters input[type="radio"] {
-  accent-color: #007bff; /* Estiliza a cor do radio button */
+  accent-color: #007bff;
+  /* Estiliza a cor do radio button */
   cursor: pointer;
 }
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 15px;
+}
+
+.pagination button {
+  margin: 0 10px;
+  padding: 8px 12px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.pagination button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
 </style>

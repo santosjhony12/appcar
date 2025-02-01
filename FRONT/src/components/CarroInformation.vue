@@ -1,5 +1,5 @@
 <template>
-    <div class="container-carro" >
+    <div class="container-carro container-titulo-principal" >
         <div class="imagem-carro">
             <img :src="props.imagem" alt="" class="imagem">
             
@@ -25,7 +25,7 @@
                     <p>{{ cor }}</p>
                 </div>
 
-                <Button @click="alugar" :text="'Alugar'" :is-loading="false" />
+                <Button @click="alugar" :text="'Alugar'" :is-loading="false" class="button" />
 
             </div>
         </div>
@@ -84,6 +84,9 @@ const alugar = () => {
     max-width: 30vw;
     max-height: 30vh;
 }
+.button{
+    margin-top: 2vh;
+}
 .container-carro{
     display: flex;
     gap: 20px;
@@ -98,8 +101,8 @@ const alugar = () => {
     padding: 3em;
     font-size: 1.2em;
     width: 60vh;
-    height: 50vh;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); 
+
+  
 }
 .info{
     display: flex;
@@ -114,6 +117,7 @@ span{
     align-items: center;
     height: 30vh;
     width: 30vw;
+    justify-content: center;
 }
 
 button:hover{

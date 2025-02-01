@@ -1,12 +1,16 @@
 <template>
     <div class="solicitacoes" id="solicitacoes">
-        <Title :text="'Projeção do Investidor'" />
-
-        <div class="cards-dash">
+        <div class="container-titulo-principal">
+            <Title :text="'Projeção do Investidor'" />
+            <p class="form-description">Nesta aba, você pode visualizar todos os seus rendimentos de aluguéis. Aproveite, analise e crie oportunidades para você.</p>
+            <div class="cards-dash">
             <CardDash :title="'Quantidade de Aluguéis Efetivados'" :value="dadoDash.quantAlugueis" />
             <CardDash :title="'Valor Adquirido'" :value="formatarParaReal(dadoDash.valorAdquirido)" />
             <CardDash :title="'Valor Investido'" :value="formatarParaReal(dadoDash.valorInvestido)" />
         </div>
+        </div>
+        
+        
 
         <!-- <div class="filters">
             <div class="filtro-div">
@@ -20,7 +24,7 @@
             <div class="tabela">
                 <table>
                     <thead>
-                        <tr>
+                        <tr class="cabecalho">
                             <th>Imagem</th>
                             <th>Modelo Carro</th>
                             <th>Placa</th>
@@ -148,19 +152,13 @@ watch([filtroPlaca], () => {
     display: flex;
     justify-content: center;
     margin-top: 5vh;
+    padding: 6px 0;
 }
 
 .tabela {
-    min-width: 80vw;
-    overflow-x: auto;
+    min-width: 92vw;
 }
 
-.form-description {
-    text-align: center;
-    font-size: 1em;
-    color: #666;
-    margin-bottom: 20px;
-}
 
 table {
     width: 100%;
@@ -174,26 +172,22 @@ table {
 th,
 td {
     padding: 12px;
-    text-align: left;
+    text-align: center;
     font-size: 14px;
 }
 
 th {
-    background-color: black;
-    color: white;
+    color: black;
     font-weight: 600;
 }
 
 
 td {
-    background-color: #f9f9f9;
+    background-color: white;
     color: #333;
     border-bottom: 1px solid #ddd;
 }
 
-tr:nth-child(even) td {
-    background-color: #f1f1f1;
-}
 
 tr:hover td {
     background-color: #e0f7fa;

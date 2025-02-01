@@ -105,29 +105,14 @@ const showAlertaFunction = (msg: string) => {
 </script>
 <style scoped>
 .containerCadastro {
-    max-width: 600px;
     margin: 0 auto;
     padding: 20px;
 
 }
 
 
-.form-description {
-    text-align: center;
-    font-size: 1em;
-    color: #000000;
-    margin-bottom: 20px;
-}
-
 .button {
-    width: 80%;
-}
-
-.centralizar-button {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    width: 30%;
 }
 
 .car-form {

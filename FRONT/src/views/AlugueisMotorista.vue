@@ -1,22 +1,25 @@
 <template>
-    <div class="solicitacoes" id="solicitacoes">
-      <Title :text="'Solicitações de aprovação de aluguéis'" />
+    <div class="solicitacoes" id="solicitacoes" >
+      <div class="container-titulo-principal">
+        <Title :text="'Solicitações de aprovação de aluguéis'" />
   
-      <p class="form-description">Abaixo, visualize as solicitações de alugueis para aprovar.</p>
- 
-      <div class="filters">
+  <p class="form-description">Abaixo, visualize as solicitações de alugueis para aprovar.</p>
+  <div class="filters">
         <div class="filtro-div">
             <label for="">Busque pela placa do veículo</label>
             <input v-model="filtroPlaca" placeholder="Digite a placa do veículo" type="string"  class="input"/>
         </div>
      
     </div>
+      </div>
+      
+      
 
       <div class="tabela-div">
         <div class="tabela">
           <table>
             <thead>
-              <tr>
+              <tr class="cabecalho">
                 <th>Imagem</th>
                 <th>Modelo Carro</th>
                 <th>Placa</th>
@@ -38,7 +41,7 @@
                 <td :style="{ color: aluguel.aprovado === false ? 'red' : 'green' }">{{ aluguel.aprovado == false ?  "Pendente"   : "Aprovado" }}</td>
 
                 <td>
-                  <button @click="showModalAutorizar(aluguel.id)" v-if="!aluguel.aprovado">Cancelar</button>
+                  <button @click="showModalAutorizar(aluguel.id)" v-if="!aluguel.aprovado"><font-awesome-icon :icon="['fas', 'trash']" /></button>
                   <p v-else>-</p>
                 </td>
               </tr>
@@ -158,21 +161,16 @@ watch([filtroPlaca], () => {
   }
   
   .tabela-div {
+    padding: 20px 0;
     display: flex;
     justify-content: center;
   }
   
   .tabela {
+    min-width: 92vw;
     margin: 10px;
-    overflow-x: auto;
   }
-  
-  .form-description {
-    text-align: center;
-    font-size: 1em;
-    color: #666;
-    margin-bottom: 20px;
-  }
+
   
   table {
     width: 100%;
@@ -186,26 +184,23 @@ watch([filtroPlaca], () => {
   th,
   td {
     padding: 12px;
-    text-align: left;
+    text-align: center;
     font-size: 14px;
   }
   
   th {
-    background-color: black;
-    color: white;
+
+    color: black;
     font-weight: 600;
   }
   
   
   td {
-    background-color: #f9f9f9;
+    background-color: white;
     color: #333;
     border-bottom: 1px solid #ddd;
   }
   
-  tr:nth-child(even) td {
-    background-color: #f1f1f1;
-  }
   
   tr:hover td {
     background-color: #e0f7fa;
@@ -305,9 +300,15 @@ watch([filtroPlaca], () => {
       overflow-x: auto;
       padding: 0 10px
     }
+    .input{
+      width: 70vw !important;
+    }
   }
   
   @media (max-width: 480px) {
+    .input{
+      width: 70vw !important;
+    }
     .modal {
       padding: 15px;
       border-radius: 6px;
@@ -325,8 +326,7 @@ watch([filtroPlaca], () => {
   
   button {
       padding: 6px 12px;
-      background-color: #000000;
-      color: white;
+      color: #1a2f4d;
       border: none;
       border-radius: 4px;
       cursor: pointer;
@@ -341,7 +341,7 @@ watch([filtroPlaca], () => {
     display: flex;
     gap: 1rem;
     margin: 1rem 0;
-    justify-content: center;
+  
   }
   
   .filters label {
@@ -358,7 +358,7 @@ watch([filtroPlaca], () => {
     cursor: pointer;
   }
   .input {
-    width: 20vw;
+  width: 30vw;
   font-size: 1em;
   padding: 10px 12px;
   border: 1px solid #ccc; /* Borda padrão */
@@ -376,12 +376,7 @@ watch([filtroPlaca], () => {
   color: #aaa;
   font-style: italic;
 }
-.filtro-div{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
+
 .imagem-veiculo{
   width: 5vw
 }

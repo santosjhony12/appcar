@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,6 +34,7 @@ public class CarController {
     public ResponseEntity<Car> create(@RequestBody CarCreateDto carCreateDto){
         return ResponseEntity.status(HttpStatus.CREATED).body(carService.create(carCreateDto));
     }
+    @PreAuthorize("hasRole('ADMIN')")
 
     @GetMapping
     public ResponseEntity<List<Car>> getAll(){

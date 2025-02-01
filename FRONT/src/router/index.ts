@@ -18,7 +18,7 @@ const router = createRouter({
       component: () => import("../views/UsuariosView.vue")
     },
     {
-      path: "/login",
+      path: "/",
       name: "login",
       component: () => import("../views/LoginView.vue")
     },
@@ -71,6 +71,21 @@ const router = createRouter({
       path: "/videos-treinamentos",
       name: "videos-treinamentos",
       component: () => import("@/views/TreinamentosVideosView.vue")
+    },
+    {
+      path: "/contato",
+      name: "contato",
+      component: () => import("@/views/ContatoView.vue")
+    },
+    {
+      path: "/definir-nova-senha",
+      name: "definirSenha",
+      component: () => import("@/views/EsqueceuSenhaView.vue")
+    },
+    {
+      path: "/redefinir-senha",
+      name: "esqueciSenha",
+      component: () => import("@/views/EnviarEmailNovaSenhaView.vue")
     }
   ]
 })

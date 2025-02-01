@@ -118,7 +118,12 @@ const salvarInformacoes = async () => {
             const response = await UsuarioService.confirmarUsuario(usuario.value);
             if (response == true) {
                 showAlertaFunction("Informações salvas com sucesso.");
-                router.push("/usuarios");
+                const usuarioLog = usuarioLogado();
+                if(usuarioLog.usuario?.role === 'ROLE_ADMIN'){
+                    router.push("/usuarios");
+                }else{
+                    router.push("/videos-treinamentos")
+                }
 
             } else {
                 showAlertaFunction(response);

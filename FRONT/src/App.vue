@@ -6,9 +6,9 @@ const route = useRoute();
 </script>
 
 <template>
-  <Nav class="nav" v-if="route.path != '/login'" />
+  <Nav class="nav" v-if="route.path != '/' && route.path != '/redefinir-senha'" />
 
-  <div :class="{ conteudo: route.path != '/login' }">
+  <div :class="{ conteudo: route.path != '/' && route.path != '/redefinir-senha' }">
     <RouterView />
   </div>
 </template>
@@ -31,14 +31,35 @@ body{
   overflow-x: hidden;
 }
 .conteudo {
-  padding: 60px 0 0 80px;
-  z-index: 100;
+  padding: 70px 0 100px  80px;
+  
 }
 @media (max-width: 1000px){
-  .conteudo{
-    padding: 30px 0 0 80px;
-  }
+  .conteudo {
+  padding: 60px 0 100px 0;
+  z-index: 100;
+}
 }
 
 
+.container-titulo-principal{
+  padding: 20px;
+  border: 1px solid #e4e4e4;
+  border-radius: 24px;
+  margin: 0 1em 0 1em;
+  box-shadow: -1px 2px 8px 3px #e4e4e4;
+  background-color: white;
+
+}
+
+.form-description {
+   font-size: 17px;
+   color: #1a2f4d;
+   margin-bottom: 20px;
+ }
+
+ .cabecalho{
+    background-color: #f5f5f5;
+    border: 1px solid #e4e4e4;
+}
 </style>

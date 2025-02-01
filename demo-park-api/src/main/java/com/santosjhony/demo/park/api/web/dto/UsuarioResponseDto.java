@@ -1,25 +1,38 @@
 package com.santosjhony.demo.park.api.web.dto;
 
 import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.santosjhony.demo.park.api.entity.Role;
+import com.santosjhony.demo.park.api.entity.Usuario;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
-public class UsuarioResponseDto {
-    private Long id;
-    private String username;
-    private String nome;
-    private String cpf;
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private LocalDate dataNascimento;
-    private String role;
-    private Boolean primeiroAcesso;
-    private String telefone;
+public record UsuarioResponseDto(
+        Long id,
+        String username,
+        String nome,
+        String cpf,
+        @JsonFormat(pattern = "yyyy-MM-dd") LocalDate dataNascimento,
+        Role role,
+        Boolean primeiroAcesso,
+        String telefone,
+        Boolean resetSenha
+
+) {
+
+    public static UsuarioResponseDto toDto(Usuario usuario) {
+        UsuarioResponseDto dto = new UsuarioResponseDto(usuario.getId(), usuario.getUsername(), usuario.getNome(),
+                usuario.getCpf(), usuario.getDataNascimento(),
+                usuario.getRole(), usuario.getPrimeiroAcesso(), usuario.getTelefone(), usuario.getResetSenha());
+
+        return dto;
+    }
+
+    public static List<UsuarioResponseDto> toListDto(List<Usuario> usuarios) {
+        return usuarios.stream()
+                .map(UsuarioResponseDto::toDto)
+                .collect(Collectors.toList());
+    }
+
 }

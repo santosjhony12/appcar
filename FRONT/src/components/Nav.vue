@@ -2,24 +2,28 @@
   <div class="container-nav">
 
     <div class="navbar">
-      <font-awesome-icon :icon="['fas', 'user']" class="icon" />
-      <h3>{{ usuarioLog.usuario?.nome }}</h3>
+      <img src="../assets/logo.png" alt="" class="logo">
+      <div class="user">
+        <font-awesome-icon :icon="['fas', 'user']" class="icon" />
+        <h3>{{ usuarioLog.usuario?.nome }}</h3>
+      </div>
+      
     </div>
     <div class="nav-lateral">
       <div class="box-nav">
         <div class="item-nav">
           <RouterLink class="links" to="/contato" active-class="active-link">
-            <font-awesome-icon :icon="['fas', 'users']" />
-            <h5>Sobre</h5>
+            <font-awesome-icon :icon="['fas', 'phone']" />
+            <h5>Contato</h5>
           </RouterLink>
         </div>
-        <div class="item-nav" v-if="usuarioLog.usuario?.role === 'ADMIN'">
+        <div class="item-nav" v-if="usuarioLog.usuario?.role === 'ROLE_ADMIN'">
           <RouterLink class="links" to="/usuarios" active-class="active-link">
             <font-awesome-icon :icon="['fas', 'users']" />
             <h5>Meus usuários</h5>
           </RouterLink>
         </div>
-        <div class="item-nav" v-if="usuarioLog.usuario?.role !== 'ADMIN'">
+        <div class="item-nav" v-if="usuarioLog.usuario?.role !== 'ROLE_ADMIN'">
           <RouterLink class="links" to="/videos-treinamentos" active-class="active-link">
             <font-awesome-icon :icon="['fas', 'book']" />
             <h5>Estudos</h5>
@@ -27,14 +31,14 @@
         </div>
 
 
-        <div class="item-nav" v-if="usuarioLog.usuario?.role === 'MOTORISTA'">
+        <div class="item-nav" v-if="usuarioLog.usuario?.role === 'ROLE_MOTORISTA'">
           <RouterLink class="links" to="/alugar" active-class="active-link">
             <font-awesome-icon :icon="['fas', 'car']" />
             <h5>Alugar</h5>
           </RouterLink>
         </div>
 
-        <div class="item-nav" v-if="usuarioLog.usuario?.role === 'MOTORISTA'">
+        <div class="item-nav" v-if="usuarioLog.usuario?.role === 'ROLE_MOTORISTA'">
           <RouterLink class="links" to="/meusAlugueis" active-class="active-link">
             <font-awesome-icon :icon="['fas', 'money-bill']" />
             <h5>Meus Aluguéis</h5>
@@ -43,42 +47,42 @@
 
 
 
-        <div class="item-nav" v-if="usuarioLog.usuario?.role === 'INVESTIDOR'">
+        <div class="item-nav" v-if="usuarioLog.usuario?.role === 'ROLE_INVESTIDOR'">
           <RouterLink class="links" to="/meusVeiculos" active-class="active-link">
             <font-awesome-icon :icon="['fas', 'car']" />
             <h5>Meus Veículos</h5>
           </RouterLink>
         </div>
 
-        <div class="item-nav" v-if="usuarioLog.usuario?.role === 'INVESTIDOR'">
+        <div class="item-nav" v-if="usuarioLog.usuario?.role === 'ROLE_INVESTIDOR'">
           <RouterLink class="links" to="/projecaoAlugueis" active-class="active-link">
             <font-awesome-icon :icon="['fas', 'money-bill']" />
             <h5>Alugados</h5>
           </RouterLink>
         </div>
 
-        <div class="item-nav" v-if="usuarioLog.usuario?.role === 'ADMIN'">
+        <div class="item-nav" v-if="usuarioLog.usuario?.role === 'ROLE_ADMIN'">
           <RouterLink class="links" to="/solicitacoesVeiculos" active-class="active-link">
             <font-awesome-icon :icon="['fas', 'car']" />
             <h5>Solicitações Veículos</h5>
           </RouterLink>
         </div>
 
-        <div class="item-nav" v-if="usuarioLog.usuario?.role === 'ADMIN'">
+        <div class="item-nav" v-if="usuarioLog.usuario?.role === 'ROLE_ADMIN'">
           <RouterLink class="links" to="/aprovarAluguel" active-class="active-link">
             <font-awesome-icon :icon="['fas', 'money-bill']" />
             <h5>Aprovar Aluguéis</h5>
           </RouterLink>
         </div>
 
-        <div class="item-nav" v-if="usuarioLog.usuario?.role === 'ADMIN'">
+        <div class="item-nav" v-if="usuarioLog.usuario?.role === 'ROLE_ADMIN'">
           <RouterLink class="links" to="/alugueisAprovados" active-class="active-link">
             <font-awesome-icon :icon="['fas', 'money-bill']" />
             <h5>Aluguéis Aprovados</h5>
           </RouterLink>
         </div>
 
-        <div class="item-nav" v-if="usuarioLog.usuario?.role === 'ADMIN'">
+        <div class="item-nav" v-if="usuarioLog.usuario?.role === 'ROLE_ADMIN'">
           <RouterLink class="links" to="/treinamentosAdmin" active-class="active-link">
             <font-awesome-icon :icon="['fas', 'book']" />
             <h5>Treinamentos</h5>
@@ -88,7 +92,7 @@
 
 
         <div class="item-nav">
-          <RouterLink class="links" to="/login" active-class="active-link">
+          <RouterLink class="links" to="/" active-class="active-link">
             <font-awesome-icon :icon="['fas', 'right-from-bracket']" />
             <h5>Sair</h5>
           </RouterLink>
@@ -117,7 +121,7 @@ const token = useAuthStore();
 const logout = () => {
   usuarioLog.setUsuario(null);
   token.setToken('');
-  router.push("/login")
+  router.push("/")
 }
 
 const toggleDropdown = () => {
@@ -144,29 +148,38 @@ onMounted(() => {
   position: fixed;
   width: 100vw;
   align-items: center;
-  justify-content: end;
-  height: 5vh;
-  padding: 0 3vw;
+  justify-content: space-between;;
+  height: 8vh;
+  padding: 0 3vw 0 1vw;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   z-index: 1000;
   background-color: white;
-  color: #007bff
+  
 }
-
+.user{
+  color: #1a2f4d;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #1a2f4d;
+  padding: 3px 5px;
+  border-radius: 5px;
+}
 .icon {
   font-size: 15px;
   margin-right: 1vw;
+  color: #1a2f4d
 }
 
 h5 {
   text-align: center;
-  font-size: 12px;
+  font-size: 8px;
 }
 
 .nav-lateral {
   box-shadow: 0 4px 6px rgb(161 161 161);
   height: 100vh;
-  width: 3vw;
+  width: 4vw;
   position: fixed;
   z-index: 101;
   display: flex;
@@ -198,8 +211,7 @@ h5 {
 }
 
 .logo {
-  width: 8vw;
-  margin-top: -2.5em;
+  width: 4%;
 }
 
 .item-nav:hover {
@@ -222,16 +234,42 @@ h5 {
 @media (max-width: 1000px) {
   .nav-lateral {
     width: 17vw;
+    bottom: 0;
+    left: 0;
+    height: 8vh;
+    width: 100%;
+    background-color: white;
+    display: flex;
+    flex-direction: row !important;
+    z-index: 100000;
   }
-
+  .box-nav{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .item-nav{
+    padding: 0 1vh;
+    margin: 0 0 5vh 0;
+  }
   .navbar {
-    padding: 0 10vw;
+    padding: 0 10vw 0 2vw;
   }
+  .logo{
+    width: 12%;
+  }
+  
 
 }
 .box-nav{
   background-color: white;
   border-radius: 3px;
+  max-width: 3.5vw;
 }
-@media (max-width: 700px) {}
+
+</style>
+
+<style>
+
+
 </style>

@@ -8,8 +8,10 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import './assets/main.css'
 
 import axios from 'axios';
-import { faArrowRight, faBook, faBullseye, faCalendarDays, faCar, faComment, faMoneyBill, faPenSquare, faPenToSquare, faQuestion, faRightFromBracket, faTrash, faUser, faUsers } from '@fortawesome/free-solid-svg-icons';
-library.add(faBullseye, faArrowRight, faUsers, faQuestion, faCar, faBook, faMoneyBill, faRightFromBracket, faUser, faComment, faCalendarDays, faPenToSquare, faTrash);
+import { faArrowRight, faBook, faBullseye, faCalendarDays, faCar, faCheck, faComment, faMoneyBill, faPenSquare, faPenToSquare, faPhone, faQuestion, faRightFromBracket, faTrash, faUser, faUsers } from '@fortawesome/free-solid-svg-icons';
+library.add(faBullseye, faArrowRight, faUsers, faQuestion, faCar, faBook, faMoneyBill, 
+    faRightFromBracket, faUser, faComment, faCalendarDays, 
+    faPenToSquare, faTrash, faCheck, faPhone);
 const app = createApp(App)
 
 

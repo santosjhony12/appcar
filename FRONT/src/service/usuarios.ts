@@ -1,6 +1,6 @@
-import axios from "axios"
 import { useAuthStore } from '@/stores/token'
 import { usuarioLogado } from "@/stores/usuario"
+import api from './api'
 interface User {
     id: number | null,
     username: string,
@@ -19,7 +19,9 @@ class UsuarioService {
 
     async autenticar(credenciais : {username: string, password: string}){
         try{
-            const response = await axios.post("http://localhost:8080/api/v1/auth", credenciais);
+            
+            const response = await api.post("/auth", credenciais);
+            console.log(response);
             if(response.status == 200){
                 StoreToken.setToken(response.data.token.token)
                 UsuarioStore.setUsuario(response.data.usuarioResponseDto)
@@ -34,7 +36,7 @@ class UsuarioService {
     
     async cadastrarUsuario(user: User){
         try{
-            const response = await axios.post("http://localhost:8080/api/v1/usuarios", user);
+            const response = await api.post("/usuarios", user);
 
             if(response.status == 201){
                 return "Usuário cadastrado com sucesso.";
@@ -50,7 +52,7 @@ class UsuarioService {
     }
     async getAll(){
         try{
-            const response = await axios.get("http://localhost:8080/api/v1/usuarios");
+            const response = await api.get("/usuarios");
 
             if(response.status == 200){
                 return response.data;
@@ -64,7 +66,7 @@ class UsuarioService {
 
     async updateRole(user : {id: number | null, role: string}){
         try{
-            const response = await axios.put("http://localhost:8080/api/v1/usuarios/updateRole", user);
+            const response = await api.put("/usuarios/updateRole", user);
 
             if(response.status == 200){
                 return "Usuário atualizado com sucesso.";
@@ -77,7 +79,7 @@ class UsuarioService {
     }
     async deleteUsuario(id: number | null){
         try{
-            const response = await axios.delete(`http://localhost:8080/api/v1/usuarios/${id}`);
+            const response = await api.delete(`/usuarios/${id}`);
 
             if(response.status == 200){
                 return "Usuário deletado com sucesso.";
@@ -90,7 +92,7 @@ class UsuarioService {
     }
     async confirmarUsuario(user: User){
         try{
-            const response = await axios.post(`http://localhost:8080/api/v1/usuarios/updatePrimeiroAcesso`, user);
+            const response = await api.post(`/usuarios/updatePrimeiroAcesso`, user);
 
             if(response.status == 200){
                 return true;
@@ -99,6 +101,34 @@ class UsuarioService {
             }
         }catch(error: any){
             return "Houve algum problema. Contate o administrador.";
+        }
+    }
+
+    async resetSenha(id: number, senha: string){
+        try{
+            const response = await api.put(`/usuarios/resetSenha?id=${id}&senha=${senha}`);
+
+            if(response.status == 204){
+                return "Senha atualizada com sucesso";
+            }else{
+                return "Houve algum problema. Contate o administrador.";
+            }
+        }catch(error: any){
+            return "Houve algum problema. Contate o administrador.";
+        }
+    }
+
+    async enviarEmaildeReset(email: string){
+        try{
+            const response = await api.put(`/usuarios/enviarEmailReset?email=${email}`);
+
+            if(response.status == 204){
+                return "Enviamos um e-mail para sua caixa.";
+            }else{
+                return "Houve algum problema. Contate o administrador.";
+            }
+        }catch(error: any){
+            return error.message;
         }
     }
 }

@@ -183,7 +183,6 @@ const showAlertaFunction = (msg: string) => {
     overflow-x: auto;
 }
 .button-editar, .button-excluir{
-    background-color: white;
     color: #1a2f4d
 }
 
@@ -338,7 +337,6 @@ span {
 
 button {
     padding: 6px 12px;
-    background-color: #007bff;
     color: white;
     border: none;
     border-radius: 4px;
